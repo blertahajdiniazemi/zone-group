@@ -1,0 +1,1297 @@
+/* ===================================================================
+   ZONE GROUP — sistemi vizual
+   ===================================================================
+
+   ══ SI TË KRIJONI NJË FAQE PËR NJË KOMPANI TË GRUPIT ══
+
+   Kopjoni këta tre skedarë dhe ndryshoni VETËM një numër: --brand-h.
+   Çdo gradient, ndriçim, buton, kufi dhe efekt në tërë faqen e merr
+   ngjyrën e re automatikisht. Asgjë tjetër nuk duhet prekur.
+
+     ZONE GROUP (prindi) ... 176   patinë bakri  ← kjo faqe
+     Security ............... 356   e kuqe e thellë
+     Elevators .............. 210   çelik
+     Smart & Automation ..... 265   vjollcë
+     IT & Telecom ........... 194   cian
+     Electrical & Energy ....  42   ar
+     Fire & Safety .......... 018   portokalli e djegur
+     Building Systems ....... 152   jeshile e ftohtë
+     Engineering & Constr. .. 028   bronz
+     Facility Management .... 232   blu e qetë
+     Real Estate ............ 038   ar i ngrohtë (faqja ekzistuese)
+     Trading & Distribution . 300   magenta e thellë
+     Investments & Consult. . 088   ullinjtë
+
+   Ngjyra e ZONE GROUP është patina e bakrit: e ftohtë, minerale dhe
+   arkitekturore. Real Estate është i ngrohtë, prandaj prindi qëndron
+   qartë veç, por brenda të njëjtit sistem.
+   =================================================================== */
+
+:root {
+  /* ── E VETMJA VLERË QË NDRYSHON PËR SECILËN KOMPANI ── */
+  --brand-h: 176;
+  --brand-s: 34%;
+  --brand-l: 48%;
+
+  /* Gjithçka më poshtë rrjedh nga tre vlerat lart */
+  --brand:       hsl(var(--brand-h) var(--brand-s) var(--brand-l));
+  --brand-lite:  hsl(var(--brand-h) calc(var(--brand-s) + 14%) 74%);
+  --brand-deep:  hsl(var(--brand-h) var(--brand-s) 26%);
+  --brand-veil:  hsl(var(--brand-h) var(--brand-s) var(--brand-l) / 0.14);
+  --brand-edge:  hsl(var(--brand-h) var(--brand-s) var(--brand-l) / 0.42);
+  --brand-glow:  hsl(var(--brand-h) calc(var(--brand-s) + 10%) 40% / 0.30);
+
+  /* Shkalla neutrale */
+  --void:    #08090A;
+  --void-2:  #0C0E0F;
+  --coal:    #121416;
+  --coal-2:  #191C1E;
+  --hair:    rgba(236, 240, 240, 0.09);
+  --hair-2:  rgba(236, 240, 240, 0.17);
+  --gray:    #7E868C;
+  --gray-2:  #AFB6BB;
+  --bone:    #ECF0F0;
+
+  --f-disp: "Newsreader", Georgia, serif;
+  --f-body: "Outfit", system-ui, sans-serif;
+  --f-mono: "DM Mono", ui-monospace, monospace;
+
+  --shell: 1200px;
+  --gut:   26px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --soft: cubic-bezier(0.65, 0, 0.20, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--gray-2);
+  font-family: var(--f-body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.62;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+p { margin: 0; }
+button { font: inherit; cursor: pointer; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  color: var(--bone);
+  font-family: var(--f-disp);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-lite);
+  outline-offset: 3px;
+}
+
+.shell {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: 0 var(--gut);
+}
+
+.sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px; top: 10px;
+  background: var(--brand);
+  color: var(--void);
+  padding: 10px 18px;
+  z-index: 200;
+}
+.skip:focus { left: 16px; }
+
+/* ===================================================================
+   Shenja
+   =================================================================== */
+.mark { display: inline-flex; align-items: center; gap: 11px; }
+
+/* Katror që bëhet vijë — bllok ndërtimi që kalon në vizatim */
+.mark__sign {
+  width: 12px; height: 12px;
+  flex: none;
+  background: var(--brand);
+  transition: transform 0.55s var(--ease);
+}
+
+.mark:hover .mark__sign { transform: scaleX(2) scaleY(0.3); }
+
+.mark__word {
+  font-family: var(--f-body);
+  font-weight: 500;
+  font-size: 14.5px;
+  letter-spacing: 0.16em;
+  color: var(--bone);
+}
+
+.mark__thin { font-weight: 200; color: var(--gray); margin-left: 0.45em; }
+
+/* ===================================================================
+   Header
+   =================================================================== */
+.head {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  border-bottom: 1px solid transparent;
+  transition: background 0.45s var(--ease), border-color 0.45s var(--ease);
+}
+
+.head.stuck {
+  background: rgba(8, 9, 10, 0.82);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom-color: var(--hair);
+}
+
+.head__in {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 72px;
+}
+
+.nav { display: flex; gap: 30px; margin-left: auto; }
+
+.nav a {
+  position: relative;
+  font-size: 14px;
+  padding: 4px 0;
+  transition: color 0.3s var(--ease);
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
+}
+
+.nav a:hover { color: var(--bone); }
+.nav a:hover::after { transform: scaleX(1); }
+
+@media (max-width: 1020px) {
+  .head .nav, .head .head__cta { display: none; }
+}
+
+.burger {
+  display: none;
+  width: 42px; height: 42px;
+  background: none;
+  border: 1px solid var(--hair-2);
+  position: relative;
+  margin-left: auto;
+}
+
+.burger span {
+  position: absolute;
+  left: 12px;
+  width: 18px; height: 1px;
+  background: var(--bone);
+  transition: transform 0.4s var(--ease);
+}
+
+.burger span:nth-child(1) { top: 17px; }
+.burger span:nth-child(2) { top: 23px; }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
+
+@media (max-width: 1020px) { .burger { display: block; } }
+
+.drawer {
+  display: none;
+  flex-direction: column;
+  background: rgba(8, 9, 10, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--hair);
+}
+
+.drawer.open { display: flex; }
+
+.drawer a {
+  padding: 16px var(--gut);
+  border-top: 1px solid var(--hair);
+  font-size: 16px;
+  color: var(--bone);
+}
+
+/* ===================================================================
+   Butonat
+   =================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 24px;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid transparent;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease),
+              border-color 0.35s var(--ease), transform 0.35s var(--ease),
+              box-shadow 0.35s var(--ease);
+}
+
+.btn--big { padding: 16px 30px; font-size: 15px; }
+
+.btn--fill {
+  background: var(--brand);
+  color: var(--void);
+  font-weight: 500;
+}
+
+.btn--fill:hover {
+  background: var(--brand-lite);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px var(--brand-glow);
+}
+
+.btn--edge { border-color: var(--hair-2); color: var(--bone); }
+.btn--edge:hover { border-color: var(--brand); color: var(--brand-lite); transform: translateY(-2px); }
+
+.btn__arw { display: inline-block; transition: transform 0.4s var(--ease); }
+.btn:hover .btn__arw { transform: translateX(4px); }
+
+/* ===================================================================
+   Hero
+   =================================================================== */
+.hero {
+  position: relative;
+  padding: 176px 0 168px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hair);
+}
+
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--hair) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hair) 1px, transparent 1px);
+  background-size: 82px 82px;
+  -webkit-mask-image: radial-gradient(ellipse 78% 72% at 20% 26%, #000 18%, transparent 76%);
+  mask-image: radial-gradient(ellipse 78% 72% at 20% 26%, #000 18%, transparent 76%);
+}
+
+/* Një burim i vetëm drite — hapja. Zëvendëson "lëngun" e Real Estate
+   me diçka të palëvizshme dhe arkitekturore. */
+.hero__aperture {
+  position: absolute;
+  right: -8%;
+  top: 6%;
+  width: 58vw;
+  height: 58vw;
+  max-width: 780px;
+  max-height: 780px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 42%,
+    var(--brand-glow) 0%, transparent 62%);
+  filter: blur(52px);
+  animation: breathe 22s var(--ease) infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
+  50%      { transform: scale(1.12) translate(-3%, 3%); opacity: 1; }
+}
+
+.hero__sweep {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-edge), transparent);
+  animation: sweep 15s var(--ease) infinite;
+}
+
+@keyframes sweep {
+  0%   { top: 0;    opacity: 0; }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.hero__in { position: relative; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 28px;
+}
+
+.eyebrow__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+  animation: blip 3.6s var(--ease) infinite;
+}
+
+@keyframes blip {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.3; transform: scale(0.75); }
+}
+
+.hero__h1 {
+  font-size: clamp(38px, 7vw, 84px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.033em;
+  margin: 0 0 30px;
+  max-width: 19ch;
+}
+
+.hero__h1 .tint {
+  background: linear-gradient(96deg, var(--brand-lite), var(--brand) 62%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ln { display: block; overflow: hidden; }
+.ln > span { display: block; transform: translateY(100%); }
+
+.js .ln > span { animation: liftIn 1.05s var(--soft) forwards; }
+.js .ln:nth-child(1) > span { animation-delay: 0.06s; }
+.js .ln:nth-child(2) > span { animation-delay: 0.16s; }
+.js .ln:nth-child(3) > span { animation-delay: 0.26s; }
+
+@keyframes liftIn { to { transform: translateY(0); } }
+
+.hero__lead {
+  max-width: 58ch;
+  font-size: 17.5px;
+  margin-bottom: 38px;
+}
+
+.hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 78px; }
+
+.strip { display: flex; flex-wrap: wrap; border-top: 1px solid var(--hair); margin: 0; }
+
+.strip__i {
+  padding: 22px 32px 0 0;
+  margin-right: 32px;
+  border-right: 1px solid var(--hair);
+  min-width: 128px;
+}
+
+.strip__i:last-child { border-right: none; margin-right: 0; }
+.strip__i--wide { min-width: 300px; }
+
+.strip__i dt {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 9px;
+}
+
+.strip__i dd { margin: 0; }
+
+.fig {
+  font-family: var(--f-mono);
+  font-size: 33px;
+  color: var(--brand-lite);
+  font-variant-numeric: tabular-nums;
+}
+
+.strip__txt { font-size: 14.5px; color: var(--bone); padding-top: 8px; }
+
+@media (max-width: 620px) {
+  .strip__i { padding-right: 18px; margin-right: 18px; min-width: 98px; }
+  .strip__i--wide {
+    min-width: 100%;
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+    margin-top: 4px;
+  }
+  .fig { font-size: 26px; }
+}
+
+/* ===================================================================
+   Bande + kokë seksioni
+   =================================================================== */
+.band { padding: 100px 0 150px; border-bottom: 1px solid var(--hair); }
+.band--alt { background: var(--void-2); }
+.band--contact { padding-bottom: 112px; }  /* pa valë pas saj */
+
+.shead {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  margin-bottom: 50px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.shead__n {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.17em;
+  color: var(--brand);
+}
+
+.shead__t { font-size: clamp(25px, 3.5vw, 38px); }
+
+.shead__note {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--gray);
+}
+
+/* Vija e seksionit vizatohet vetë */
+.shead::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.15s var(--soft);
+}
+
+.js .shead.in::after { transform: scaleX(1); }
+
+/* Në ekrane të vogla shënimi nuk shtyhet djathtas — do të dukej si
+   copëz e varur nën titull. */
+@media (max-width: 700px) {
+  .shead { gap: 12px; }
+  .shead__note { margin-left: 0; width: 100%; }
+}
+
+/* ===================================================================
+   01 · Rreth
+   =================================================================== */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  gap: 56px;
+}
+
+.about__stmt {
+  font-family: var(--f-disp);
+  font-size: clamp(21px, 2.5vw, 29px);
+  line-height: 1.34;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.about__main p + p { margin-top: 16px; font-size: 15.5px; }
+
+.tenets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+}
+
+.tenet {
+  background: var(--void);
+  padding: 24px 22px;
+  transition: background 0.4s var(--ease);
+}
+
+.band--alt .tenet { background: var(--void-2); }
+
+.tenet:hover { background: var(--coal); }
+
+.tenet__n {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--brand);
+}
+
+.tenet h3 { font-size: 17px; margin: 11px 0 7px; }
+.tenet p { font-size: 13.8px; color: var(--gray); line-height: 1.58; }
+
+@media (max-width: 940px) { .about { grid-template-columns: 1fr; gap: 38px; } }
+@media (max-width: 520px) { .tenets { grid-template-columns: 1fr; } }
+
+/* ===================================================================
+   02 · Regjistri i kompanive
+   Rreshta, jo dymbëdhjetë kartela — një regjistër lexohet si grup
+   serioz, kartelat do të dukeshin si mur reklamash.
+   =================================================================== */
+.roster {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 46px;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 19px 14px 19px 12px;
+  border-bottom: 1px solid var(--hair);
+  overflow: hidden;
+  transition: padding-left 0.45s var(--ease);
+}
+
+/* Ngjyra hyn nga e majta — një ngjarje, jo dekor */
+.row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--brand-veil), transparent 72%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s var(--soft);
+  pointer-events: none;
+}
+
+.row::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--brand);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.45s var(--ease);
+}
+
+.row--live::after { transform: scaleY(1); }
+
+.row--live:hover,
+.row--live:focus-visible { padding-left: 20px; }
+
+.row--live:hover::before,
+.row--live:focus-visible::before { transform: scaleX(1); }
+
+.row__n {
+  position: relative;
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--gray);
+  padding-top: 4px;
+  transition: color 0.4s var(--ease);
+}
+
+.row--live:hover .row__n { color: var(--brand); }
+
+.row__body { position: relative; flex: 1; min-width: 0; }
+
+.row__name {
+  display: block;
+  font-family: var(--f-disp);
+  font-size: 17.5px;
+  color: var(--bone);
+  letter-spacing: -0.015em;
+  transition: color 0.4s var(--ease);
+}
+
+.row--live:hover .row__name { color: var(--brand-lite); }
+
+.row__desc {
+  display: block;
+  font-size: 13.5px;
+  color: var(--gray);
+  margin-top: 3px;
+}
+
+.row__soon,
+.row__go {
+  position: relative;
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding-top: 4px;
+}
+
+.row__soon { color: var(--gray); opacity: 0.55; }
+.row__go { color: var(--brand); display: inline-flex; align-items: center; gap: 7px; }
+
+.row__arw { display: inline-block; transition: transform 0.45s var(--ease); }
+.row--live:hover .row__arw { transform: translate(3px, -3px); }
+
+.row--soon { cursor: default; }
+
+@media (max-width: 900px) { .roster { grid-template-columns: 1fr; } }
+
+@media (max-width: 480px) {
+  .row { gap: 12px; padding: 17px 4px 17px 10px; }
+  .row__name { font-size: 16px; }
+  .row__soon, .row__go { font-size: 9.5px; letter-spacing: 0.08em; }
+}
+
+/* ===================================================================
+   03 · Integrimi
+   =================================================================== */
+.integ {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.integ__stmt {
+  font-family: var(--f-disp);
+  font-size: clamp(21px, 2.5vw, 29px);
+  line-height: 1.34;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+
+.integ__txt p + p { margin-top: 15px; font-size: 15.5px; }
+
+.chain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.chain li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid var(--hair-2);
+  font-size: 13px;
+  color: var(--bone);
+  transition: border-color 0.4s var(--ease);
+}
+
+.chain li:hover { border-color: var(--brand-edge); }
+
+.chain__n {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  color: var(--brand);
+  letter-spacing: 0.1em;
+}
+
+.integ__fig { margin: 0; }
+
+.conv { width: 100%; height: auto; display: block; overflow: visible; }
+
+.conv__lines line {
+  stroke: var(--hair-2);
+  stroke-width: 1;
+  stroke-dasharray: var(--len, 400);
+  stroke-dashoffset: var(--len, 400);
+}
+
+.js .integ__fig.in .conv__lines line {
+  animation: draw 1.5s var(--soft) forwards;
+}
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.conv__node {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.2;
+  opacity: 0;
+  transform-origin: 330px 230px;
+}
+
+.conv__core { fill: var(--brand); opacity: 0; }
+
+.conv__out {
+  stroke: var(--brand);
+  stroke-width: 1.6;
+  stroke-dasharray: 71;
+  stroke-dashoffset: 71;
+}
+
+.js .integ__fig.in .conv__node { animation: pop 0.8s var(--ease) 1.35s forwards; }
+.js .integ__fig.in .conv__core { animation: pop 0.6s var(--ease) 1.25s forwards; }
+.js .integ__fig.in .conv__out  { animation: draw 0.7s var(--soft) 1.6s forwards; }
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.conv__cap {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray);
+  text-align: center;
+  margin-top: 18px;
+}
+
+@media (max-width: 940px) {
+  .integ { grid-template-columns: 1fr; gap: 42px; }
+  .integ__fig { max-width: 420px; }
+}
+
+/* ===================================================================
+   04 · Fushat
+   =================================================================== */
+.fields {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+}
+
+.field {
+  position: relative;
+  background: var(--void-2);
+  padding: 30px 22px 26px;
+  overflow: hidden;
+  transition: background 0.4s var(--ease);
+}
+
+.field::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--soft);
+}
+
+.field:hover { background: var(--coal); }
+.field:hover::after { transform: scaleX(1); }
+
+.field__n {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--brand);
+}
+
+.field h3 { font-size: 16.5px; margin-top: 12px; font-weight: 400; }
+
+@media (max-width: 900px) { .fields { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .fields { grid-template-columns: 1fr; } }
+
+/* ===================================================================
+   05 · Kontakt
+   =================================================================== */
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+}
+
+.contact__pitch h3 {
+  font-size: clamp(23px, 3.3vw, 36px);
+  line-height: 1.14;
+  margin-bottom: 15px;
+}
+
+.contact__pitch p { color: var(--gray); max-width: 42ch; margin-bottom: 28px; }
+
+.facts { margin: 0; border-top: 1px solid var(--hair); }
+
+.fact {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hair);
+}
+
+.fact dt {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--gray);
+  padding-top: 3px;
+}
+
+.fact dd { margin: 0; color: var(--bone); font-size: 15.5px; }
+
+.fact dd a {
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.fact dd a:hover { color: var(--brand-lite); border-bottom-color: var(--brand); }
+
+@media (max-width: 940px) { .contact { grid-template-columns: 1fr; gap: 42px; } }
+@media (max-width: 460px) { .fact { grid-template-columns: 1fr; gap: 4px; } }
+
+/* ===================================================================
+   Footer
+   =================================================================== */
+.foot { padding: 72px 0 32px; }
+
+.foot__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.foot__tag {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.09em;
+  color: var(--gray);
+}
+
+.foot__cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 38px 0 44px;
+}
+
+.foot__col h4 {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--gray);
+  font-weight: 400;
+  margin-bottom: 15px;
+  min-height: 15px;
+}
+
+.foot__col li { font-size: 13.5px; padding: 5px 0; }
+.foot__col li a { transition: color 0.3s var(--ease); }
+.foot__col li a:hover { color: var(--brand-lite); }
+
+.foot__bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 24px;
+  border-top: 1px solid var(--hair);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--gray);
+}
+
+@media (max-width: 820px) { .foot__cols { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 460px) { .foot__cols { grid-template-columns: 1fr; } }
+
+/* ===================================================================
+   Shfaqja gjatë lëvizjes
+
+   KUJDES: mos vendosni clip-path te .rise. Chromium e llogarit
+   clip-path-in e vetë elementit te IntersectionObserver, prandaj një
+   element i prerë raporton zero sipërfaqe dhe nuk shfaqet kurrë —
+   e tërë faqja mbetet bosh. Vetëm opacity dhe transform.
+   =================================================================== */
+.js .rise { opacity: 0; transform: translateY(20px); }
+
+.js .rise.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.75s var(--soft), transform 0.85s var(--ease);
+}
+
+/* ===================================================================
+   Lëvizje e reduktuar
+   =================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.001ms !important;
+  }
+  .js .rise { opacity: 1; transform: none; }
+  .js .ln > span { transform: none; }
+  .shead::after { transform: scaleX(1); }
+  .conv__lines line, .conv__out { stroke-dashoffset: 0; }
+  .conv__node, .conv__core { opacity: 1; }
+}
+
+/* ===================================================================
+   Shtypja
+   =================================================================== */
+@media print {
+  body { background: #fff; color: #000; }
+  .head, .hero__grid, .hero__aperture, .hero__sweep, .burger, .drawer { display: none; }
+  .tenet, .field { background: #fff; border: 1px solid #ccc; }
+  h1, h2, h3, .fact dd, .fig, .row__name { color: #000; }
+}
+
+/* ===================================================================
+   ===================================================================
+   LËVIZJA E UJIT
+   -------------------------------------------------------------------
+   DREJTIMI I RRJEDHËS: NGA JASHTË NGA BRENDA.
+   Çdo lëvizje bashkohet drejt qendrës. Valët udhëtojnë nga të dy
+   skajet dhe takohen në mes. Rrymat rrëshqasin nga brenda. Treguesi
+   i lëvizjes mbushet nga të dy anët. Kjo është e njëjta ide që e
+   thotë diagrami — dymbëdhjetë kompani, një pikë — e kthyer në
+   fizikën e faqes.
+
+   Real Estate rrjedh poshtë e djathtas, si llavë e ngrohtë. Prindi
+   rrjedh nga brenda, si ujë i thellë e i qetë. E njëjta familje,
+   histori tjetër.
+
+   Të gjitha ngjyrat rrjedhin nga --brand-h, prandaj faqja e çdo
+   kompanie e merr ujin e vet me të njëjtin numër.
+   ===================================================================
+   =================================================================== */
+
+:root {
+  /* Shpejtësia e lëvizjes, shkruhet nga script.js. 0 = qetë, 1 = trazuar */
+  --churn: 0;
+  /* Kthimi me tejkalim — si lëngu që vendoset */
+  --settle: cubic-bezier(0.22, 1.16, 0.36, 1);
+}
+
+/* -------------------------------------------------------------------
+   Rrymat: masa të mëdha e të turbullta që rrëshqasin nga brenda.
+   Periudha të pabarabarta (53s–89s) që modeli të mos përsëritet
+   dukshëm asnjëherë.
+   ------------------------------------------------------------------- */
+.currents {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.current {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.current--a {
+  width: 46vw; height: 46vw;
+  left: -14vw; top: 12vh;
+  background: radial-gradient(circle at 46% 46%,
+    hsl(var(--brand-h) var(--brand-s) 34% / 0.34), transparent 66%);
+  animation: drawIn-a 71s var(--ease) infinite;
+}
+
+.current--b {
+  width: 38vw; height: 38vw;
+  right: -12vw; top: 34vh;
+  background: radial-gradient(circle at 50% 50%,
+    hsl(var(--brand-h) calc(var(--brand-s) + 8%) 30% / 0.30), transparent 64%);
+  animation: drawIn-b 89s var(--ease) infinite;
+}
+
+.current--c {
+  width: 30vw; height: 30vw;
+  left: -8vw; bottom: 6vh;
+  background: radial-gradient(circle at 50% 50%,
+    hsl(var(--brand-h) var(--brand-s) 28% / 0.24), transparent 62%);
+  animation: drawIn-c 61s var(--ease) infinite;
+}
+
+.current--d {
+  width: 26vw; height: 26vw;
+  right: -6vw; bottom: 18vh;
+  background: radial-gradient(circle at 50% 50%,
+    hsl(var(--brand-h) var(--brand-s) 32% / 0.20), transparent 60%);
+  animation: drawIn-d 53s var(--ease) infinite;
+}
+
+/* Të gjitha lëvizin nga brenda — rregulli i rrjedhës te ambienti */
+@keyframes drawIn-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(16vw, -6vh, 0) scale(1.18); }
+}
+@keyframes drawIn-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-18vw, 8vh, 0) scale(0.86); }
+}
+@keyframes drawIn-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(13vw, -10vh, 0) scale(1.22); }
+}
+@keyframes drawIn-d {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-14vw, -7vh, 0) scale(1.14); }
+}
+
+/* Përmbajtja qëndron mbi rrymat */
+.head, .hero, .band, .foot { position: relative; z-index: 2; }
+.hero__in, .shell { position: relative; }
+
+/* -------------------------------------------------------------------
+   Treguesi: mbushet nga të dy skajet drejt mesit
+   ------------------------------------------------------------------- */
+.meniscus {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 110;
+  pointer-events: none;
+}
+
+.meniscus__fill {
+  position: absolute;
+  top: 0;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--brand));
+  box-shadow: 0 0 12px var(--brand-glow);
+  transition: width 0.12s linear;
+}
+
+.meniscus__fill--l { left: 0; }
+.meniscus__fill--r { right: 0; background: linear-gradient(270deg, transparent, var(--brand)); }
+
+/* -------------------------------------------------------------------
+   Valët midis seksioneve
+   Gjysma e majtë udhëton djathtas, e djathta është pasqyruar prandaj
+   udhëton majtas. Takohen në mes.
+   ------------------------------------------------------------------- */
+.tide {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 132px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Disa vala rrjedhin nga poshtë lart — ndryshojnë ritmin */
+.tide--flip { transform: scaleY(-1); top: 0; bottom: auto; }
+
+.tide__half {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.tide__half--l { left: 0; }
+.tide__half--r { right: 0; transform: scaleX(-1); }
+
+.tide__svg {
+  display: block;
+  width: 200%;
+  height: 100%;
+  /* Trazimi jeton te kontejneri, jo te shtegu i animuar: një veti e
+     personalizuar që ndryshon brenda një keyframe-i në ecuri nuk
+     merret gjithmonë parasysh. */
+  transform-origin: 50% 100%;
+  transform: scaleY(calc(1 + var(--churn) * 0.42));
+  transition: transform 0.6s var(--settle);
+}
+
+.tide__back,
+.tide__front { will-change: transform; }
+
+.tide__back {
+  fill: hsl(var(--brand-h) var(--brand-s) 30% / 0.13);
+  animation: flowIn 31s linear infinite;
+}
+
+.tide__front {
+  fill: hsl(var(--brand-h) calc(var(--brand-s) + 10%) 36% / 0.085);
+  animation: flowIn 19s linear infinite;
+}
+
+/* -50% është saktësisht dy nga katër periudhat: cikli është i pandërprerë */
+@keyframes flowIn {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* -------------------------------------------------------------------
+   Përmbajtja del në sipërfaqe: ngrihet dhe fokusohet përmes turbullimit
+   ------------------------------------------------------------------- */
+.js .rise { filter: blur(7px); }
+
+.js .rise.in {
+  filter: blur(0);
+  transition:
+    opacity 0.85s var(--soft),
+    transform 1.05s var(--settle),
+    filter 0.85s var(--soft);
+}
+
+/* -------------------------------------------------------------------
+   Rreshtat: lëngu hyn nga e majta dhe valëzon nga pika e prekjes
+   ------------------------------------------------------------------- */
+.row { --rip-x: 50%; --rip-y: 50%; }
+
+.row__ripple {
+  position: absolute;
+  left: var(--rip-x);
+  top: var(--rip-y);
+  width: 14px; height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 1px solid var(--brand-edge);
+  transform: scale(0);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.row__ripple.go { animation: rippleOut 1.15s var(--soft) forwards; }
+
+@keyframes rippleOut {
+  to { transform: scale(34); opacity: 0; }
+}
+
+/* Emri lëviz lehtë, si i tërhequr nga rryma */
+.row--live:hover .row__name { transform: translateX(2px); }
+.row__name { transition: color 0.4s var(--ease), transform 0.55s var(--settle); }
+
+/* -------------------------------------------------------------------
+   Shkëlqim që kalon nëpër sipërfaqe — nga jashtë nga brenda
+   ------------------------------------------------------------------- */
+.tenet, .field { position: relative; overflow: hidden; }
+
+.tenet::before,
+.field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+    transparent 36%,
+    hsl(var(--brand-h) calc(var(--brand-s) + 16%) 62% / 0.10) 50%,
+    transparent 64%);
+  background-size: 300% 100%;
+  background-position: 190% 0;
+  transition: background-position 1.5s var(--soft);
+  pointer-events: none;
+}
+
+.tenet:hover::before,
+.field:hover::before { background-position: -80% 0; }
+
+/* -------------------------------------------------------------------
+   Butonat: sipërfaqe lëngu, jo mbushje e sheshtë
+   ------------------------------------------------------------------- */
+.btn--fill {
+  background: linear-gradient(104deg, var(--brand-lite), var(--brand) 58%, var(--brand-deep));
+  background-size: 220% 220%;
+  animation: bead 14s var(--ease) infinite;
+}
+
+@keyframes bead {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.btn--fill:hover { background-position: 100% 50%; }
+
+/* -------------------------------------------------------------------
+   Hapja në hero merr rrotullim të ngadaltë — ujë që vendoset
+   ------------------------------------------------------------------- */
+.hero__aperture { animation: settleSpin 34s var(--ease) infinite; }
+
+@keyframes settleSpin {
+  0%, 100% { transform: scale(1) rotate(0deg) translate(0, 0); opacity: 0.85; }
+  50%      { transform: scale(1.14) rotate(9deg) translate(-3%, 3%); opacity: 1; }
+}
+
+/* -------------------------------------------------------------------
+   Nyja e diagramit: pikë që bie dhe valëzon
+   ------------------------------------------------------------------- */
+.js .integ__fig.in .conv__node { animation: pop 0.8s var(--ease) 1.35s forwards, nodePulse 5.5s var(--ease) 2.4s infinite; }
+
+@keyframes nodePulse {
+  0%, 100% { r: 17; opacity: 1; }
+  50%      { r: 20; opacity: 0.55; }
+}
+
+.conv__halo {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1;
+  opacity: 0;
+  transform-origin: 330px 230px;
+}
+
+.js .integ__fig.in .conv__halo { animation: haloOut 5.5s var(--soft) 2.4s infinite; }
+
+@keyframes haloOut {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  70%  { transform: scale(2.6); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Rryma që udhëton përgjatë linjave drejt nyjes */
+.conv__flow {
+  stroke: var(--brand-lite);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0;
+}
+
+.js .integ__fig.in .conv__flow { animation: flowAlong 4.2s var(--soft) infinite; }
+
+@keyframes flowAlong {
+  0%   { opacity: 0;    stroke-dashoffset: var(--len, 400); }
+  12%  { opacity: 0.85; }
+  70%  { opacity: 0;    stroke-dashoffset: 0; }
+  100% { opacity: 0;    stroke-dashoffset: 0; }
+}
+
+/* -------------------------------------------------------------------
+   Në celular ulet ngarkesa: më pak masa, pa turbullim të rëndë
+   ------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .current--c, .current--d { display: none; }
+  .current { filter: blur(64px); }
+  .tide { height: 96px; }
+  .js .rise { filter: blur(5px); }
+}
+
+/* -------------------------------------------------------------------
+   Lëvizje e reduktuar: uji ndalet, përmbajtja mbetet e dukshme
+   ------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .currents, .tide, .row__ripple { display: none; }
+  .js .rise, .js .rise.in { filter: none; }
+  .meniscus__fill { transition: none; }
+  .conv__flow, .conv__halo { display: none; }
+}
