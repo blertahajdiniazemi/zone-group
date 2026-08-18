@@ -55,7 +55,7 @@
 
   /* ---------------------------------------------------------------
      5. Linjat e diagramit
-     Ndërtohen këtu, jo në HTML, që të mos ketë dymbëdhjetë rreshta
+     Ndërtohen këtu, jo në HTML, që të mos ketë trembëdhjetë rreshta
      të përsëritur në markup. Duhet të ekzekutohet para vëzhguesit.
      --------------------------------------------------------------- */
   var lines = document.getElementById("convLines");
@@ -64,8 +64,8 @@
     var NX = 330, NY = 230;     // nyja
     var frag = document.createDocumentFragment();
 
-    for (var i = 0; i < 12; i++) {
-      var y = 24 + i * 38;
+    for (var i = 0; i < 13; i++) {
+      var y = 20 + i * 35;
       var ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
       ln.setAttribute("x1", "6");
       ln.setAttribute("y1", String(y));
@@ -76,12 +76,6 @@
       var len = Math.round(Math.sqrt(Math.pow(NX - 6, 2) + Math.pow(NY - y, 2)));
       ln.style.setProperty("--len", len);
       ln.style.animationDelay = (i * 0.055).toFixed(3) + "s";
-
-      // Real Estate është e vetmja faqe aktive: linja e dhjetë theksohet
-      if (i === 9) {
-        ln.setAttribute("stroke", "var(--brand-edge)");
-        ln.setAttribute("stroke-width", "1.4");
-      }
 
       frag.appendChild(ln);
     }
@@ -177,7 +171,7 @@
    diagrami, e kthyer në fizikën e faqes.
 
    Katër punë:
-     1. Ndërton shtigjet e valëve (pa dymbëdhjetë rreshta në markup)
+     1. Ndërton shtigjet e valëve (pa trembëdhjetë rreshta në markup)
      2. Shpejtësia e lëvizjes ushqen --churn: sa më shpejt, aq më
         trazuar bëhen valët
      3. Treguesi mbushet nga të dy skajet me sjellje sustë
