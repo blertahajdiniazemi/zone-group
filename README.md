@@ -55,6 +55,7 @@ Nuancat e propozuara janë në listë brenda `style.css`, p.sh.:
 | Zone Group Real Estate | 38 |
 | Zone Group Trading & Distribution | 300 |
 | Zone Group Investments & Consulting | 88 |
+| Zone Sanitary Systems | 188 |
 
 ### Pse patina e bakrit për prindin
 
@@ -67,8 +68,7 @@ prindi qëndron qartë veç, brenda të njëjtit sistem.
 
 ## Si të lidhet një kompani me faqen e vet
 
-Çdo kompani është një rresht në seksionin **02 · Kompanitë**. Tani
-njëmbëdhjetë shënohen "Së shpejti" dhe vetëm Real Estate ka faqe.
+Çdo kompani është një rresht në seksionin **02 · Kompanitë**. Në versionin aktual të gjitha katërmbëdhjetë kompanitë kanë lidhje aktive drejt nën-domeneve të tyre.
 
 Kur një kompani të ketë adresën e vet, bëni katër ndryshime te ai
 rresht. Përdorni rreshtin e Real Estate (numri 10) si model — është
@@ -90,18 +90,9 @@ Përditësoni edhe listën në fund të faqes nëse doni lidhje aty.
 
 ## Lidhja me Zone Group Real Estate
 
-Rreshti i dhjetë çon te projekti juaj ekzistues:
+Rreshti i Real Estate përdor nën-domenin `https://realestate.zonegroup-ks.com`.
 
-```
-https://blertahajdiniazemi.github.io/zone-real-estate/
-```
-
-Ai projekt nuk është prekur fare — pa skedarë të përbashkët, pa dosje
-të përbashkët. Kjo faqe vetëm lidhet me të.
-
-Nëse më vonë e vendosni në një nëndomen si
-`realestate.zonegroup-ks.com`, ndryshoni adresën në dy vende në
-`index.html`: rreshtin e kompanisë dhe listën në fund.
+Zone Sanitary Systems përdor `https://sanitary-systems.zonegroup-ks.com` dhe është shtuar si kompania nr. 14, si në regjistrin kryesor ashtu edhe në footer.
 
 ---
 
@@ -138,8 +129,8 @@ celular.
 
 ## Vendimet e dizajnit
 
-**Regjistër, jo dymbëdhjetë kartela.** Kompanitë janë rreshta me numër,
-emër dhe një rresht përshkrimi. Dymbëdhjetë kartela do të dukeshin si
+**Regjistër, jo katërmbëdhjetë kartela.** Kompanitë janë rreshta me numër,
+emër dhe një rresht përshkrimi. Katërmbëdhjetë kartela do të dukeshin si
 mur reklamash; një regjistër lexohet si grup serioz dhe lë faqen të
 marrë frymë.
 
@@ -148,10 +139,9 @@ seksioneve, butonat, nyja e diagramit dhe rreshti aktiv. Kur hapni një
 rresht aktiv, ngjyra hyn nga e majta. Pikërisht sepse është e rrallë,
 lexohet si veprim e jo si zbukurim.
 
-**Diagrami i integrimit.** Dymbëdhjetë linja që vizatohen dhe bashkohen
+**Diagrami i integrimit.** Katërmbëdhjetë linja që vizatohen dhe bashkohen
 në një nyje të vetme. E thotë vizualisht atë që teksti do ta pohonte
-me fjalë. Linja e dhjetë është më e theksuar sepse Real Estate është e
-vetmja faqe aktive.
+me fjalë. Të gjitha linjat përfaqësojnë kompanitë aktive dhe bashkohen në një nyje të vetme.
 
 **Tipografia.** Outfit dhe DM Mono vijnë nga Real Estate, që faqet të
 ndihen familje. Titujt janë Newsreader e jo Fraunces, që prindi të ketë
@@ -169,7 +159,7 @@ Gjithçka ndalet me `prefers-reduced-motion`, me përmbajtjen e dukshme.
 drejt qendrës — valët udhëtojnë nga të dy skajet dhe takohen në mes,
 rrymat rrëshqasin nga brenda, treguesi i lëvizjes mbushet nga të dy
 anët njëkohësisht. Kjo është e njëjta ide që e thotë diagrami:
-dymbëdhjetë kompani, një pikë. Nëse shtoni diçka më vonë, bëjeni të
+katërmbëdhjetë kompani, një pikë. Nëse shtoni diçka më vonë, bëjeni të
 rrjedhë njësoj — pikërisht kjo e mban faqen si një trup i vetëm uji e
 jo si një grumbull efektesh.
 
