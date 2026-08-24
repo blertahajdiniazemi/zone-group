@@ -1,1297 +1,1006 @@
-/* ===================================================================
-   ZONE GROUP — sistemi vizual
-   ===================================================================
+/* =====================================================================
+   ZONE GROUP — SISTEMI VIZUAL
+   ---------------------------------------------------------------------
+   Koncepti: faqja është një fletë vizatimi teknik. Kornizë me vijë
+   flokëzuese, bllok titulli, referenca në mono, dhe një prerje objekti
+   në të cilën secila kompani e grupit është një shtresë sistemi.
 
-   ══ SI TË KRIJONI NJË FAQE PËR NJË KOMPANI TË GRUPIT ══
+   Ngjyra e prindit është metal i furçuar — e pangopur me qëllim, që të
+   mos konkurrojë me asnjë nga 14 ngjyrat e degëve. Ngjyrat e degëve
+   vijnë nga data.js dhe injektohen si --acc vetëm aty ku një kompani,
+   sistem ose disiplinë është duke u theksuar.
+   ===================================================================== */
 
-   Kopjoni këta tre skedarë dhe ndryshoni VETËM një numër: --brand-h.
-   Çdo gradient, ndriçim, buton, kufi dhe efekt në tërë faqen e merr
-   ngjyrën e re automatikisht. Asgjë tjetër nuk duhet prekur.
+/* ---------- 1. TOKENËT ---------------------------------------------- */
+:root{
+  /* sipërfaqe */
+  --ink:      #0F1214;
+  --ink-2:    #14181B;
+  --ink-3:    #1A2024;
+  --line:     #232A2F;
+  --line-2:   #333C43;
 
-     ZONE GROUP (prindi) ... 176   patinë bakri  ← kjo faqe
-     Security ............... 356   e kuqe e thellë
-     Elevators .............. 210   çelik
-     Smart & Automation ..... 265   vjollcë
-     IT & Telecom ........... 194   cian
-     Electrical & Energy ....  42   ar
-     Fire & Safety .......... 018   portokalli e djegur
-     Building Systems ....... 152   jeshile e ftohtë
-     Engineering & Constr. .. 028   bronz
-     Facility Management .... 232   blu e qetë
-     Real Estate ............ 038   ar i ngrohtë (faqja ekzistuese)
-     Trading & Distribution . 300   magenta e thellë
-     Investments & Consult. . 088   ullinjtë
+  /* tekst */
+  --paper:    #E9E7E2;
+  --mute:     #8C959B;
+  --faint:    #7E888E;
 
-   Ngjyra e ZONE GROUP është patina e bakrit: e ftohtë, minerale dhe
-   arkitekturore. Real Estate është i ngrohtë, prandaj prindi qëndron
-   qartë veç, por brenda të njëjtit sistem.
-   =================================================================== */
+  /* marka e prindit — metal i furçuar */
+  --steel:    #C4BEB2;
+  --steel-d:  #9A9488;
+  --steel-w:  rgba(196, 190, 178, .10);
+  --steel-l:  rgba(196, 190, 178, .30);
 
-:root {
-  /* ── E VETMJA VLERË QË NDRYSHON PËR SECILËN KOMPANI ── */
-  --brand-h: 176;
-  --brand-s: 34%;
-  --brand-l: 48%;
+  /* theks aktiv — merr ngjyrën e degës kur ka kuptim */
+  --acc:      var(--steel);
+  --acc-w:    var(--steel-w);
+  --acc-l:    var(--steel-l);
 
-  /* Gjithçka më poshtë rrjedh nga tre vlerat lart */
-  --brand:       hsl(var(--brand-h) var(--brand-s) var(--brand-l));
-  --brand-lite:  hsl(var(--brand-h) calc(var(--brand-s) + 14%) 74%);
-  --brand-deep:  hsl(var(--brand-h) var(--brand-s) 26%);
-  --brand-veil:  hsl(var(--brand-h) var(--brand-s) var(--brand-l) / 0.14);
-  --brand-edge:  hsl(var(--brand-h) var(--brand-s) var(--brand-l) / 0.42);
-  --brand-glow:  hsl(var(--brand-h) calc(var(--brand-s) + 10%) 40% / 0.30);
+  /* tipografia */
+  --disp: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Shkalla neutrale */
-  --void:    #08090A;
-  --void-2:  #0C0E0F;
-  --coal:    #121416;
-  --coal-2:  #191C1E;
-  --hair:    rgba(236, 240, 240, 0.09);
-  --hair-2:  rgba(236, 240, 240, 0.17);
-  --gray:    #7E868C;
-  --gray-2:  #AFB6BB;
-  --bone:    #ECF0F0;
+  /* ritmi */
+  --gut:  clamp(20px, 5vw, 64px);
+  --max:  1320px;
+  --bandY: clamp(72px, 9vw, 148px);
 
-  --f-disp: "Newsreader", Georgia, serif;
-  --f-body: "Outfit", system-ui, sans-serif;
-  --f-mono: "DM Mono", ui-monospace, monospace;
-
-  --shell: 1200px;
-  --gut:   26px;
-
-  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --soft: cubic-bezier(0.65, 0, 0.20, 1);
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --slow: cubic-bezier(.16,.84,.44,1);
 }
 
-* { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+/* varianti i ngjyrës së degës i sigurt për tekst.
+   Ngjyra e markës mbetet e njëjtë te pikat, vijat dhe kufijtë;
+   vetëm teksti i vogël ndriçohet sa duhet për kontrast AA. */
+.co,.legend__i,.bldg__live,.mega__l,.chip,.foot__li a,.type,.cat{
+  --acc-t:var(--acc);
+}
+@supports (color: color-mix(in srgb, red 50%, blue)){
+  .co,.legend__i,.bldg__live,.mega__l,.chip,.foot__li a,.type,.cat{
+    --acc-t:color-mix(in srgb, var(--acc) 76%, var(--paper));
+  }
 }
 
-body {
-  margin: 0;
-  background: var(--void);
-  color: var(--gray-2);
-  font-family: var(--f-body);
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.62;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+/* ---------- 2. BAZA ------------------------------------------------- */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--body);
+  font-weight:300;
+  font-size:clamp(15.5px,1.02vw,17px);
+  line-height:1.65;
+  letter-spacing:.005em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
 
-a { color: inherit; text-decoration: none; }
-ul, ol { list-style: none; margin: 0; padding: 0; }
-p { margin: 0; }
-button { font: inherit; cursor: pointer; }
+img,svg{ max-width:100%; display:block; }
+a{ color:inherit; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+ul,ol{ margin:0; padding:0; list-style:none; }
+h1,h2,h3,h4{ margin:0; font-family:var(--disp); font-weight:600; line-height:1.03; letter-spacing:-.022em; }
 
-h1, h2, h3, h4 {
-  margin: 0;
-  color: var(--bone);
-  font-family: var(--f-disp);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+::selection{ background:var(--steel); color:var(--ink); }
+
+/* fokus i dukshëm kudo */
+:focus-visible{
+  outline:2px solid var(--steel);
+  outline-offset:3px;
+  border-radius:1px;
 }
 
-:focus-visible {
-  outline: 2px solid var(--brand-lite);
-  outline-offset: 3px;
+.sr{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
 }
 
-.shell {
-  max-width: var(--shell);
-  margin: 0 auto;
-  padding: 0 var(--gut);
+.skip{
+  position:fixed; top:10px; left:10px; z-index:200;
+  transform:translateY(-160%);
+  background:var(--steel); color:var(--ink);
+  padding:11px 18px; font-family:var(--mono); font-size:12px;
+  text-decoration:none; transition:transform .2s var(--ease);
+}
+.skip:focus{ transform:none; }
+
+.shell{
+  width:100%; max-width:var(--max);
+  margin-inline:auto;
+  padding-inline:var(--gut);
 }
 
-.sr {
-  position: absolute;
-  width: 1px; height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+/* ---------- 3. KORNIZA E FLETËS ------------------------------------- */
+.sheet{
+  position:fixed; inset:0; z-index:60;
+  pointer-events:none;
+}
+.sheet::before{
+  content:""; position:absolute;
+  inset:clamp(8px,1.4vw,18px);
+  border:1px solid var(--line);
+}
+.sheet__tick{
+  position:absolute; background:var(--line-2);
+}
+.sheet__tick--t,.sheet__tick--b{ width:1px; height:clamp(14px,2vw,26px); left:50%; }
+.sheet__tick--t{ top:clamp(8px,1.4vw,18px); }
+.sheet__tick--b{ bottom:clamp(8px,1.4vw,18px); }
+.sheet__tick--l,.sheet__tick--r{ height:1px; width:clamp(14px,2vw,26px); top:50%; }
+.sheet__tick--l{ left:clamp(8px,1.4vw,18px); }
+.sheet__tick--r{ right:clamp(8px,1.4vw,18px); }
+
+.sheet__ref{
+  position:absolute;
+  left:clamp(8px,1.4vw,18px);
+  top:50%;
+  transform:translate(-50%,-50%) rotate(-90deg);
+  transform-origin:center;
+  font-family:var(--mono); font-size:10px; letter-spacing:.28em;
+  color:var(--faint); text-transform:uppercase; white-space:nowrap;
+  padding:0 10px; background:var(--ink);
+}
+@media (max-width:900px){ .sheet__ref{ display:none; } }
+
+/* ---------- 4. KOKA ------------------------------------------------- */
+.head{
+  position:fixed; top:0; left:0; right:0; z-index:80;
+  transition:background .3s var(--ease), border-color .3s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.head--stuck{
+  background:rgba(15,18,20,.82);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom-color:var(--line);
+}
+.head__in{
+  display:flex; align-items:center; gap:clamp(18px,3vw,44px);
+  height:clamp(64px,7vw,86px);
 }
 
-.skip {
-  position: absolute;
-  left: -9999px; top: 10px;
-  background: var(--brand);
-  color: var(--void);
-  padding: 10px 18px;
-  z-index: 200;
+.mark{
+  display:flex; align-items:center; gap:11px;
+  text-decoration:none; flex-shrink:0;
 }
-.skip:focus { left: 16px; }
-
-/* ===================================================================
-   Shenja
-   =================================================================== */
-.mark { display: inline-flex; align-items: center; gap: 11px; }
-
-/* Katror që bëhet vijë — bllok ndërtimi që kalon në vizatim */
-.mark__sign {
-  width: 12px; height: 12px;
-  flex: none;
-  background: var(--brand);
-  transition: transform 0.55s var(--ease);
+.mark__glyph{ width:22px; height:22px; flex-shrink:0; }
+.mark__glyph rect,.mark__glyph line{ transition:opacity .4s var(--ease); }
+.mark__txt{
+  font-family:var(--disp); font-weight:700;
+  font-size:clamp(14px,1.15vw,16px);
+  letter-spacing:.13em; text-transform:uppercase;
+  font-stretch:112%;
 }
+.mark__txt b{ font-weight:700; }
+.mark__txt span{ font-weight:400; color:var(--mute); }
 
-.mark:hover .mark__sign { transform: scaleX(2) scaleY(0.3); }
-
-.mark__word {
-  font-family: var(--f-body);
-  font-weight: 500;
-  font-size: 14.5px;
-  letter-spacing: 0.16em;
-  color: var(--bone);
+.nav{ display:flex; align-items:center; gap:clamp(14px,1.9vw,30px); margin-left:auto; }
+.nav__i{
+  position:relative;
+  font-size:14px; letter-spacing:.01em; color:var(--mute);
+  text-decoration:none; padding:8px 2px;
+  transition:color .22s var(--ease);
+  display:inline-flex; align-items:center; gap:7px;
 }
-
-.mark__thin { font-weight: 200; color: var(--gray); margin-left: 0.45em; }
-
-/* ===================================================================
-   Header
-   =================================================================== */
-.head {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 100;
-  border-bottom: 1px solid transparent;
-  transition: background 0.45s var(--ease), border-color 0.45s var(--ease);
+.nav__i::after{
+  content:""; position:absolute; left:0; right:0; bottom:2px; height:1px;
+  background:var(--steel); transform:scaleX(0); transform-origin:left;
+  transition:transform .3s var(--ease);
 }
+.nav__i:hover,.nav__i[aria-expanded="true"]{ color:var(--paper); }
+.nav__i:hover::after,.nav__i[aria-expanded="true"]::after{ transform:scaleX(1); }
+.nav__chev{ width:8px; height:8px; transition:transform .3s var(--ease); }
+.nav__i[aria-expanded="true"] .nav__chev{ transform:rotate(180deg); }
 
-.head.stuck {
-  background: rgba(8, 9, 10, 0.82);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom-color: var(--hair);
+.head__cta{ margin-left:4px; }
+
+.burger{
+  display:none; width:42px; height:42px; margin-left:auto;
+  position:relative; flex-shrink:0;
 }
-
-.head__in {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  height: 72px;
+.burger span{
+  position:absolute; left:11px; width:20px; height:1.5px;
+  background:var(--paper); transition:transform .3s var(--ease), opacity .2s;
 }
+.burger span:nth-child(1){ top:18px; }
+.burger span:nth-child(2){ top:24px; }
+.burger[aria-expanded="true"] span:nth-child(1){ transform:translateY(3px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2){ transform:translateY(-3px) rotate(-45deg); }
 
-.nav { display: flex; gap: 30px; margin-left: auto; }
-
-.nav a {
-  position: relative;
-  font-size: 14px;
-  padding: 4px 0;
-  transition: color 0.3s var(--ease);
+/* ---------- 5. MEGA-MENYJA E KOMPANIVE ------------------------------ */
+.mega{
+  position:fixed; top:0; left:0; right:0; z-index:70;
+  background:var(--ink-2);
+  border-bottom:1px solid var(--line);
+  padding-top:clamp(64px,7vw,86px);
+  transform:translateY(-101%);
+  transition:transform .46s var(--slow);
+  max-height:100vh; overflow-y:auto;
 }
-
-.nav a::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: 0;
-  width: 100%; height: 1px;
-  background: var(--brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.45s var(--ease);
+.mega--open{ transform:none; }
+.mega__in{ padding-block:clamp(26px,3.4vw,44px) clamp(30px,4vw,52px); }
+.mega__grid{
+  display:grid; gap:clamp(20px,2.4vw,36px);
+  grid-template-columns:repeat(4,1fr);
 }
-
-.nav a:hover { color: var(--bone); }
-.nav a:hover::after { transform: scaleX(1); }
-
-@media (max-width: 1020px) {
-  .head .nav, .head .head__cta { display: none; }
+.mega__cat{ min-width:0; }
+.mega__ct{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint);
+  padding-bottom:11px; margin-bottom:11px;
+  border-bottom:1px solid var(--line);
 }
-
-.burger {
-  display: none;
-  width: 42px; height: 42px;
-  background: none;
-  border: 1px solid var(--hair-2);
-  position: relative;
-  margin-left: auto;
+.mega__l{
+  display:flex; align-items:flex-start; gap:11px;
+  padding:9px 10px 9px 8px; margin-inline:-8px;
+  text-decoration:none; border-radius:2px;
+  transition:background .2s var(--ease);
+}
+.mega__l:hover{ background:var(--ink-3); }
+.mega__dot{
+  width:7px; height:7px; margin-top:7px; flex-shrink:0;
+  background:var(--acc);
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.mega__l:hover .mega__dot{ transform:scale(1.5); box-shadow:0 0 12px var(--acc-l); }
+.mega__nm{ display:block; font-size:14px; color:var(--paper); line-height:1.35; }
+.mega__fd{ display:block; font-size:12.5px; color:var(--faint); margin-top:1px; }
+.mega__foot{
+  display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center;
+  margin-top:clamp(24px,3vw,38px); padding-top:20px;
+  border-top:1px solid var(--line);
+  font-family:var(--mono); font-size:11.5px; color:var(--faint);
 }
 
-.burger span {
-  position: absolute;
-  left: 12px;
-  width: 18px; height: 1px;
-  background: var(--bone);
-  transition: transform 0.4s var(--ease);
+/* ---------- 6. SIRTARI (CELULAR) ------------------------------------ */
+.drawer{
+  position:fixed; inset:0; z-index:75;
+  background:var(--ink);
+  padding:clamp(78px,16vw,110px) var(--gut) 40px;
+  overflow-y:auto;
+  transform:translateY(-100%);
+  transition:transform .44s var(--slow);
+  display:flex; flex-direction:column;
+}
+.drawer--open{ transform:none; }
+.drawer__l{
+  font-family:var(--disp); font-weight:600; font-size:26px;
+  letter-spacing:-.02em; text-decoration:none;
+  padding:15px 0; border-bottom:1px solid var(--line);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.drawer__l span{ font-family:var(--mono); font-size:11px; color:var(--faint); font-weight:400; letter-spacing:.1em; }
+.drawer__sub{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint);
+  margin:28px 0 4px;
+}
+.drawer__co{
+  display:flex; align-items:center; gap:11px;
+  padding:11px 0; text-decoration:none;
+  border-bottom:1px solid var(--line);
+  font-size:14.5px;
+}
+.drawer__co i{ width:7px; height:7px; background:var(--acc); flex-shrink:0; }
+.drawer__co em{ margin-left:auto; font-style:normal; color:var(--faint); font-family:var(--mono); font-size:12px; }
+.drawer__cta{ margin-top:30px; }
+
+/* ---------- 7. BUTONAT ---------------------------------------------- */
+.btn{
+  position:relative; display:inline-flex; align-items:center; gap:11px;
+  padding:13px 22px;
+  font-family:var(--mono); font-size:12.5px; letter-spacing:.09em;
+  text-transform:uppercase; text-decoration:none; white-space:nowrap;
+  border:1px solid var(--steel-l);
+  transition:color .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
+  overflow:hidden;
+}
+.btn__a{ transition:transform .3s var(--ease); }
+.btn:hover .btn__a{ transform:translateX(4px); }
+
+.btn--solid{ background:var(--steel); color:var(--ink); border-color:var(--steel); font-weight:500; }
+.btn--solid:hover{ background:var(--paper); border-color:var(--paper); }
+
+.btn--line{ color:var(--paper); }
+.btn--line:hover{ border-color:var(--steel); background:var(--steel-w); }
+
+.btn--big{ padding:17px 30px; font-size:13.5px; }
+.btn--sm{ padding:10px 16px; font-size:11.5px; }
+
+/* ---------- 8. HEADER I SEKSIONIT ----------------------------------- */
+.band{ position:relative; padding-block:var(--bandY); }
+.band + .band{ border-top:1px solid var(--line); }
+.band--alt{ background:var(--ink-2); }
+
+.shead{ margin-bottom:clamp(38px,5vw,66px); }
+.shead__ref{
+  display:flex; align-items:center; gap:13px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--faint);
+  margin-bottom:20px;
+}
+.shead__ref::after{
+  content:""; flex:1; height:1px; background:var(--line); max-width:200px;
+}
+.shead__t{
+  font-size:clamp(30px,4.4vw,58px);
+  font-stretch:104%;
+  max-width:19ch;
+}
+.shead__n{
+  margin-top:16px; max-width:60ch;
+  color:var(--mute); font-size:clamp(15px,1.15vw,17.5px);
 }
 
-.burger span:nth-child(1) { top: 17px; }
-.burger span:nth-child(2) { top: 23px; }
-.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(3px) rotate(45deg); }
-.burger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-3px) rotate(-45deg); }
-
-@media (max-width: 1020px) { .burger { display: block; } }
-
-.drawer {
-  display: none;
-  flex-direction: column;
-  background: rgba(8, 9, 10, 0.97);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--hair);
+/* ---------- 9. HERO ------------------------------------------------- */
+.hero{
+  position:relative;
+  padding-top:clamp(104px,13vw,164px);
+  padding-bottom:clamp(56px,7vw,96px);
+  overflow:hidden;
 }
-
-.drawer.open { display: flex; }
-
-.drawer a {
-  padding: 16px var(--gut);
-  border-top: 1px solid var(--hair);
-  font-size: 16px;
-  color: var(--bone);
-}
-
-/* ===================================================================
-   Butonat
-   =================================================================== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 24px;
-  font-size: 14px;
-  font-weight: 400;
-  border: 1px solid transparent;
-  transition: background 0.35s var(--ease), color 0.35s var(--ease),
-              border-color 0.35s var(--ease), transform 0.35s var(--ease),
-              box-shadow 0.35s var(--ease);
-}
-
-.btn--big { padding: 16px 30px; font-size: 15px; }
-
-.btn--fill {
-  background: var(--brand);
-  color: var(--void);
-  font-weight: 500;
-}
-
-.btn--fill:hover {
-  background: var(--brand-lite);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px var(--brand-glow);
-}
-
-.btn--edge { border-color: var(--hair-2); color: var(--bone); }
-.btn--edge:hover { border-color: var(--brand); color: var(--brand-lite); transform: translateY(-2px); }
-
-.btn__arw { display: inline-block; transition: transform 0.4s var(--ease); }
-.btn:hover .btn__arw { transform: translateX(4px); }
-
-/* ===================================================================
-   Hero
-   =================================================================== */
-.hero {
-  position: relative;
-  padding: 176px 0 168px;
-  overflow: hidden;
-  border-bottom: 1px solid var(--hair);
-}
-
-.hero__grid {
-  position: absolute;
-  inset: 0;
+.hero__bg{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
   background-image:
-    linear-gradient(var(--hair) 1px, transparent 1px),
-    linear-gradient(90deg, var(--hair) 1px, transparent 1px);
-  background-size: 82px 82px;
-  -webkit-mask-image: radial-gradient(ellipse 78% 72% at 20% 26%, #000 18%, transparent 76%);
-  mask-image: radial-gradient(ellipse 78% 72% at 20% 26%, #000 18%, transparent 76%);
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size:74px 74px;
+  opacity:.42;
+  mask-image:radial-gradient(120% 78% at 62% 40%, #000 12%, transparent 74%);
+  -webkit-mask-image:radial-gradient(120% 78% at 62% 40%, #000 12%, transparent 74%);
+}
+.hero__in{ position:relative; z-index:1; }
+.hero__grid{
+  display:grid; gap:clamp(30px,3.4vw,56px) clamp(34px,4.4vw,66px);
+  grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+  grid-template-areas:"txt fig" "meta fig";
+  align-content:center;
+}
+.hero__txt{ grid-area:txt; }
+.hero__fig{ grid-area:fig; align-self:center; }
+.hero__meta{ grid-area:meta; }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:11px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--mute);
+  margin:0 0 clamp(20px,2.4vw,30px);
+}
+.eyebrow i{
+  width:6px; height:6px; background:var(--steel);
+  animation:pulse 3.4s var(--ease) infinite;
+}
+@keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.25} }
+
+.hero__h1{
+  font-size:clamp(42px,6.2vw,88px);
+  font-stretch:110%;
+  font-weight:700;
+  line-height:.94;
+  letter-spacing:-.038em;
+  margin-bottom:clamp(20px,2.6vw,32px);
+}
+.hero__h1 .ln{ display:block; overflow:hidden; }
+.hero__h1 .ln > span{ display:block; white-space:nowrap; }
+.hero__h1 .dim{ color:var(--steel); }
+
+.hero__lead{
+  max-width:46ch; margin:0 0 clamp(26px,3.4vw,40px);
+  font-size:clamp(15.5px,1.25vw,19px);
+  color:var(--mute); line-height:1.62;
+}
+.hero__lead b{ color:var(--paper); font-weight:400; }
+
+.hero__cta{ display:flex; flex-wrap:wrap; gap:12px; }
+
+.hero__meta{
+  display:grid; grid-template-columns:repeat(3,auto);
+  gap:clamp(18px,3vw,44px);
+  border-top:1px solid var(--line); padding-top:20px;
+  justify-content:start;
+}
+.hero__meta div{ min-width:0; }
+.hero__meta dt{
+  font-family:var(--mono); font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--faint); margin-bottom:5px;
+}
+.hero__meta dd{
+  margin:0; font-family:var(--disp); font-weight:600;
+  font-size:clamp(17px,1.7vw,23px); letter-spacing:-.01em;
 }
 
-/* Një burim i vetëm drite — hapja. Zëvendëson "lëngun" e Real Estate
-   me diçka të palëvizshme dhe arkitekturore. */
-.hero__aperture {
-  position: absolute;
-  right: -8%;
-  top: 6%;
-  width: 58vw;
-  height: 58vw;
-  max-width: 780px;
-  max-height: 780px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 42% 42%,
-    var(--brand-glow) 0%, transparent 62%);
-  filter: blur(52px);
-  animation: breathe 22s var(--ease) infinite;
+/* ---------- 10. PRERJA E OBJEKTIT (NËNSHKRIMI) ---------------------- */
+.bldg{ position:relative; }
+.bldg__frame{
+  border:1px solid var(--line);
+  background:
+    linear-gradient(var(--ink-2),var(--ink-2)) padding-box;
+  position:relative;
+}
+.bldg__frame::before{
+  content:""; position:absolute; inset:7px;
+  border:1px solid var(--line); pointer-events:none; opacity:.55;
+}
+.bldg__hd{
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:11px 15px; border-bottom:1px solid var(--line);
+  font-family:var(--mono); font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--faint);
+}
+.bldg__hd b{ font-weight:400; color:var(--mute); }
+.bldg__live{ display:inline-flex; align-items:center; gap:7px; color:var(--acc-t); transition:color .4s var(--ease); }
+.bldg__live i{ width:5px; height:5px; background:currentColor; border-radius:50%; }
+
+.bldg__svg{ width:100%; height:auto; display:block; padding:10px 6px 4px; }
+
+/* shtresat e vizatimit */
+.sys{ opacity:0; transition:opacity .5s var(--ease); }
+.sys.on{ opacity:1; }
+.sys path,.sys line,.sys circle,.sys rect,.sys polyline,.sys polygon{
+  vector-effect:non-scaling-stroke;
+}
+.sys--draw path,.sys--draw line,.sys--draw polyline{
+  stroke-dasharray:var(--len,300);
+  stroke-dashoffset:var(--len,300);
+}
+.sys.on.sys--draw path,.sys.on.sys--draw line,.sys.on.sys--draw polyline{
+  stroke-dashoffset:0;
+  transition:stroke-dashoffset 1.1s var(--slow);
+}
+.sys--node circle,.sys--node rect{ transform-box:fill-box; transform-origin:center; }
+.sys.on .blink{ animation:blink 2.6s var(--ease) infinite; }
+@keyframes blink{ 0%,100%{opacity:1} 55%{opacity:.28} }
+
+/* ---- arkitektura: masë, jo vija ----
+   Çelësi që një prerje të lexohet si ndërtesë është poché-ja: muret
+   dhe pllakat janë sipërfaqe të mbushura, jo vija. Brendësia është pak
+   më e ndritshme se qielli, prandaj objekti bëhet trup i ngurtë. */
+.arch .earth{ fill:#0A0E10; stroke:none; }
+.arch .grade{ stroke:#7C888E; stroke-width:1.6; fill:none; }
+.arch .hatch{ stroke:#20272B; stroke-width:.85; fill:none; }
+.arch .poche{ fill:#1C242A; stroke:#4E5B63; stroke-width:1; }
+.arch .void{ fill:#131A1E; stroke:none; }
+.arch .glass{ fill:#1E2A31; stroke:#3B4850; stroke-width:.9; }
+.arch .core{ fill:#0E1417; stroke:#4A575F; stroke-width:1; }
+.arch .stair{ fill:none; stroke:#5A666E; stroke-width:1.2; }
+.arch .furn{ fill:none; stroke:#3F4A52; stroke-width:1; }
+.arch .body{ fill:#586570; }
+.arch .tick{ stroke:#3B474E; stroke-width:1; fill:none; }
+.arch text{
+  fill:#7E888E; font-family:var(--mono); font-size:8.5px; letter-spacing:.1em;
 }
 
-@keyframes breathe {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
-  50%      { transform: scale(1.12) translate(-3%, 3%); opacity: 1; }
+/* ndërtimi: dheu, themeli, pllakat një nga një, muret, lëkura, njerëzit */
+.bld{ opacity:0; }
+.bld.on{ opacity:1; transition:opacity .55s var(--ease), transform .7s var(--slow); }
+.js .bld{ transform:translateY(10px); }
+.js .bld.on{ transform:none; }
+
+/* rrjedha nëpër instalime: energji lart, ujë poshtë, të dhëna lart */
+.pulse{
+  stroke-dasharray:16 var(--fl,600);
+  stroke-dashoffset:var(--fl,600);
+  opacity:0;
+}
+.sys.on .pulse{
+  opacity:.95;
+  animation:flow var(--fd,3.4s) linear infinite;
+  transition:opacity .5s var(--ease) .9s;
+}
+.pulse--rev{ animation-direction:reverse; }
+@keyframes flow{
+  from{ stroke-dashoffset:var(--fl,600); }
+  to  { stroke-dashoffset:0; }
 }
 
-.hero__sweep {
-  position: absolute;
-  left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--brand-edge), transparent);
-  animation: sweep 15s var(--ease) infinite;
+/* kabina e ashensorit udhëton nëpër bosht */
+.sys.on .car{ animation:lift 11s var(--ease) infinite; }
+@keyframes lift{
+  0%,8%    { transform:translateY(0); }
+  30%,38%  { transform:translateY(-116px); }
+  62%,70%  { transform:translateY(58px); }
+  92%,100% { transform:translateY(0); }
 }
 
-@keyframes sweep {
-  0%   { top: 0;    opacity: 0; }
-  14%  { opacity: 1; }
-  86%  { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
+/* legjenda */
+.legend{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1px; background:var(--line);
+  border-top:1px solid var(--line);
+}
+.legend__i{
+  display:flex; align-items:center; gap:9px;
+  padding:10px 13px; background:var(--ink-2);
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.04em;
+  color:var(--faint);
+  transition:color .35s var(--ease), background .35s var(--ease);
+  text-align:left; width:100%;
+}
+.legend__i i{
+  width:14px; height:1px; background:currentColor; flex-shrink:0;
+  transition:height .3s var(--ease), background .35s var(--ease);
+}
+.legend__i.on{ color:var(--acc-t); background:var(--ink-3); }
+.legend__i.on i{ height:3px; background:var(--acc); }
+.bldg__live i{ background:var(--acc); }
+.legend__i span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* ---------- 11. RRETH GRUPIT ---------------------------------------- */
+.about{
+  display:grid; gap:clamp(30px,4vw,64px);
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  align-items:start;
+}
+.about__stmt{
+  font-family:var(--disp); font-weight:600;
+  font-size:clamp(22px,2.7vw,36px); line-height:1.14;
+  letter-spacing:-.024em; margin:0 0 22px; max-width:20ch;
+}
+.about__stmt em{ font-style:normal; color:var(--steel); }
+.about p{ color:var(--mute); margin:0 0 16px; max-width:52ch; }
+.about p:last-child{ margin-bottom:0; }
+
+.split{ display:grid; gap:1px; background:var(--line); border:1px solid var(--line); }
+.split__i{ background:var(--ink); padding:clamp(20px,2.4vw,30px); }
+.split__q{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint); margin-bottom:12px;
+}
+.split__a{
+  font-family:var(--disp); font-weight:600; font-size:clamp(17px,1.7vw,22px);
+  letter-spacing:-.018em; line-height:1.2; margin-bottom:10px;
+}
+.split__t{ color:var(--mute); font-size:14.5px; margin:0; }
+
+/* ---------- 12. KATEGORITË ------------------------------------------ */
+.cats{
+  display:grid; gap:1px; background:var(--line);
+  border-block:1px solid var(--line);
+  grid-template-columns:repeat(4,1fr);
+}
+.cat{
+  position:relative; background:var(--ink);
+  padding:clamp(22px,2.6vw,34px) clamp(18px,2vw,26px) clamp(26px,3vw,38px);
+  display:flex; flex-direction:column; min-width:0;
+  transition:background .3s var(--ease);
+}
+.cat:hover{ background:var(--ink-2); }
+.cat__n{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
+  color:var(--faint); margin-bottom:16px;
+}
+.cat__t{
+  font-size:clamp(19px,1.85vw,25px); letter-spacing:-.02em;
+  margin-bottom:11px;
+}
+.cat__l{ color:var(--mute); font-size:14.5px; margin:0 0 20px; flex:1; }
+.cat__dots{ display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
+.cat__dots i{ width:9px; height:9px; }
+.cat__c{ font-family:var(--mono); font-size:11px; color:var(--faint); }
+
+/* ---------- 13. EKSPLORUESI I KOMPANIVE ----------------------------- */
+.filters{
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin-bottom:clamp(22px,2.6vw,34px);
+}
+.filt{
+  padding:9px 15px; border:1px solid var(--line-2);
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;
+  color:var(--mute);
+  transition:color .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);
+}
+.filt:hover{ color:var(--paper); border-color:var(--steel-l); }
+.filt[aria-pressed="true"]{ background:var(--paper); border-color:var(--paper); color:var(--ink); }
+
+.grid-co{
+  display:grid; gap:1px; background:var(--line);
+  border:1px solid var(--line);
+  grid-template-columns:repeat(3,1fr);
+}
+.co{
+  position:relative; background:var(--ink);
+  display:flex; flex-direction:column;
+  min-height:210px;
+  transition:background .3s var(--ease);
+}
+.co.hide{ display:none; }
+.co::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:2px;
+  background:var(--acc); transform:scaleY(0); transform-origin:top;
+  transition:transform .42s var(--slow);
+}
+.co:hover,.co:focus-within{ background:var(--ink-2); }
+.co:hover::before,.co:focus-within::before{ transform:scaleY(1); }
+
+.co__in{
+  padding:clamp(20px,2.2vw,28px);
+  display:flex; flex-direction:column; flex:1;
+  text-decoration:none;
+}
+.co__top{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.co__dot{ width:9px; height:9px; background:var(--acc); flex-shrink:0; }
+.co__fd{
+  font-family:var(--mono); font-size:10px; letter-spacing:.17em;
+  text-transform:uppercase; color:var(--faint);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.co__nm{
+  font-size:clamp(17px,1.55vw,21px); letter-spacing:-.021em;
+  line-height:1.14; margin-bottom:9px;
+}
+.co__nm b{ font-weight:600; }
+.co__nm span{ display:block; font-size:.72em; color:var(--mute); font-weight:400; letter-spacing:.02em; margin-bottom:3px; }
+.co__d{ color:var(--mute); font-size:14px; margin:0 0 18px; flex:1; line-height:1.55; }
+.co__sv{ display:flex; flex-wrap:wrap; gap:5px; margin-bottom:18px; }
+.co__sv span{
+  font-family:var(--mono); font-size:10.5px; color:var(--faint);
+  border:1px solid var(--line); padding:3px 8px;
+}
+.co__go{
+  display:inline-flex; align-items:center; gap:9px; margin-top:auto;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--acc-t);
+}
+.co__go i{ font-style:normal; transition:transform .3s var(--ease); }
+.co:hover .co__go i{ transform:translate(3px,-3px); }
+
+.co--end{
+  background:var(--ink-2);
+  padding:clamp(22px,2.4vw,30px);
+  display:flex; flex-direction:column; justify-content:center; gap:14px;
+}
+.co--end::before{ display:none; }
+.co--end p{
+  margin:0; font-family:var(--disp); font-weight:600;
+  font-size:clamp(17px,1.6vw,21px); letter-spacing:-.02em; line-height:1.2;
+}
+.co--end span{ font-family:var(--mono); font-size:11px; color:var(--faint); }
+.co--end .btn{ align-self:flex-start; }
+
+/* ---------- 14. MIKSI I PROJEKTIT ----------------------------------- */
+.mix{
+  display:grid; gap:clamp(26px,3.2vw,48px);
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+  align-items:start;
+}
+.types{ display:grid; gap:1px; background:var(--line); border:1px solid var(--line); }
+.type{
+  background:var(--ink); padding:15px 18px; text-align:left; width:100%;
+  display:flex; align-items:center; gap:13px;
+  transition:background .25s var(--ease);
+  border-left:2px solid transparent;
+}
+.type:hover{ background:var(--ink-2); }
+.type[aria-pressed="true"]{ background:var(--ink-3); border-left-color:var(--steel); }
+.type__n{ font-family:var(--mono); font-size:10.5px; color:var(--faint); flex-shrink:0; }
+.type__t{ font-family:var(--disp); font-weight:600; font-size:16px; letter-spacing:-.015em; }
+.type[aria-pressed="true"] .type__t{ color:var(--paper); }
+.type__c{
+  margin-left:auto; font-family:var(--mono); font-size:11px;
+  color:var(--faint); flex-shrink:0;
+}
+.type[aria-pressed="true"] .type__c{ color:var(--steel); }
+
+.mix__note{
+  margin-top:20px; padding:18px; border:1px solid var(--line);
+  background:var(--ink-2);
+}
+.mix__note p{ margin:0; color:var(--mute); font-size:14.5px; }
+.mix__note strong{ color:var(--paper); font-weight:400; }
+
+.tally{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--line);
+  border:1px solid var(--line); border-top:0;
+}
+.tally__i{ background:var(--ink-2); padding:clamp(16px,2vw,22px); }
+.tally__v{
+  font-family:var(--disp); font-weight:700; font-stretch:106%;
+  font-size:clamp(30px,3.6vw,48px); line-height:1;
+  letter-spacing:-.03em; margin-bottom:7px;
+}
+.tally__l{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--faint); line-height:1.4;
+}
+.tally__i--hero .tally__v{ color:var(--steel); }
+
+.chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:18px; }
+.chip{
+  display:inline-flex; align-items:center; gap:7px;
+  border:1px solid var(--line-2); padding:6px 11px;
+  font-family:var(--mono); font-size:11px; color:var(--mute);
+  text-decoration:none;
+  transition:border-color .25s var(--ease), color .25s var(--ease);
+}
+.chip i{ width:7px; height:7px; background:var(--acc); flex-shrink:0; }
+.chip:hover{ border-color:var(--acc); color:var(--paper); }
+.chip--off{ color:var(--faint); border-color:var(--line); }
+.chip--off:hover{ color:var(--mute); }
+
+/* ---------- 16. SHIFRAT --------------------------------------------- */
+.figs{
+  display:grid; gap:1px; background:var(--line);
+  border:1px solid var(--line);
+  grid-template-columns:repeat(4,1fr);
+}
+.fig{ background:var(--ink); padding:clamp(22px,2.6vw,32px); }
+.fig__v{
+  font-family:var(--disp); font-weight:700; font-stretch:108%;
+  font-size:clamp(36px,4.6vw,64px); line-height:1;
+  letter-spacing:-.035em; margin-bottom:11px;
+}
+.fig__l{
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+  color:var(--mute); line-height:1.45;
+}
+.fig--todo{ background:var(--ink-2); }
+.fig--todo .fig__v{ color:var(--faint); }
+.fig--todo .fig__l{ color:var(--faint); }
+.fig__todo{
+  display:inline-block; margin-top:10px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink); background:var(--steel-d);
+  padding:2px 7px;
 }
 
-.hero__in { position: relative; }
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 28px;
+/* ---------- 17. CIKLI ----------------------------------------------- */
+.cycle{ border:1px solid var(--line); }
+.cycle__rail{
+  display:grid; grid-template-columns:repeat(6,1fr);
+  border-bottom:1px solid var(--line);
+}
+.phase{
+  position:relative; padding:18px 15px 20px; text-align:left;
+  border-right:1px solid var(--line);
+  transition:background .28s var(--ease);
+}
+.phase:last-child{ border-right:0; }
+.phase:hover{ background:var(--ink-2); }
+.phase[aria-pressed="true"]{ background:var(--ink-3); }
+.phase__bar{
+  position:absolute; left:0; right:0; top:0; height:2px;
+  background:var(--steel); transform:scaleX(0); transform-origin:left;
+  transition:transform .4s var(--slow);
+}
+.phase[aria-pressed="true"] .phase__bar{ transform:scaleX(1); }
+.phase__n{ display:block; font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-bottom:9px; }
+.phase__t{ display:block; }
+.phase__t{
+  font-family:var(--disp); font-weight:600; font-size:clamp(14px,1.35vw,18px);
+  letter-spacing:-.017em; line-height:1.15; color:var(--mute);
+  transition:color .28s var(--ease);
+}
+.phase[aria-pressed="true"] .phase__t,.phase:hover .phase__t{ color:var(--paper); }
+.cycle__body{ padding:clamp(22px,2.8vw,34px); }
+.cycle__d{
+  font-family:var(--disp); font-weight:600;
+  font-size:clamp(18px,1.9vw,25px); letter-spacing:-.02em;
+  line-height:1.24; margin:0 0 20px; max-width:44ch;
 }
 
-.eyebrow__dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--brand);
-  animation: blip 3.6s var(--ease) infinite;
+/* ---------- 18. PSE ------------------------------------------------- */
+.why{
+  display:grid; gap:1px; background:var(--line);
+  border:1px solid var(--line);
+  grid-template-columns:repeat(3,1fr);
+}
+.why__i{ background:var(--ink); padding:clamp(22px,2.6vw,32px); }
+.why__n{ font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-bottom:16px; }
+.why__t{ font-size:clamp(17px,1.6vw,21px); letter-spacing:-.02em; margin-bottom:10px; }
+.why__x{ color:var(--mute); font-size:14.5px; margin:0; }
+
+/* ---------- 19. CTA + KONTAKT --------------------------------------- */
+.close{ position:relative; overflow:hidden; }
+.close__bg{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size:74px 74px; opacity:.4;
+  mask-image:radial-gradient(90% 100% at 50% 100%, #000 8%, transparent 72%);
+  -webkit-mask-image:radial-gradient(90% 100% at 50% 100%, #000 8%, transparent 72%);
+}
+.close__in{ position:relative; z-index:1; }
+.close__h{
+  font-size:clamp(32px,5.2vw,68px); font-stretch:106%; font-weight:700;
+  letter-spacing:-.035em; line-height:1.02; max-width:16ch;
+  margin-bottom:20px;
+}
+.close__h em{ font-style:normal; color:var(--steel-d); }
+.close__p{ color:var(--mute); max-width:48ch; font-size:clamp(15.5px,1.2vw,18px); margin:0 0 clamp(26px,3.2vw,38px); }
+.close__cta{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:clamp(38px,5vw,64px); }
+
+.info{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--line); border:1px solid var(--line);
+}
+.info__i{ background:var(--ink); padding:clamp(18px,2.2vw,26px); }
+.info__k{
+  font-family:var(--mono); font-size:10px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint); margin-bottom:9px;
+}
+.info__v{ margin:0; font-size:15.5px; }
+.info__v a{ text-decoration:none; border-bottom:1px solid var(--line-2); padding-bottom:2px; transition:border-color .25s var(--ease); }
+.info__v a:hover{ border-color:var(--steel); }
+
+/* ---------- 20. BLLOKU I TITULLIT (FOOTER) -------------------------- */
+.foot{ border-top:1px solid var(--line); background:var(--ink-2); }
+.foot__in{ padding-block:clamp(44px,5.4vw,72px) 0; }
+.foot__top{
+  display:grid; gap:clamp(28px,3.4vw,52px);
+  grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);
+  padding-bottom:clamp(32px,4vw,48px);
+  border-bottom:1px solid var(--line);
+}
+.foot__tag{ color:var(--mute); font-size:14.5px; margin:16px 0 0; max-width:30ch; }
+.foot__cols{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(18px,2.4vw,34px); }
+.foot__h{
+  font-family:var(--mono); font-size:10px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint); margin:0 0 15px;
+  font-weight:400;
+}
+.foot__li{ margin-bottom:9px; }
+.foot__li a{
+  display:inline-flex; align-items:center; gap:9px;
+  text-decoration:none; font-size:13.5px; color:var(--mute);
+  transition:color .22s var(--ease);
+}
+.foot__li a:hover{ color:var(--paper); }
+.foot__li i{ width:6px; height:6px; background:var(--acc); flex-shrink:0; }
+
+/* blloku i titullit — si në një fletë vizatimi */
+.block{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);
+  margin-top:clamp(32px,4vw,48px);
+}
+.block__c{ padding:14px 0 16px; border-right:1px solid var(--line); padding-right:18px; }
+.block__c:last-child{ border-right:0; }
+.block__k{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--faint); margin-bottom:6px;
+}
+.block__v{ font-family:var(--mono); font-size:12px; color:var(--mute); }
+
+.foot__bar{
+  display:flex; flex-wrap:wrap; gap:10px 24px;
+  justify-content:space-between; align-items:center;
+  border-top:1px solid var(--line);
+  padding:16px 0 22px;
+  font-family:var(--mono); font-size:11px; color:var(--faint);
 }
 
-@keyframes blip {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.3; transform: scale(0.75); }
+/* ---------- 21. SHFAQJA NË SKROLL ----------------------------------- */
+.js .up{ opacity:0; transform:translateY(22px); }
+.js .up.in{
+  opacity:1; transform:none;
+  transition:opacity .72s var(--ease), transform .72s var(--slow);
 }
 
-.hero__h1 {
-  font-size: clamp(38px, 7vw, 84px);
-  font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: -0.033em;
-  margin: 0 0 30px;
-  max-width: 19ch;
+/* ---------- 22. RESPONSIVE ------------------------------------------ */
+@media (max-width:1180px){
+  .mega__grid{ grid-template-columns:repeat(2,1fr); }
+  .cats{ grid-template-columns:repeat(2,1fr); }
+  .grid-co{ grid-template-columns:repeat(2,1fr); }
+  .figs{ grid-template-columns:repeat(2,1fr); }
+  .why{ grid-template-columns:repeat(2,1fr); }
+  .info{ grid-template-columns:repeat(2,1fr); }
+  .foot__cols{ grid-template-columns:repeat(2,1fr); }
 }
 
-.hero__h1 .tint {
-  background: linear-gradient(96deg, var(--brand-lite), var(--brand) 62%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.ln { display: block; overflow: hidden; }
-.ln > span { display: block; transform: translateY(100%); }
-
-.js .ln > span { animation: liftIn 1.05s var(--soft) forwards; }
-.js .ln:nth-child(1) > span { animation-delay: 0.06s; }
-.js .ln:nth-child(2) > span { animation-delay: 0.16s; }
-.js .ln:nth-child(3) > span { animation-delay: 0.26s; }
-
-@keyframes liftIn { to { transform: translateY(0); } }
-
-.hero__lead {
-  max-width: 58ch;
-  font-size: 17.5px;
-  margin-bottom: 38px;
-}
-
-.hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 78px; }
-
-.strip { display: flex; flex-wrap: wrap; border-top: 1px solid var(--hair); margin: 0; }
-
-.strip__i {
-  padding: 22px 32px 0 0;
-  margin-right: 32px;
-  border-right: 1px solid var(--hair);
-  min-width: 128px;
-}
-
-.strip__i:last-child { border-right: none; margin-right: 0; }
-.strip__i--wide { min-width: 300px; }
-
-.strip__i dt {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 9px;
-}
-
-.strip__i dd { margin: 0; }
-
-.fig {
-  font-family: var(--f-mono);
-  font-size: 33px;
-  color: var(--brand-lite);
-  font-variant-numeric: tabular-nums;
-}
-
-.strip__txt { font-size: 14.5px; color: var(--bone); padding-top: 8px; }
-
-@media (max-width: 620px) {
-  .strip__i { padding-right: 18px; margin-right: 18px; min-width: 98px; }
-  .strip__i--wide {
-    min-width: 100%;
-    border-right: none;
-    margin-right: 0;
-    padding-right: 0;
-    margin-top: 4px;
+@media (max-width:1020px){
+  .hero__grid{
+    grid-template-columns:1fr;
+    grid-template-areas:"txt" "fig" "meta";
+    gap:clamp(30px,5vw,44px);
   }
-  .fig { font-size: 26px; }
+  .hero__h1{ font-size:clamp(42px,8.4vw,74px); }
+  .about{ grid-template-columns:1fr; }
+  .mix{ grid-template-columns:1fr; }
+  .cycle__rail{ grid-template-columns:repeat(3,1fr); }
+  .phase:nth-child(3){ border-right:0; }
+  .phase:nth-child(-n+3){ border-bottom:1px solid var(--line); }
+  .foot__top{ grid-template-columns:1fr; }
 }
 
-/* ===================================================================
-   Bande + kokë seksioni
-   =================================================================== */
-.band { padding: 100px 0 150px; border-bottom: 1px solid var(--hair); }
-.band--alt { background: var(--void-2); }
-.band--contact { padding-bottom: 112px; }  /* pa valë pas saj */
-
-.shead {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: 18px;
-  flex-wrap: wrap;
-  padding-bottom: 20px;
-  margin-bottom: 50px;
-  border-bottom: 1px solid var(--hair);
+@media (max-width:860px){
+  .nav,.head__cta{ display:none; }
+  .burger{ display:block; }
+  .block{ grid-template-columns:repeat(2,1fr); }
+  .block__c:nth-child(2){ border-right:0; }
+  .block__c:nth-child(-n+2){ border-bottom:1px solid var(--line); }
 }
 
-.shead__n {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.17em;
-  color: var(--brand);
+@media (max-width:640px){
+  :root{ --bandY:clamp(56px,13vw,84px); }
+
+  .hero{ padding-top:clamp(92px,24vw,120px); }
+  .hero__h1{ font-size:clamp(40px,12.6vw,62px); line-height:.96; }
+  .hero__meta{ grid-template-columns:1fr 1fr; gap:16px 20px; }
+  .hero__meta div:last-child{ grid-column:1/-1; }
+  .hero__cta{ gap:10px; }
+  .hero__cta .btn{ flex:1 1 100%; justify-content:center; }
+
+  .legend{ grid-template-columns:1fr; }
+  .legend__i{ padding:9px 12px; }
+
+  .hero__h1{ font-size:clamp(38px,11.4vw,58px); line-height:.98; }
+  .bldg__hd{ font-size:9px; letter-spacing:.12em; padding:10px 12px; }
+  .bldg__hd > span:first-child{ display:none; }
+  .bldg__svg{ padding:6px 2px 2px; }
+  .arch text{ display:none; }
+  .hero__meta{ border-top:1px solid var(--line); padding-top:18px; }
+
+  .cats{ grid-template-columns:1fr; }
+  .grid-co{ grid-template-columns:1fr; }
+  .co{ min-height:0; }
+  .figs{ grid-template-columns:1fr 1fr; }
+  .why{ grid-template-columns:1fr; }
+  .info{ grid-template-columns:1fr; }
+  .foot__cols{ grid-template-columns:1fr; }
+  .cycle__rail{ grid-template-columns:repeat(2,1fr); }
+  .phase{ border-bottom:1px solid var(--line); }
+  .phase:nth-child(2n){ border-right:0; }
+  .phase:nth-last-child(-n+2){ border-bottom:0; }
+  .tally{ grid-template-columns:repeat(3,1fr); }
+  .tally__i{ padding:14px 10px; }
+  .tally__v{ font-size:clamp(26px,8vw,34px); }
+  .tally__l{ font-size:9.5px; letter-spacing:.08em; }
+  .block{ grid-template-columns:1fr; }
+  .block__c{ border-right:0; border-bottom:1px solid var(--line); }
+  .block__c:last-child{ border-bottom:0; }
+  .split{ grid-template-columns:1fr !important; }
+  .filters{ gap:6px; }
+  .filt{ padding:8px 12px; font-size:11px; }
+  .btn{ padding:14px 20px; }
 }
 
-.shead__t { font-size: clamp(25px, 3.5vw, 38px); }
-
-.shead__note {
-  margin-left: auto;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  color: var(--gray);
-}
-
-/* Vija e seksionit vizatohet vetë */
-.shead::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -1px;
-  height: 1px;
-  background: var(--brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 1.15s var(--soft);
-}
-
-.js .shead.in::after { transform: scaleX(1); }
-
-/* Në ekrane të vogla shënimi nuk shtyhet djathtas — do të dukej si
-   copëz e varur nën titull. */
-@media (max-width: 700px) {
-  .shead { gap: 12px; }
-  .shead__note { margin-left: 0; width: 100%; }
-}
-
-/* ===================================================================
-   01 · Rreth
-   =================================================================== */
-.about {
-  display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
-  gap: 56px;
-}
-
-.about__stmt {
-  font-family: var(--f-disp);
-  font-size: clamp(21px, 2.5vw, 29px);
-  line-height: 1.34;
-  color: var(--bone);
-  letter-spacing: -0.02em;
-  margin-bottom: 20px;
-}
-
-.about__main p + p { margin-top: 16px; font-size: 15.5px; }
-
-.tenets {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--hair);
-  border: 1px solid var(--hair);
-}
-
-.tenet {
-  background: var(--void);
-  padding: 24px 22px;
-  transition: background 0.4s var(--ease);
-}
-
-.band--alt .tenet { background: var(--void-2); }
-
-.tenet:hover { background: var(--coal); }
-
-.tenet__n {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  color: var(--brand);
-}
-
-.tenet h3 { font-size: 17px; margin: 11px 0 7px; }
-.tenet p { font-size: 13.8px; color: var(--gray); line-height: 1.58; }
-
-@media (max-width: 940px) { .about { grid-template-columns: 1fr; gap: 38px; } }
-@media (max-width: 520px) { .tenets { grid-template-columns: 1fr; } }
-
-/* ===================================================================
-   02 · Regjistri i kompanive
-   Rreshta, jo katërmbëdhjetë kartela — një regjistër lexohet si grup
-   serioz, kartelat do të dukeshin si mur reklamash.
-   =================================================================== */
-.roster {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 46px;
-}
-
-.row {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  padding: 19px 14px 19px 12px;
-  border-bottom: 1px solid var(--hair);
-  overflow: hidden;
-  transition: padding-left 0.45s var(--ease);
-}
-
-/* Ngjyra hyn nga e majta — një ngjarje, jo dekor */
-.row::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, var(--brand-veil), transparent 72%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.55s var(--soft);
-  pointer-events: none;
-}
-
-.row::after {
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: var(--brand);
-  transform: scaleY(0);
-  transform-origin: center;
-  transition: transform 0.45s var(--ease);
-}
-
-.row--live::after { transform: scaleY(1); }
-
-.row--live:hover,
-.row--live:focus-visible { padding-left: 20px; }
-
-.row--live:hover::before,
-.row--live:focus-visible::before { transform: scaleX(1); }
-
-.row__n {
-  position: relative;
-  flex: none;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  color: var(--gray);
-  padding-top: 4px;
-  transition: color 0.4s var(--ease);
-}
-
-.row--live:hover .row__n { color: var(--brand); }
-
-.row__body { position: relative; flex: 1; min-width: 0; }
-
-.row__name {
-  display: block;
-  font-family: var(--f-disp);
-  font-size: 17.5px;
-  color: var(--bone);
-  letter-spacing: -0.015em;
-  transition: color 0.4s var(--ease);
-}
-
-.row--live:hover .row__name { color: var(--brand-lite); }
-
-.row__desc {
-  display: block;
-  font-size: 13.5px;
-  color: var(--gray);
-  margin-top: 3px;
-}
-
-.row__soon,
-.row__go {
-  position: relative;
-  flex: none;
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding-top: 4px;
-}
-
-.row__soon { color: var(--gray); opacity: 0.55; }
-.row__go { color: var(--brand); display: inline-flex; align-items: center; gap: 7px; }
-
-.row__arw { display: inline-block; transition: transform 0.45s var(--ease); }
-.row--live:hover .row__arw { transform: translate(3px, -3px); }
-
-.row--soon { cursor: default; }
-
-@media (max-width: 900px) { .roster { grid-template-columns: 1fr; } }
-
-@media (max-width: 480px) {
-  .row { gap: 12px; padding: 17px 4px 17px 10px; }
-  .row__name { font-size: 16px; }
-  .row__soon, .row__go { font-size: 9.5px; letter-spacing: 0.08em; }
-}
-
-/* ===================================================================
-   03 · Integrimi
-   =================================================================== */
-.integ {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
-  gap: 56px;
-  align-items: center;
-}
-
-.integ__stmt {
-  font-family: var(--f-disp);
-  font-size: clamp(21px, 2.5vw, 29px);
-  line-height: 1.34;
-  color: var(--bone);
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
-}
-
-.integ__txt p + p { margin-top: 15px; font-size: 15.5px; }
-
-.chain {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-}
-
-.chain li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 15px;
-  border: 1px solid var(--hair-2);
-  font-size: 13px;
-  color: var(--bone);
-  transition: border-color 0.4s var(--ease);
-}
-
-.chain li:hover { border-color: var(--brand-edge); }
-
-.chain__n {
-  font-family: var(--f-mono);
-  font-size: 9.5px;
-  color: var(--brand);
-  letter-spacing: 0.1em;
-}
-
-.integ__fig { margin: 0; }
-
-.conv { width: 100%; height: auto; display: block; overflow: visible; }
-
-.conv__lines line {
-  stroke: var(--hair-2);
-  stroke-width: 1;
-  stroke-dasharray: var(--len, 400);
-  stroke-dashoffset: var(--len, 400);
-}
-
-.js .integ__fig.in .conv__lines line {
-  animation: draw 1.5s var(--soft) forwards;
-}
-
-@keyframes draw { to { stroke-dashoffset: 0; } }
-
-.conv__node {
-  fill: none;
-  stroke: var(--brand);
-  stroke-width: 1.2;
-  opacity: 0;
-  transform-origin: 330px 230px;
-}
-
-.conv__core { fill: var(--brand); opacity: 0; }
-
-.conv__out {
-  stroke: var(--brand);
-  stroke-width: 1.6;
-  stroke-dasharray: 71;
-  stroke-dashoffset: 71;
-}
-
-.js .integ__fig.in .conv__node { animation: pop 0.8s var(--ease) 1.35s forwards; }
-.js .integ__fig.in .conv__core { animation: pop 0.6s var(--ease) 1.25s forwards; }
-.js .integ__fig.in .conv__out  { animation: draw 0.7s var(--soft) 1.6s forwards; }
-
-@keyframes pop {
-  from { opacity: 0; transform: scale(0.55); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.conv__cap {
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gray);
-  text-align: center;
-  margin-top: 18px;
-}
-
-@media (max-width: 940px) {
-  .integ { grid-template-columns: 1fr; gap: 42px; }
-  .integ__fig { max-width: 420px; }
-}
-
-/* ===================================================================
-   04 · Fushat
-   =================================================================== */
-.fields {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--hair);
-  border: 1px solid var(--hair);
-}
-
-.field {
-  position: relative;
-  background: var(--void-2);
-  padding: 30px 22px 26px;
-  overflow: hidden;
-  transition: background 0.4s var(--ease);
-}
-
-.field::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  height: 2px;
-  background: var(--brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--soft);
-}
-
-.field:hover { background: var(--coal); }
-.field:hover::after { transform: scaleX(1); }
-
-.field__n {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  color: var(--brand);
-}
-
-.field h3 { font-size: 16.5px; margin-top: 12px; font-weight: 400; }
-
-@media (max-width: 900px) { .fields { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 460px) { .fields { grid-template-columns: 1fr; } }
-
-/* ===================================================================
-   05 · Kontakt
-   =================================================================== */
-.contact {
-  display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
-  gap: 60px;
-  align-items: start;
-}
-
-.contact__pitch h3 {
-  font-size: clamp(23px, 3.3vw, 36px);
-  line-height: 1.14;
-  margin-bottom: 15px;
-}
-
-.contact__pitch p { color: var(--gray); max-width: 42ch; margin-bottom: 28px; }
-
-.facts { margin: 0; border-top: 1px solid var(--hair); }
-
-.fact {
-  display: grid;
-  grid-template-columns: 104px 1fr;
-  gap: 18px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--hair);
-}
-
-.fact dt {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-  color: var(--gray);
-  padding-top: 3px;
-}
-
-.fact dd { margin: 0; color: var(--bone); font-size: 15.5px; }
-
-.fact dd a {
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
-}
-
-.fact dd a:hover { color: var(--brand-lite); border-bottom-color: var(--brand); }
-
-@media (max-width: 940px) { .contact { grid-template-columns: 1fr; gap: 42px; } }
-@media (max-width: 460px) { .fact { grid-template-columns: 1fr; gap: 4px; } }
-
-/* ===================================================================
-   Footer
-   =================================================================== */
-.foot { padding: 72px 0 32px; }
-
-.foot__top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--hair);
-}
-
-.foot__tag {
-  font-family: var(--f-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.09em;
-  color: var(--gray);
-}
-
-.foot__cols {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-  padding: 38px 0 44px;
-}
-
-.foot__col h4 {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-  color: var(--gray);
-  font-weight: 400;
-  margin-bottom: 15px;
-  min-height: 15px;
-}
-
-.foot__col li { font-size: 13.5px; padding: 5px 0; }
-.foot__col li a { transition: color 0.3s var(--ease); }
-.foot__col li a:hover { color: var(--brand-lite); }
-
-.foot__bar {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-  padding-top: 24px;
-  border-top: 1px solid var(--hair);
-  font-family: var(--f-mono);
-  font-size: 11px;
-  color: var(--gray);
-}
-
-@media (max-width: 820px) { .foot__cols { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 460px) { .foot__cols { grid-template-columns: 1fr; } }
-
-/* ===================================================================
-   Shfaqja gjatë lëvizjes
-
-   KUJDES: mos vendosni clip-path te .rise. Chromium e llogarit
-   clip-path-in e vetë elementit te IntersectionObserver, prandaj një
-   element i prerë raporton zero sipërfaqe dhe nuk shfaqet kurrë —
-   e tërë faqja mbetet bosh. Vetëm opacity dhe transform.
-   =================================================================== */
-.js .rise { opacity: 0; transform: translateY(20px); }
-
-.js .rise.in {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.75s var(--soft), transform 0.85s var(--ease);
-}
-
-/* ===================================================================
-   Lëvizje e reduktuar
-   =================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation: none !important;
-    transition-duration: 0.001ms !important;
+/* ---------- 23. LËVIZJE E REDUKTUAR --------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
   }
-  .js .rise { opacity: 1; transform: none; }
-  .js .ln > span { transform: none; }
-  .shead::after { transform: scaleX(1); }
-  .conv__lines line, .conv__out { stroke-dashoffset: 0; }
-  .conv__node, .conv__core { opacity: 1; }
+  .js .up{ opacity:1 !important; transform:none !important; }
+  .sys{ opacity:1 !important; }
+  .bld{ opacity:1 !important; transform:none !important; }
+  .pulse{ opacity:0 !important; }
+  .sys.on .car{ animation:none !important; }
+  .sys--draw path,.sys--draw line,.sys--draw polyline{ stroke-dashoffset:0 !important; }
 }
 
-/* ===================================================================
-   Shtypja
-   =================================================================== */
-@media print {
-  body { background: #fff; color: #000; }
-  .head, .hero__grid, .hero__aperture, .hero__sweep, .burger, .drawer { display: none; }
-  .tenet, .field { background: #fff; border: 1px solid #ccc; }
-  h1, h2, h3, .fact dd, .fig, .row__name { color: #000; }
+/* ---------- 24. SHTYPJA --------------------------------------------- */
+@media print{
+  .sheet,.head,.mega,.drawer,.hero__bg,.close__bg{ display:none !important; }
+  body{ background:#fff; color:#000; }
+  .band{ page-break-inside:avoid; }
 }
 
-/* ===================================================================
-   ===================================================================
-   LËVIZJA E UJIT
-   -------------------------------------------------------------------
-   DREJTIMI I RRJEDHËS: NGA JASHTË NGA BRENDA.
-   Çdo lëvizje bashkohet drejt qendrës. Valët udhëtojnë nga të dy
-   skajet dhe takohen në mes. Rrymat rrëshqasin nga brenda. Treguesi
-   i lëvizjes mbushet nga të dy anët. Kjo është e njëjta ide që e
-   thotë diagrami — katërmbëdhjetë kompani, një pikë — e kthyer në
-   fizikën e faqes.
-
-   Real Estate rrjedh poshtë e djathtas, si llavë e ngrohtë. Prindi
-   rrjedh nga brenda, si ujë i thellë e i qetë. E njëjta familje,
-   histori tjetër.
-
-   Të gjitha ngjyrat rrjedhin nga --brand-h, prandaj faqja e çdo
-   kompanie e merr ujin e vet me të njëjtin numër.
-   ===================================================================
-   =================================================================== */
-
-:root {
-  /* Shpejtësia e lëvizjes, shkruhet nga script.js. 0 = qetë, 1 = trazuar */
-  --churn: 0;
-  /* Kthimi me tejkalim — si lëngu që vendoset */
-  --settle: cubic-bezier(0.22, 1.16, 0.36, 1);
+/* ---------- 25. GJENDJET E PANELEVE --------------------------------- */
+.mega:not(.mega--open),
+.drawer:not(.drawer--open){
+  visibility:hidden;
+  transition:transform .4s var(--slow), visibility 0s linear .4s;
 }
-
-/* -------------------------------------------------------------------
-   Rrymat: masa të mëdha e të turbullta që rrëshqasin nga brenda.
-   Periudha të pabarabarta (53s–89s) që modeli të mos përsëritet
-   dukshëm asnjëherë.
-   ------------------------------------------------------------------- */
-.currents {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
+.mega--open,.drawer--open{
+  visibility:visible;
+  transition:transform .46s var(--slow), visibility 0s;
 }
+body.locked{ overflow:hidden; }
 
-.current {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  will-change: transform;
+/* mbulesa pas mega-menysë */
+.scrim{
+  position:fixed; inset:0; z-index:65;
+  background:rgba(10,12,14,.6);
+  opacity:0; visibility:hidden;
+  transition:opacity .35s var(--ease), visibility 0s linear .35s;
 }
-
-.current--a {
-  width: 46vw; height: 46vw;
-  left: -14vw; top: 12vh;
-  background: radial-gradient(circle at 46% 46%,
-    hsl(var(--brand-h) var(--brand-s) 34% / 0.34), transparent 66%);
-  animation: drawIn-a 71s var(--ease) infinite;
-}
-
-.current--b {
-  width: 38vw; height: 38vw;
-  right: -12vw; top: 34vh;
-  background: radial-gradient(circle at 50% 50%,
-    hsl(var(--brand-h) calc(var(--brand-s) + 8%) 30% / 0.30), transparent 64%);
-  animation: drawIn-b 89s var(--ease) infinite;
-}
-
-.current--c {
-  width: 30vw; height: 30vw;
-  left: -8vw; bottom: 6vh;
-  background: radial-gradient(circle at 50% 50%,
-    hsl(var(--brand-h) var(--brand-s) 28% / 0.24), transparent 62%);
-  animation: drawIn-c 61s var(--ease) infinite;
-}
-
-.current--d {
-  width: 26vw; height: 26vw;
-  right: -6vw; bottom: 18vh;
-  background: radial-gradient(circle at 50% 50%,
-    hsl(var(--brand-h) var(--brand-s) 32% / 0.20), transparent 60%);
-  animation: drawIn-d 53s var(--ease) infinite;
-}
-
-/* Të gjitha lëvizin nga brenda — rregulli i rrjedhës te ambienti */
-@keyframes drawIn-a {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(16vw, -6vh, 0) scale(1.18); }
-}
-@keyframes drawIn-b {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(-18vw, 8vh, 0) scale(0.86); }
-}
-@keyframes drawIn-c {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(13vw, -10vh, 0) scale(1.22); }
-}
-@keyframes drawIn-d {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(-14vw, -7vh, 0) scale(1.14); }
-}
-
-/* Përmbajtja qëndron mbi rrymat */
-.head, .hero, .band, .foot { position: relative; z-index: 2; }
-.hero__in, .shell { position: relative; }
-
-/* -------------------------------------------------------------------
-   Treguesi: mbushet nga të dy skajet drejt mesit
-   ------------------------------------------------------------------- */
-.meniscus {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  z-index: 110;
-  pointer-events: none;
-}
-
-.meniscus__fill {
-  position: absolute;
-  top: 0;
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, var(--brand));
-  box-shadow: 0 0 12px var(--brand-glow);
-  transition: width 0.12s linear;
-}
-
-.meniscus__fill--l { left: 0; }
-.meniscus__fill--r { right: 0; background: linear-gradient(270deg, transparent, var(--brand)); }
-
-/* -------------------------------------------------------------------
-   Valët midis seksioneve
-   Gjysma e majtë udhëton djathtas, e djathta është pasqyruar prandaj
-   udhëton majtas. Takohen në mes.
-   ------------------------------------------------------------------- */
-.tide {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 132px;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* Disa vala rrjedhin nga poshtë lart — ndryshojnë ritmin */
-.tide--flip { transform: scaleY(-1); top: 0; bottom: auto; }
-
-.tide__half {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 50%;
-  overflow: hidden;
-}
-
-.tide__half--l { left: 0; }
-.tide__half--r { right: 0; transform: scaleX(-1); }
-
-.tide__svg {
-  display: block;
-  width: 200%;
-  height: 100%;
-  /* Trazimi jeton te kontejneri, jo te shtegu i animuar: një veti e
-     personalizuar që ndryshon brenda një keyframe-i në ecuri nuk
-     merret gjithmonë parasysh. */
-  transform-origin: 50% 100%;
-  transform: scaleY(calc(1 + var(--churn) * 0.42));
-  transition: transform 0.6s var(--settle);
-}
-
-.tide__back,
-.tide__front { will-change: transform; }
-
-.tide__back {
-  fill: hsl(var(--brand-h) var(--brand-s) 30% / 0.13);
-  animation: flowIn 31s linear infinite;
-}
-
-.tide__front {
-  fill: hsl(var(--brand-h) calc(var(--brand-s) + 10%) 36% / 0.085);
-  animation: flowIn 19s linear infinite;
-}
-
-/* -50% është saktësisht dy nga katër periudhat: cikli është i pandërprerë */
-@keyframes flowIn {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* -------------------------------------------------------------------
-   Përmbajtja del në sipërfaqe: ngrihet dhe fokusohet përmes turbullimit
-   ------------------------------------------------------------------- */
-.js .rise { filter: blur(7px); }
-
-.js .rise.in {
-  filter: blur(0);
-  transition:
-    opacity 0.85s var(--soft),
-    transform 1.05s var(--settle),
-    filter 0.85s var(--soft);
-}
-
-/* -------------------------------------------------------------------
-   Rreshtat: lëngu hyn nga e majta dhe valëzon nga pika e prekjes
-   ------------------------------------------------------------------- */
-.row { --rip-x: 50%; --rip-y: 50%; }
-
-.row__ripple {
-  position: absolute;
-  left: var(--rip-x);
-  top: var(--rip-y);
-  width: 14px; height: 14px;
-  margin: -7px 0 0 -7px;
-  border-radius: 50%;
-  border: 1px solid var(--brand-edge);
-  transform: scale(0);
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-.row__ripple.go { animation: rippleOut 1.15s var(--soft) forwards; }
-
-@keyframes rippleOut {
-  to { transform: scale(34); opacity: 0; }
-}
-
-/* Emri lëviz lehtë, si i tërhequr nga rryma */
-.row--live:hover .row__name { transform: translateX(2px); }
-.row__name { transition: color 0.4s var(--ease), transform 0.55s var(--settle); }
-
-/* -------------------------------------------------------------------
-   Shkëlqim që kalon nëpër sipërfaqe — nga jashtë nga brenda
-   ------------------------------------------------------------------- */
-.tenet, .field { position: relative; overflow: hidden; }
-
-.tenet::before,
-.field::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg,
-    transparent 36%,
-    hsl(var(--brand-h) calc(var(--brand-s) + 16%) 62% / 0.10) 50%,
-    transparent 64%);
-  background-size: 300% 100%;
-  background-position: 190% 0;
-  transition: background-position 1.5s var(--soft);
-  pointer-events: none;
-}
-
-.tenet:hover::before,
-.field:hover::before { background-position: -80% 0; }
-
-/* -------------------------------------------------------------------
-   Butonat: sipërfaqe lëngu, jo mbushje e sheshtë
-   ------------------------------------------------------------------- */
-.btn--fill {
-  background: linear-gradient(104deg, var(--brand-lite), var(--brand) 58%, var(--brand-deep));
-  background-size: 220% 220%;
-  animation: bead 14s var(--ease) infinite;
-}
-
-@keyframes bead {
-  0%, 100% { background-position: 0% 50%; }
-  50%      { background-position: 100% 50%; }
-}
-
-.btn--fill:hover { background-position: 100% 50%; }
-
-/* -------------------------------------------------------------------
-   Hapja në hero merr rrotullim të ngadaltë — ujë që vendoset
-   ------------------------------------------------------------------- */
-.hero__aperture { animation: settleSpin 34s var(--ease) infinite; }
-
-@keyframes settleSpin {
-  0%, 100% { transform: scale(1) rotate(0deg) translate(0, 0); opacity: 0.85; }
-  50%      { transform: scale(1.14) rotate(9deg) translate(-3%, 3%); opacity: 1; }
-}
-
-/* -------------------------------------------------------------------
-   Nyja e diagramit: pikë që bie dhe valëzon
-   ------------------------------------------------------------------- */
-.js .integ__fig.in .conv__node { animation: pop 0.8s var(--ease) 1.35s forwards, nodePulse 5.5s var(--ease) 2.4s infinite; }
-
-@keyframes nodePulse {
-  0%, 100% { r: 17; opacity: 1; }
-  50%      { r: 20; opacity: 0.55; }
-}
-
-.conv__halo {
-  fill: none;
-  stroke: var(--brand);
-  stroke-width: 1;
-  opacity: 0;
-  transform-origin: 330px 230px;
-}
-
-.js .integ__fig.in .conv__halo { animation: haloOut 5.5s var(--soft) 2.4s infinite; }
-
-@keyframes haloOut {
-  0%   { transform: scale(1);   opacity: 0.5; }
-  70%  { transform: scale(2.6); opacity: 0; }
-  100% { transform: scale(2.6); opacity: 0; }
-}
-
-/* Rryma që udhëton përgjatë linjave drejt nyjes */
-.conv__flow {
-  stroke: var(--brand-lite);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  opacity: 0;
-}
-
-.js .integ__fig.in .conv__flow { animation: flowAlong 4.2s var(--soft) infinite; }
-
-@keyframes flowAlong {
-  0%   { opacity: 0;    stroke-dashoffset: var(--len, 400); }
-  12%  { opacity: 0.85; }
-  70%  { opacity: 0;    stroke-dashoffset: 0; }
-  100% { opacity: 0;    stroke-dashoffset: 0; }
-}
-
-/* -------------------------------------------------------------------
-   Në celular ulet ngarkesa: më pak masa, pa turbullim të rëndë
-   ------------------------------------------------------------------- */
-@media (max-width: 720px) {
-  .current--c, .current--d { display: none; }
-  .current { filter: blur(64px); }
-  .tide { height: 96px; }
-  .js .rise { filter: blur(5px); }
-}
-
-/* -------------------------------------------------------------------
-   Lëvizje e reduktuar: uji ndalet, përmbajtja mbetet e dukshme
-   ------------------------------------------------------------------- */
-@media (prefers-reduced-motion: reduce) {
-  .currents, .tide, .row__ripple { display: none; }
-  .js .rise, .js .rise.in { filter: none; }
-  .meniscus__fill { transition: none; }
-  .conv__flow, .conv__halo { display: none; }
-}
+.scrim--on{ opacity:1; visibility:visible; transition:opacity .35s var(--ease), visibility 0s; }

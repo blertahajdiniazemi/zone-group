@@ -1,9 +1,11 @@
-# ZONE GROUP — faqja kryesore korporative (me lëvizje uji)
+# ZONE GROUP — faqja kryesore e grupit
 
-Faqe një-faqëshe për zonegroup-ks.com. HTML, CSS dhe JavaScript të
-thjeshtë. Pa mjete ndërtimi, pa varësi, pa pagesa mujore.
+Ridizajn i plotë i `zonegroup-ks.com`. HTML, CSS dhe JavaScript të thjeshtë.
+Pa mjete ndërtimi, pa varësi, pa pagesa mujore. Hapeni `index.html` me dy
+klikime për ta parë.
 
-Hapeni `index.html` me dy klikime për ta parë.
+E gjithë përmbajtja që sheh vizitori është në shqip. Kodi, emrat e
+variablave dhe komentet teknike janë në anglisht — si te faqet e degëve.
 
 ---
 
@@ -11,205 +13,265 @@ Hapeni `index.html` me dy klikime për ta parë.
 
 | Skedari | Çfarë është | E redaktoni? |
 |---|---|---|
-| `index.html` | Tërë përmbajtja, përfshirë rreshtat e kompanive | **Po — teksti dhe lidhjet janë këtu** |
-| `style.css` | Sistemi vizual dhe ngjyra e markës | Vetëm për pamjen |
-| `script.js` | Koka, menyja, shfaqjet, diagrami | Jo |
+| `data.js` | Kompanitë, kategoritë, llojet e objekteve, fazat, shifrat, kontakti | **Po — gjithçka është këtu** |
+| `index.html` | Struktura e faqes dhe vizatimi i objektit | Rrallë |
+| `style.css` | Sistemi vizual | Vetëm për pamjen |
+| `app.js` | Ndërton faqen nga `data.js` | Jo |
+| `make_bldg.py` | Gjeneron prerjen e objektit | Vetëm për gjeometrinë |
+| `CNAME` | Domeni për GitHub Pages | Jo |
 
-Nuk ka skedar të dhënash me qëllim. Një faqe korporative ndryshon disa
-herë në vit, prandaj teksti drejtpërdrejt në `index.html` është më i
-thjeshtë për mirëmbajtje dhe më i mirë për motorët e kërkimit.
+**Rregull i vetëm i rëndësishëm: teksti nuk shkruhet në `index.html`.**
+Gjithçka që lexohet vjen nga `data.js`. Nëse ndryshoni një emër kompanie
+atje, ai ndryshon njëkohësisht te mega-menyja, sirtari, regjistri i
+kompanive, miksi i projektit, cikli dhe fundfaqja.
+
+Përjashtim i vetëm: lista e kompanive te **fundfaqja** është e shkruar
+drejtpërdrejt në `index.html`. Kjo është me qëllim — motorët e kërkimit
+dhe shfletuesit pa JavaScript duhet t'i shohin të katërmbëdhjetë lidhjet.
+Nëse shtoni ose hiqni një kompani, përditësojeni edhe atje.
 
 ---
 
-## Sistemi i ngjyrave — një numër për secilën kompani
+## Koncepti
 
-Kjo është pjesa më e rëndësishme e sistemit.
+**Faqja është një fletë vizatimi teknik.**
 
-Në krye të `style.css` gjendet:
+Korniza me vijë flokëzuese, shenjat në qoshe, referenca vertikale në të
+majtë dhe blloku i titullit në fund vijnë nga vizatimi teknik — artefakti
+që të katërmbëdhjetë kompanitë e prodhojnë dhe e lexojnë çdo ditë. Kjo e
+ndan prindin nga çdo faqe holdingu me shabllon.
+
+**Nënshkrimi është prerja e objektit.**
+
+Vizatimi është prerje e vërtetë arkitekturore, jo skemë instalimesh.
+Kjo është arritur me tri gjëra, dhe të tria janë të domosdoshme:
+
+- **Poché** — muret, pllakat dhe themeli janë sipërfaqe të mbushura me
+  kontur, jo vija. Kjo është konventa që e bën një prerje të lexohet si
+  prerje. Pa të, vizatimi mbetet diagram.
+- **Brendësia më e ndritshme se qielli** — vëllimi i brendshëm ka mbushje
+  `#131A1E` mbi të zezën. Objekti bëhet trup i ngurtë, jo skelet.
+- **Shkalla njerëzore** — njëmbëdhjetë figura njerëzore, shkallë me gjashtë
+  shkallare për kat, dritare, mobilim. Pa këto asgjë nuk e thotë se sa i
+  lartë është një kat.
+
+Sistemet e ngjyrosura vijnë **mbi** arkitekturën dhe janë më të holla se
+ajo. Struktura vizatohet gjithnjë në gri neutrale; bronzi i Engineering &
+Construction shfaqet vetëm kur ajo kompani theksohet.
+
+Një vizatim i vetëm, i përdorur dy herë:
+
+- **Në hero** objekti ndërtohet vetë: dheu, themeli, pllakat një nga një
+  nga poshtë lart, muret, lëkura me dritare, bërthama me shkallë, pastaj
+  njerëzit. Vetëm pasi ndërtesa qëndron, sistemet ndizen një nga një.
+  Rendi është i njëjti si në një kantier, dhe pikërisht kjo e bën të
+  lexueshëm. Pas ndezjes, nëpër tuba dhe kabllo udhëtojnë pika drite —
+  energjia lart, uji poshtë, të dhënat lart — dhe kabina e ashensorit
+  lëviz nëpër bosht.
+- **Te seksioni 04** e drejton vizitori: zgjidhni llojin e objektit dhe
+  ndizen pikërisht sistemet që ai objekt kërkon.
+
+Legjenda është e klikueshme, prandaj çdo sjellje me hover ka barasvlerën
+e vet me prekje në celular.
+
+### Ndarja 10 + 4
+
+Kjo nuk është e sajuar — del nga shërbimet reale të degëve:
+
+- **Dhjetë kompani janë sisteme fizike brenda objektit** dhe kanë secila
+  një shtresë në vizatim.
+- **Katër kompani rrethojnë objektin** — Software, Trading, Investments,
+  Real Estate. Ato nuk janë tuba a kabllo, prandaj nuk kanë shtresë.
+
+Prandaj një hotel tregon *10 sisteme · 10 kompani*, kurse një objekt
+industrial tregon *8 sisteme · 9 kompani*: aty hyn edhe Trading për
+furnizim, që nuk është sistem në mur.
+
+---
+
+## Ngjyrat
+
+### Prindi është metal, jo ngjyrë
 
 ```css
---brand-h: 176;   /* nuanca */
---brand-s: 34%;   /* ngopja */
---brand-l: 48%;   /* ndriçimi */
+--steel: #C4BEB2;   /* metal i furçuar */
 ```
 
-Çdo gradient, buton, kufi, ndriçim dhe efekt në tërë faqen rrjedh nga
-këto tri vlera. **Për të krijuar faqen e një kompanie të grupit,
-kopjoni këta tre skedarë dhe ndryshoni vetëm `--brand-h`.** Asgjë
-tjetër nuk duhet prekur.
+Zgjedhja është e qëllimshme. Patina e bakrit (nuanca 176) e versionit të
+vjetër binte pikërisht mbi Building Systems `#4CB5A7` dhe Sanitary
+`#27BFC4` — prindi dukej si degë e pesëmbëdhjetë. Metali i furçuar është
+i pangopur, prandaj nuk konkurron me asnjë nga të katërmbëdhjetat dhe
+qëndron dukshëm **mbi** ekosistemin.
 
-Nuancat e propozuara janë në listë brenda `style.css`, p.sh.:
+### Degët janë të dhëna, jo temë
 
-| Kompania | `--brand-h` |
+Të katërmbëdhjetë ngjyrat janë marrë nga `--primary` i secilës faqe dege,
+jo të supozuara:
+
+| Kompania | Ngjyra |
 |---|---|
-| ZONE GROUP (prindi) | 176 — patinë bakri |
-| Zone Group Security | 356 |
-| Zone Group Elevators | 210 |
-| Zone Group Smart & Automation | 265 |
-| Zone Group IT & Telecom | 194 |
-| Zone Group Electrical & Energy | 42 |
-| Zone Group Fire & Safety | 18 |
-| Zone Group Building Systems | 152 |
-| Zone Group Engineering & Construction | 28 |
-| Zone Group Facility Management | 232 |
-| Zone Group Real Estate | 38 |
-| Zone Group Trading & Distribution | 300 |
-| Zone Group Investments & Consulting | 88 |
-| Zone Sanitary Systems | 188 |
+| Engineering & Construction | `#C78157` |
+| Electrical & Energy | `#F2C14E` |
+| Building Systems | `#4CB5A7` |
+| Zone Sanitary Systems | `#27BFC4` |
+| Elevators | `#6F9FBC` |
+| IT & Telecom | `#4F78E8` |
+| Smart & Automation | `#876CFF` |
+| Software & Development | `#B7F34A` |
+| Security | `#2FB0D4` |
+| Fire & Safety | `#E55353` |
+| Facility Management | `#7FA46D` |
+| Investments & Consulting | `#43856E` |
+| Trading & Distribution | `#5E80BC` |
+| Real Estate | `#F6C56B` |
 
-### Pse patina e bakrit për prindin
+Ngjyra e degës shfaqet vetëm kur një kompani, sistem ose disiplinë po
+theksohet — kurrë si dekor. Prandaj lexohet si informacion.
 
-Ngjyra e ZONE GROUP është patina që merr bakri me kohë — e ftohtë,
-minerale, arkitekturore. Është ngjyrë materiali, jo modë, prandaj nuk
-vjetërsohet. Real Estate është i ngrohtë (ar dhe magenta), kështu që
-prindi qëndron qartë veç, brenda të njëjtit sistem.
-
----
-
-## Si të lidhet një kompani me faqen e vet
-
-Çdo kompani është një rresht në seksionin **02 · Kompanitë**. Në versionin aktual të gjitha katërmbëdhjetë kompanitë kanë lidhje aktive drejt nën-domeneve të tyre.
-
-Kur një kompani të ketë adresën e vet, bëni katër ndryshime te ai
-rresht. Përdorni rreshtin e Real Estate (numri 10) si model — është
-tashmë në formën përfundimtare.
-
-1. `href="#"` → adresa e vërtetë
-2. klasa `row--soon` → `row--live`
-3. shtoni `target="_blank" rel="noopener"`
-4. `<span class="row__soon">Së shpejti</span>` →
-   ```html
-   <span class="row__go">
-     Hap faqen <span class="row__arw" aria-hidden="true">↗</span>
-   </span>
-   ```
-
-Përditësoni edhe listën në fund të faqes nëse doni lidhje aty.
+Për tekst të vogël ngjyra ndriçohet pak me `color-mix`, që të kalojë
+pragun e kontrastit. Pikat, vijat dhe kufijtë mbajnë ngjyrën e saktë të
+markës.
 
 ---
 
-## Lidhja me Zone Group Real Estate
+## Tipografia
 
-Rreshti i Real Estate përdor nën-domenin `https://realestate.zonegroup-ks.com`.
+| Roli | Fonti | Pse |
+|---|---|---|
+| Titujt | **Archivo** (gjerësi e ndryshueshme) | Tipografi sinjalistike, inxhinierike. Përdoret në gjerësi 104–112%. |
+| Teksti | **Outfit** | Lidhja me familjen — e përdorin 12 nga 14 degët. |
+| Të dhënat | **DM Mono** | Referencat, numrat, etiketat teknike. |
 
-Zone Sanitary Systems përdor `https://sanitary-systems.zonegroup-ks.com` dhe është shtuar si kompania nr. 14, si në regjistrin kryesor ashtu edhe në footer.
+Të tria i mbajnë saktë **ë** dhe **ç**, me shkronjë të madhe dhe të vogël.
+
+Prindi nuk përdor më Newsreader. Titulli serif e bënte faqen të dukej
+redaksionale; kjo është faqe inxhinierie.
+
+---
+
+## Si të ndryshoni gjërat
+
+### Të dhënat e kontaktit
+Krye e `data.js`, blloku `CONTACT`.
+
+### Një kompani
+Blloku `COMPANIES`. Fushat:
+
+```js
+{
+  id:        "electrical",              // përdoret nga fazat dhe llojet e objekteve
+  name:      "Zone Group Electrical & Energy",   // emri zyrtar i plotë
+  shortName: "Electrical & Energy",     // si shfaqet te kartelat
+  field:     "Elektrike dhe energji",   // etiketa e vogël mbi emër
+  url:       "https://electrical-energy.zonegroup-ks.com",
+  color:     "#F2C14E",                 // nga faqja e vet e kompanisë
+  cat:       "ndertim",                 // id nga CATEGORIES
+  layer:     "elektrike",               // shtresa në vizatim, ose null
+  desc:      "…",                       // një ose dy fjali
+  services:  ["…"]                      // katër të parat dalin si etiketa
+}
+```
+
+Prefiksi mbi emrin llogaritet vetvetiu: `name` minus `shortName`. Prandaj
+Sanitary shfaqet si **Zone / Sanitary Systems** e jo *Zone Group*, sepse
+emri i saj zyrtar është *Zone Sanitary Systems*.
+
+### Një lloj objekti
+Blloku `PROJECT_TYPES`. Listoni id-të e kompanive që marrin pjesë
+realisht. **Numrat në ekran llogariten nga kjo listë** — mos i shkruani
+me dorë, sepse ndryshe do të mbeten të pasakta pas çdo redaktimi.
+
+### Shifrat
+Blloku `STATS`.
+
+```js
+{ value: "14", label: "kompani të specializuara", verified: true }
+```
+
+Në këtë bllok publikohen vetëm shifrat e konfirmuara.
+
+
+### Dy mospërputhje emrash për t'u konfirmuar
+
+- **Software.** Faqja e vjetër e prindit e quan *Software Development*;
+  `<title>` i degës thotë *Zone Software & Development*; komenti brenda
+  `content.js` thotë *ZONE GROUP SOFTWARE & DEVELOPMENT*. Këtu është
+  përdorur **Zone Group Software & Development**. Zgjidhni njërin dhe
+  bëjeni të njëjtë kudo.
+- **Sanitary.** Faqja e degës thotë *Zone Sanitary Systems*, kurse teksti
+  brenda saj thotë *Zone Group Sanitary Systems*. Këtu është përdorur
+  **Zone Sanitary Systems**, sipas titullit zyrtar.
+
+---
+
+## Qasshmëria
+
+- Çdo tekst kalon pragun **WCAG AA** (4.5:1). Vlera më e ulët në faqe
+  është 4.54:1.
+- Fokusi i tastierës është i dukshëm kudo, me kontur metalik.
+- Legjenda, filtrat, llojet e objekteve dhe fazat janë butona të vërtetë
+  me `aria-pressed`, jo elemente dekorative.
+- Titujt janë hierarkikë: një `h1`, pastaj `h2` për secilin seksion.
+- `prefers-reduced-motion` ndal çdo lëvizje. Vizatimi shfaqet i plotë
+  menjëherë, me të dhjetë sistemet të ndezura.
+- Vizatimi ka `aria-label` që përshkruan të dhjetë sistemet.
+
+---
+
+## Performanca
+
+- Tre skedarë teksti, zero varësi, zero korniza.
+- Vizatimi është SVG i shkruar me dorë — pa WebGL, pa Canvas, pa modele 3D.
+- Animacioni i vizatimit nis vetëm kur hyn në pamje.
+- Fontet ngarkohen me `preconnect` dhe `display=swap`.
+- Rrjetë sigurie: pas 3.5 sekondash çdo element i mbetur i fshehur
+  shfaqet, që faqja të mos mbetet bosh nëse `IntersectionObserver`
+  dështon.
 
 ---
 
 ## Vendosja online
 
-1. Krijoni një depo të re **publike** në GitHub, p.sh. `zonegroup`.
-   Mbajeni të ndarë nga `zone-real-estate`.
-2. Ngarkoni `index.html`, `style.css` dhe `script.js`.
-3. **Settings → Pages**, burimi `Deploy from a branch`, dega `main`,
+1. Ngarkoni `index.html`, `style.css`, `data.js`, `app.js` dhe `CNAME`
+   në depon publike të GitHub.
+2. **Settings → Pages**, burimi `Deploy from a branch`, dega `main`,
    dosja `/ (root)`.
-4. Për domenin: shtoni një skedar `CNAME` me një rresht,
-   `zonegroup-ks.com`, pastaj drejtoni domenin te GitHub sipas
-   https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site
-5. Te **Settings → Pages** shënoni domenin dhe aktivizoni
+3. Drejtoni `zonegroup-ks.com` te GitHub sipas
+   <https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site>
+4. Te **Settings → Pages** shënoni domenin dhe aktivizoni
    **Enforce HTTPS**.
 
----
-
-## Të dhëna për t'u zëvendësuar para publikimit
-
-- **`info@zonegroup-ks.com`** — vendmbajtëse. Shfaqet te kontakti dhe
-  në fund. Krijoni adresën e vërtetë ose ndryshojeni.
-- **Adresa e selisë** — tani vetëm "Prishtinë, Kosovë". Shtoni rrugën
-  kur të doni ta bëni publike.
-- **Orari** — tani E hënë – E premte, 08:00 – 17:00.
-- **Përshkrimet e kompanive** — një rresht për secilën, të shkruara si
-  përmbledhje e besueshme e fushës. Lexojini dhe korrigjoni çdo gjë që
-  nuk pasqyron saktë atë që ofroni.
-
-Numri `+383 49 588 211` është i saktë dhe thirret me një prekje në
-celular.
-
----
-
-## Vendimet e dizajnit
-
-**Regjistër, jo katërmbëdhjetë kartela.** Kompanitë janë rreshta me numër,
-emër dhe një rresht përshkrimi. Katërmbëdhjetë kartela do të dukeshin si
-mur reklamash; një regjistër lexohet si grup serioz dhe lë faqen të
-marrë frymë.
-
-**Ngjyra si ngjarje, jo dekor.** Patina shfaqet vetëm te numrat e
-seksioneve, butonat, nyja e diagramit dhe rreshti aktiv. Kur hapni një
-rresht aktiv, ngjyra hyn nga e majta. Pikërisht sepse është e rrallë,
-lexohet si veprim e jo si zbukurim.
-
-**Diagrami i integrimit.** Katërmbëdhjetë linja që vizatohen dhe bashkohen
-në një nyje të vetme. E thotë vizualisht atë që teksti do ta pohonte
-me fjalë. Të gjitha linjat përfaqësojnë kompanitë aktive dhe bashkohen në një nyje të vetme.
-
-**Tipografia.** Outfit dhe DM Mono vijnë nga Real Estate, që faqet të
-ndihen familje. Titujt janë Newsreader e jo Fraunces, që prindi të ketë
-zërin e vet — më i qetë dhe më institucional se dega.
-
-Gjithçka ndalet me `prefers-reduced-motion`, me përmbajtjen e dukshme.
-
-
-
----
-
-## Lëvizja e ujit
-
-**Drejtimi i rrjedhës: nga jashtë nga brenda.** Gjithçka bashkohet
-drejt qendrës — valët udhëtojnë nga të dy skajet dhe takohen në mes,
-rrymat rrëshqasin nga brenda, treguesi i lëvizjes mbushet nga të dy
-anët njëkohësisht. Kjo është e njëjta ide që e thotë diagrami:
-katërmbëdhjetë kompani, një pikë. Nëse shtoni diçka më vonë, bëjeni të
-rrjedhë njësoj — pikërisht kjo e mban faqen si një trup i vetëm uji e
-jo si një grumbull efektesh.
-
-**Stili: ujë i thellë e i qetë, jo llavë.** Real Estate rrjedh poshtë
-e djathtas, i ngrohtë dhe i shpejtë. Prindi rrjedh nga brenda, i ftohtë
-dhe i ngadaltë. E njëjta familje, histori tjetër. Hipnotike përmes
-durimit, jo përmes intensitetit — periudha të gjata dhe tejdukshmëri e
-ulët, që teksti të mbetet i lexueshëm.
-
-| Efekti | Ku | Si |
-|---|---|---|
-| Rrymat | Pas gjithçkaje | Katër masa të turbullta në cikle 53s–89s. Periudhat janë të pabarabarta me qëllim, që modeli të mos përsëritet dukshëm. |
-| Valët | Mes seksioneve | Dy gjysma: e majta udhëton djathtas, e djathta është pasqyruar. Takohen në mes. |
-| Trazimi | Valët | Shpejtësia e lëvizjes ushqen `--churn`. Sa më shpejt lëvizni, aq më të larta bëhen valët. |
-| Treguesi | Kreu i faqes | Sustë e vërtetë: e tejkalon nivelin dhe kthehet, si sipërfaqja e lëngut. |
-| Dalja në sipërfaqe | Përmbajtja | Ngrihet dhe fokusohet përmes turbullimit, si diçka që del mbi ujë. |
-| Valëzimi | Rreshtat aktivë | Niset nga pika ku e prekni, jo nga qendra. |
-| Nyja | Diagrami | Rrahje e ngadaltë me unazë që shpërndahet, dhe gjurmë drite që udhëtojnë përgjatë linjave drejt saj. |
-
-Gjithçka ndalet me `prefers-reduced-motion`: uji fshihet, turbullimi
-hiqet, përmbajtja mbetet e plotë dhe e dukshme.
-
-**Uji e ndjek markën.** Të gjitha ngjyrat e lëvizjes rrjedhin nga
-`--brand-h`, prandaj faqja e çdo kompanie e merr ujin e vet me të
-njëjtin numër të vetëm.
-
-### Për ta qetësuar
-
-- **Më pak valë:** te `.tide__back` dhe `.tide__front` ulni vlerat e
-  fundit (`0.13` dhe `0.085`).
-- **Pa reagim ndaj lëvizjes:** te `.tide__svg` ndryshoni
-  `scaleY(calc(1 + var(--churn) * 0.42))` në `scaleY(1)`.
-- **Pa rryma:** fshini `<div class="currents">` nga `index.html`.
-- **Pa turbullim gjatë daljes:** te `.js .rise` hiqni `filter: blur(7px)`.
+Nën-domenet e degëve nuk preken. Ato mbeten ashtu siç janë.
 
 ---
 
 ## Shënime për mirëmbajtësin
 
-Dy gabime u kapën gjatë ndërtimit të versionit të parë dhe janë
-shmangur këtu. Vlen t'i dini nëse e zgjeroni faqen:
+**Mos e ktheni tekstin në `index.html`.** Numrat te seksioni 04 dhe te
+cikli llogariten nga `data.js`. Nëse dikush i shkruan me dorë në HTML,
+ata do të bëhen të pasaktë me redaktimin e parë dhe askush nuk do ta
+vërejë.
 
-1. **Mos vendosni `clip-path` te një element me klasën `.rise`.**
-   Chromium e llogarit `clip-path`-in e vetë elementit te
-   IntersectionObserver, prandaj një element i prerë raporton zero
-   sipërfaqe dhe nuk shfaqet kurrë — e tërë faqja mbetet bosh. Këtu
-   përdoret vetëm `opacity` dhe `transform`. Ka edhe një rrjetë sigurie
-   në `script.js` që pas 3.5 sekondash shfaq çdo gjë të mbetur.
+**Vizatimi gjenerohet nga `make_bldg.py`.** Elementet përsëritëse —
+dritaret, shkallët, figurat, detektorët, kuotat — shkruhen nga skripti,
+që koordinatat të mbeten të sakta. Nëse ndryshoni gjeometrinë, redaktoni
+skriptin dhe rigjeneroni; mos e redaktoni SVG-në me dorë brenda
+`index.html`. Kuotat kryesore janë në krye të skriptit: `XL/XR` faqet e
+jashtme, `SLABS` pllakat, `FLOORS` katet, `EL_L/ST_L/SH_L` bërthama.
 
-2. **`.head__cta` ka nevojë për `.head` para vetes** në media query.
-   Rregulli `.btn` vjen më vonë me të njëjtën specifikë, prandaj pa
-   këtë butoni do të mbetej i dukshëm në celular dhe do të thyhej në
-   tri rreshta.
+**Vizatimi e ndryshon kuadrin në celular.** Nën 640px `app.js` ia ngushton
+`viewBox`-in në `44 80 512 416` dhe CSS-ja fsheh tekstin e kuotave, që
+objekti të mos zvogëlohet. Elementet jashtë asaj zone priten në celular.
+
+**Sekuenca e ndërtimit është `data-b` te grupet `.bld`.** Numri është
+radha, jo rendi i vizatimit. Rendi në dokument përcakton se çfarë mbulon
+çfarë; `data-b` përcakton se çfarë shfaqet e para. Të dyja janë të ndara
+me qëllim.
+
+**Gjatësia e vijave llogaritet me `getTotalLength()`.** Prandaj çdo vijë e
+re brenda një grupi `.sys--draw` vizatohet vetvetiu, pa numra të shkruar
+me dorë në CSS.
+
+**Kartela mbyllëse e regjistrit** nuk ka `data-cat`, prandaj filtrat e
+lënë gjithnjë të dukshme. Kjo e mban rrjetën pa vrimë kur kompanitë janë
+katërmbëdhjetë — numër që nuk pjesëtohet me tre.
