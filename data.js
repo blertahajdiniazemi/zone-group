@@ -68,8 +68,6 @@ const CATEGORIES = [
    url     nën-domeni zyrtar
    color   ngjyra e markës, marrë nga faqja e vet e kompanisë
    cat     id-ja e kategorisë më lart
-   layer   kodi i sistemit në prerjen e objektit, ose null nëse
-           kompania nuk është sistem fizik brenda ndërtesës
    --------------------------------------------------------------------- */
 const COMPANIES = [
   {
@@ -80,7 +78,6 @@ const COMPANIES = [
     url: "https://engineering-construction.zonegroup-ks.com",
     color: "#C78157",
     cat: "ndertim",
-    layer: "struktura",
     desc: "Koordinim teknik, punime ndërtimore, konstrukcione metalike, montime dhe përfundim i objektit deri te dorëzimi.",
     services: ["Inxhinieri", "Punime ndërtimore", "Konstrukcione metalike", "HVAC", "Montime teknike", "Fit-out dhe përfundim", "Renovim dhe modernizim"]
   },
@@ -92,7 +89,6 @@ const COMPANIES = [
     url: "https://electrical-energy.zonegroup-ks.com",
     color: "#F2C14E",
     cat: "ndertim",
-    layer: "elektrike",
     desc: "Instalime elektrike, tabela, furnizim rezervë me UPS dhe bateri, panele solare dhe karikues për automjete elektrike.",
     services: ["Instalime elektrike", "Tabela elektrike", "Sisteme UPS", "Bateri dhe ruajtje energjie", "Panele solare", "EV chargers", "Efikasitet energjetik"]
   },
@@ -104,7 +100,6 @@ const COMPANIES = [
     url: "https://building-systems.zonegroup-ks.com",
     color: "#4CB5A7",
     cat: "ndertim",
-    layer: "hyrjet",
     desc: "Dyer automatike, kontroll i qasjes, sisteme parkingu, barriera, porta, turnstile dhe interfon për hyrjet e objektit.",
     services: ["Dyer automatike", "Kontroll i qasjes", "Sisteme parkingu", "Barriera automatike", "Porta automatike", "Turnstile", "Interfon dhe hyrje"]
   },
@@ -116,7 +111,6 @@ const COMPANIES = [
     url: "https://sanitary-systems.zonegroup-ks.com",
     color: "#27BFC4",
     cat: "ndertim",
-    layer: "sanitare",
     desc: "Instalime sanitare dhe hidraulike, ujësjellës, kanalizim, tubacione, bojlerë dhe pika sanitare, me riparime e mirëmbajtje.",
     services: ["Instalime sanitare", "Instalime hidraulike", "Ujësjellës", "Kanalizim", "Tubacione", "Bojlerë dhe ujë i ngrohtë", "Kontroll i rrjedhjeve"]
   },
@@ -128,7 +122,6 @@ const COMPANIES = [
     url: "https://elevators.zonegroup-ks.com",
     color: "#6F9FBC",
     cat: "ndertim",
-    layer: "ashensori",
     desc: "Instalim, mirëmbajtje, modernizim dhe servisim ashensorësh për ndërtesa banimi, objekte komerciale dhe publike.",
     services: ["Instalim ashensorësh", "Mirëmbajtje", "Modernizim", "Servis dhe riparim", "Zgjidhje të personalizuara"]
   },
@@ -141,7 +134,6 @@ const COMPANIES = [
     url: "https://it-telecom.zonegroup-ks.com",
     color: "#4F78E8",
     cat: "teknologji",
-    layer: "rrjeti",
     desc: "Rrjete kompjuterike, Wi-Fi profesional, fibër optike, kabllim strukturor, serverë dhe dhoma teknike.",
     services: ["Rrjete kompjuterike", "Wi-Fi profesional", "Fibra optike", "Kabllim strukturor", "Serverë dhe rack", "Telekomunikim", "Testim dhe diagnostikim"]
   },
@@ -153,7 +145,6 @@ const COMPANIES = [
     url: "https://smart.zonegroup-ks.com",
     color: "#876CFF",
     cat: "teknologji",
-    layer: "automatizimi",
     desc: "Ndërtesa dhe shtëpi inteligjente: BMS, IoT, ndriçim, klimë, perde dhe energji të menaxhuara nga një platformë e vetme.",
     services: ["Smart Home", "Smart Building", "BMS", "IoT", "Automatizim", "Ndriçim inteligjent", "Menaxhim energjie", "Integrim sistemesh"]
   },
@@ -165,7 +156,6 @@ const COMPANIES = [
     url: "https://software-development.zonegroup-ks.com",
     color: "#B7F34A",
     cat: "teknologji",
-    layer: null,
     desc: "Aplikacione web dhe mobile, sisteme të personalizuara, API, databaza, cloud, DevOps dhe automatizim për operimin e biznesit.",
     services: ["Zhvillim software", "Aplikacione web", "Aplikacione mobile", "API dhe integrime", "Databaza", "Cloud", "DevOps", "Automatizim software"]
   },
@@ -178,7 +168,6 @@ const COMPANIES = [
     url: "https://zonesecurity.zonegroup-ks.com",
     color: "#2FB0D4",
     cat: "siguri",
-    layer: "siguria",
     desc: "Kamera CCTV, video-mbikëqyrje, sisteme alarmi, interfonë dhe kontroll i qasjes, të përshtatura sipas objektit.",
     services: ["Kamera CCTV", "Video-mbikëqyrje", "Sisteme alarmi", "Interfonë dhe video-interfonë", "Kontroll i qasjes", "Mirëmbajtje teknike"]
   },
@@ -190,7 +179,6 @@ const COMPANIES = [
     url: "https://fire-safety.zonegroup-ks.com",
     color: "#E55353",
     cat: "siguri",
-    layer: "zjarri",
     desc: "Detektim zjarri dhe tymi, alarm, ndriçim emergjent, sinjalistikë evakuimi dhe pajisje, me inspektim e testim periodik.",
     services: ["Detektim zjarri", "Detektim tymi", "Alarm për zjarr", "Ndriçim emergjent", "Sinjalistikë dhe evakuim", "Pajisje kundër zjarrit", "Inspektim dhe testim"]
   },
@@ -202,7 +190,6 @@ const COMPANIES = [
     url: "https://facility-management.zonegroup-ks.com",
     color: "#7FA46D",
     cat: "siguri",
-    layer: "operimi",
     desc: "Mirëmbajtje teknike dhe preventive, ndërhyrje, pastrim profesional, inspektime dhe menaxhim i përditshëm i objektit.",
     services: ["Mirëmbajtje teknike", "Mirëmbajtje preventive", "Servisim dhe ndërhyrje", "Mirëmbajtje elektrike", "Pastrim profesional", "Inspektime dhe raportim"]
   },
@@ -215,7 +202,6 @@ const COMPANIES = [
     url: "https://investments-consulting.zonegroup-ks.com",
     color: "#43856E",
     cat: "investime",
-    layer: null,
     desc: "Analizë mundësish, strukturim investimesh, këshillim biznesor e teknik dhe menaxhim projektesh nga vlerësimi te realizimi.",
     services: ["Investime", "Këshillim biznesor", "Këshillim teknik", "Menaxhim projektesh", "Analizë fizibiliteti", "Due diligence", "Optimizim operacional"]
   },
@@ -227,7 +213,6 @@ const COMPANIES = [
     url: "https://trading-distribution.zonegroup-ks.com",
     color: "#5E80BC",
     cat: "investime",
-    layer: null,
     desc: "Furnizim me shumicë dhe pakicë: elektronikë, pajisje telekomunikuese, kompjuterë, networking dhe pajisje industriale e teknike.",
     services: ["Elektronikë", "Pajisje telekomunikuese", "Kompjuterë dhe IT", "Networking", "Pajisje industriale", "Furnizim projektesh", "Logjistikë"]
   },
@@ -239,7 +224,6 @@ const COMPANIES = [
     url: "https://realestate.zonegroup-ks.com",
     color: "#F6C56B",
     cat: "investime",
-    layer: null,
     desc: "Shtëpi dhe banesa për shitje dhe me qira në Kosovë, me portofol që përditësohet dhe kontakt të drejtpërdrejtë.",
     services: ["Shitje pronash", "Qiradhënie", "Portofol banimi", "Prezantim i pronave"]
   }
@@ -247,77 +231,7 @@ const COMPANIES = [
 
 
 /* ---------------------------------------------------------------------
-   4. SISTEMET NË PRERJEN E OBJEKTIT
-   Dhjetë shtresa fizike që shfaqen në vizatim. Rendi këtu është rendi
-   në të cilin ndizen. 'label' del në legjendë.
-   --------------------------------------------------------------------- */
-const LAYERS = [
-  { key: "struktura",    label: "Strukturë dhe ndërtim",  company: "engineering" },
-  { key: "elektrike",    label: "Instalime elektrike",    company: "electrical" },
-  { key: "sanitare",     label: "Sisteme sanitare",       company: "sanitary" },
-  { key: "ashensori",    label: "Ashensorë",              company: "elevators" },
-  { key: "hyrjet",       label: "Hyrje dhe qasje",        company: "building-systems" },
-  { key: "zjarri",       label: "Mbrojtje nga zjarri",    company: "fire" },
-  { key: "siguria",      label: "Videosurvejim",          company: "security" },
-  { key: "rrjeti",       label: "Rrjet dhe telekom",      company: "it-telecom" },
-  { key: "automatizimi", label: "Automatizim dhe BMS",    company: "smart" },
-  { key: "operimi",      label: "Operim dhe mirëmbajtje", company: "facility" }
-];
-
-
-/* ---------------------------------------------------------------------
-   5. LLOJET E OBJEKTEVE
-   Për secilin lloj, cilat kompani ZONE marrin pjesë realisht.
-   Numrat në faqe llogariten nga këto lista — mos i shkruani me dorë.
-   --------------------------------------------------------------------- */
-const PROJECT_TYPES = [
-  {
-    id: "hotel",
-    name: "Hotel",
-    line: "Objekt me qarkullim të lartë vizitorësh dhe kërkesa strikte sigurie.",
-    note: "Hyrjet, ashensorët, zjarri dhe klima duhet të komunikojnë mes vete gjatë gjithë kohës.",
-    companies: ["engineering", "electrical", "sanitary", "elevators", "building-systems", "fire", "security", "it-telecom", "smart", "facility"]
-  },
-  {
-    id: "banim",
-    name: "Kompleks banimi",
-    line: "Shumë njësi, hapësira të përbashkëta dhe mirëmbajtje afatgjatë.",
-    note: "Interfoni, parkingu dhe ashensorët përcaktojnë përvojën e përditshme të banorëve.",
-    companies: ["engineering", "electrical", "sanitary", "elevators", "building-systems", "fire", "security", "it-telecom", "facility"]
-  },
-  {
-    id: "biznes",
-    name: "Ndërtesë biznesi",
-    line: "Zyra me kërkesa për rrjet, qasje të kontrolluar dhe efikasitet energjetik.",
-    note: "Kabllimi strukturor dhe kontrolli i qasjes projektohen bashkë, jo veç e veç.",
-    companies: ["engineering", "electrical", "sanitary", "elevators", "building-systems", "fire", "security", "it-telecom", "smart", "facility"]
-  },
-  {
-    id: "spital",
-    name: "Spital ose klinikë",
-    line: "Objekt ku ndërprerja e furnizimit nuk është opsion.",
-    note: "Furnizimi rezervë, detektimi i zjarrit dhe kontrolli i qasjes janë kritike njëkohësisht.",
-    companies: ["engineering", "electrical", "sanitary", "elevators", "building-systems", "fire", "security", "it-telecom", "smart", "facility"]
-  },
-  {
-    id: "tregtare",
-    name: "Qendër tregtare",
-    line: "Hapësira publike, fluks i madh njerëzish dhe evakuim i planifikuar.",
-    note: "Sinjalistika e evakuimit, videosurvejimi dhe ashensorët lidhen me një skenar të vetëm alarmi.",
-    companies: ["engineering", "electrical", "sanitary", "elevators", "building-systems", "fire", "security", "it-telecom", "smart", "facility"]
-  },
-  {
-    id: "industrial",
-    name: "Objekt industrial",
-    line: "Hapësira të mëdha, konstrukcione metalike dhe ngarkesa teknike.",
-    note: "Portat, energjia dhe furnizimi me pajisje përcaktojnë ritmin e prodhimit.",
-    companies: ["engineering", "electrical", "sanitary", "building-systems", "fire", "security", "it-telecom", "facility", "trading"]
-  }
-];
-
-
-/* ---------------------------------------------------------------------
-   6. CIKLI I PROJEKTIT
+   4. CIKLI I PROJEKTIT
    Fazat dhe kompanitë që marrin pjesë në secilën.
    --------------------------------------------------------------------- */
 const PHASES = [
@@ -361,7 +275,7 @@ const PHASES = [
 
 
 /* ---------------------------------------------------------------------
-   7. SHIFRAT
+   5. SHIFRAT
    verified: true   → vlera është e saktë dhe publikohet
    verified: false  → shfaqet si vendmbajtëse e dukshme
                       (zëvendësojeni vlerën dhe vendoseni në true)
@@ -378,7 +292,7 @@ const STATS = [
 
 
 /* ---------------------------------------------------------------------
-   8. ARSYET  —  seksioni "Pse ZONE GROUP"
+   6. ARSYET  —  seksioni "Pse ZONE GROUP"
    --------------------------------------------------------------------- */
 const REASONS = [
   {

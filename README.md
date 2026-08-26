@@ -13,11 +13,13 @@ variablave dhe komentet teknike janë në anglisht — si te faqet e degëve.
 
 | Skedari | Çfarë është | E redaktoni? |
 |---|---|---|
-| `data.js` | Kompanitë, kategoritë, llojet e objekteve, fazat, shifrat, kontakti | **Po — gjithçka është këtu** |
-| `index.html` | Struktura e faqes dhe vizatimi i objektit | Rrallë |
-| `style.css` | Sistemi vizual | Vetëm për pamjen |
+| `data.js` | Kompanitë, kategoritë, fazat, shifrat, kontakti | **Po — gjithçka është këtu** |
+| `index.html` | Struktura e faqes | Rrallë |
+| `style.css` | Sistemi vizual i faqes | Vetëm për pamjen |
 | `app.js` | Ndërton faqen nga `data.js` | Jo |
-| `make_bldg.py` | Gjeneron prerjen e objektit | Vetëm për gjeometrinë |
+| `tower.css` | Pamja e vizualizimit të kullës | Jo |
+| `tower.js` | Sjellja e vizualizimit të kullës | Jo |
+| `tower.jpg` | Renderi i kullës, 1024 × 576 | Jo |
 | `CNAME` | Domeni për GitHub Pages | Jo |
 
 **Rregull i vetëm i rëndësishëm: teksti nuk shkruhet në `index.html`.**
@@ -41,47 +43,51 @@ majtë dhe blloku i titullit në fund vijnë nga vizatimi teknik — artefakti
 që të katërmbëdhjetë kompanitë e prodhojnë dhe e lexojnë çdo ditë. Kjo e
 ndan prindin nga çdo faqe holdingu me shabllon.
 
-**Nënshkrimi është prerja e objektit.**
+**Nënshkrimi është kulla.**
 
-Vizatimi është prerje e vërtetë arkitekturore, jo skemë instalimesh.
-Kjo është arritur me tri gjëra, dhe të tria janë të domosdoshme:
+Në hero qëndron një render i vetëm i objektit — nga dy nivelet e
+parkingut nëntokësor te çatia — mbi të cilin vizatohen sistemet teknike.
+Renderi është `tower.jpg`; gjithçka tjetër është SVG dhe HTML të
+vizatuara sipër tij.
 
-- **Poché** — muret, pllakat dhe themeli janë sipërfaqe të mbushura me
-  kontur, jo vija. Kjo është konventa që e bën një prerje të lexohet si
-  prerje. Pa të, vizatimi mbetet diagram.
-- **Brendësia më e ndritshme se qielli** — vëllimi i brendshëm ka mbushje
-  `#131A1E` mbi të zezën. Objekti bëhet trup i ngurtë, jo skelet.
-- **Shkalla njerëzore** — njëmbëdhjetë figura njerëzore, shkallë me gjashtë
-  shkallare për kat, dritare, mobilim. Pa këto asgjë nuk e thotë se sa i
-  lartë është një kat.
+Blloku ka tri shtresa, të gjitha të mbyllura brenda `.zone-stage`, që
+regjistrimi të mos zhvendoset kurrë:
 
-Sistemet e ngjyrosura vijnë **mbi** arkitekturën dhe janë më të holla se
-ajo. Struktura vizatohet gjithnjë në gri neutrale; bronzi i Engineering &
-Construction shfaqet vetëm kur ajo kompani theksohet.
+- **Renderi** — fotografia e objektit, plus disa blloqe `.zone-relight`
+  që barazojnë temperaturën e dritës në ato dritare që janë ndriçuar më
+  ftohtë se dhoma së cilës i përkasin.
+- **Mbivendosja SVG** — një kanavacë `1024 × 576` ku vizatohen tubat,
+  kabllot, nyjet, dritaret e ndezura, konet e kamerave dhe alarmet.
+- **Kabinat e ashensorëve** — dy elemente HTML që udhëtojnë nëpër dy
+  boshtet e vazhdueshme, me ndalesa te dyert e secilit kat.
 
-Një vizatim i vetëm, i përdorur dy herë:
+Të gjitha koordinatat janë në hapësirën `1024 × 576` të renderit dhe
+pozicionohen në përqindje. Prandaj blloku është plotësisht responsiv pa
+asnjë llogaritje gjatësie në JavaScript, dhe proporcioni `16:9` ruhet me
+`aspect-ratio` në çdo gjerësi.
 
-- **Në hero** objekti ndërtohet vetë: dheu, themeli, pllakat një nga një
-  nga poshtë lart, muret, lëkura me dritare, bërthama me shkallë, pastaj
-  njerëzit. Vetëm pasi ndërtesa qëndron, sistemet ndizen një nga një.
-  Rendi është i njëjti si në një kantier, dhe pikërisht kjo e bën të
-  lexueshëm. Pas ndezjes, nëpër tuba dhe kabllo udhëtojnë pika drite —
-  energjia lart, uji poshtë, të dhënat lart — dhe kabina e ashensorit
-  lëviz nëpër bosht.
-- **Te seksioni 04** e drejton vizitori: zgjidhni llojin e objektit dhe
-  ndizen pikërisht sistemet që ai objekt kërkon.
+**Lista e degëve është kontrolli.**
 
-Legjenda është e klikueshme, prandaj çdo sjellje me hover ka barasvlerën
-e vet me prekje në celular.
+Poshtë renderit qëndrojnë katërmbëdhjetë kartela, një për secilën
+kompani. Zgjedhja e njërës luan sekuencën e sistemit të asaj dege brenda
+objektit: sistemi vjen nga origjina e vet — tabela kryesore, dhoma e
+serverëve, bërthama — dhe shtrihet nëpër katet. Kur zgjidhni një degë
+tjetër, e para tërhiqet përgjatë të njëjtave vija nga të cilat erdhi.
+
+Në pajisjet me mi, qëndrimi mbi një kartelë për 250 ms jep një parapamje
+të shkurtër. Në celular kjo nuk ekziston — kartelat janë butona me
+`role="button"` dhe `aria-pressed`, dhe funksionojnë me prekje e me
+tastierë njësoj.
 
 ### Ndarja 10 + 4
 
 Kjo nuk është e sajuar — del nga shërbimet reale të degëve:
 
-- **Dhjetë kompani janë sisteme fizike brenda objektit** dhe kanë secila
-  një shtresë në vizatim.
+- **Dhjetë kompani janë sisteme fizike brenda objektit** — tuba, kabllo,
+  boshte, detektorë. Sekuenca e tyre shtrihet nëpër katet e kullës.
 - **Katër kompani rrethojnë objektin** — Software, Trading, Investments,
-  Real Estate. Ato nuk janë tuba a kabllo, prandaj nuk kanë shtresë.
+  Real Estate. Ato nuk janë tuba a kabllo, prandaj sekuenca e tyre
+  luhet rreth objektit: në rrugë, në lobi, në ekranet e tij.
 
 Prandaj një hotel tregon *10 sisteme · 10 kompani*, kurse një objekt
 industrial tregon *8 sisteme · 9 kompani*: aty hyn edhe Trading për
@@ -159,14 +165,13 @@ Blloku `COMPANIES`. Fushat:
 
 ```js
 {
-  id:        "electrical",              // përdoret nga fazat dhe llojet e objekteve
+  id:        "electrical",              // përdoret nga fazat e projektit
   name:      "Zone Group Electrical & Energy",   // emri zyrtar i plotë
   shortName: "Electrical & Energy",     // si shfaqet te kartelat
   field:     "Elektrike dhe energji",   // etiketa e vogël mbi emër
   url:       "https://electrical-energy.zonegroup-ks.com",
   color:     "#F2C14E",                 // nga faqja e vet e kompanisë
   cat:       "ndertim",                 // id nga CATEGORIES
-  layer:     "elektrike",               // shtresa në vizatim, ose null
   desc:      "…",                       // një ose dy fjali
   services:  ["…"]                      // katër të parat dalin si etiketa
 }
@@ -176,10 +181,6 @@ Prefiksi mbi emrin llogaritet vetvetiu: `name` minus `shortName`. Prandaj
 Sanitary shfaqet si **Zone / Sanitary Systems** e jo *Zone Group*, sepse
 emri i saj zyrtar është *Zone Sanitary Systems*.
 
-### Një lloj objekti
-Blloku `PROJECT_TYPES`. Listoni id-të e kompanive që marrin pjesë
-realisht. **Numrat në ekran llogariten nga kjo listë** — mos i shkruani
-me dorë, sepse ndryshe do të mbeten të pasakta pas çdo redaktimi.
 
 ### Shifrat
 Blloku `STATS`.
@@ -209,20 +210,26 @@ Në këtë bllok publikohen vetëm shifrat e konfirmuara.
 - Çdo tekst kalon pragun **WCAG AA** (4.5:1). Vlera më e ulët në faqe
   është 4.54:1.
 - Fokusi i tastierës është i dukshëm kudo, me kontur metalik.
-- Legjenda, filtrat, llojet e objekteve dhe fazat janë butona të vërtetë
-  me `aria-pressed`, jo elemente dekorative.
+- Kartelat e degëve, filtrat dhe fazat janë butona të vërtetë me
+  `aria-pressed`, jo elemente dekorative. Kartelat e degëve kanë
+  `role="button"`, `tabindex` dhe përgjigjen te Enter e Space.
 - Titujt janë hierarkikë: një `h1`, pastaj `h2` për secilin seksion.
-- `prefers-reduced-motion` ndal çdo lëvizje. Vizatimi shfaqet i plotë
-  menjëherë, me të dhjetë sistemet të ndezura.
-- Vizatimi ka `aria-label` që përshkruan të dhjetë sistemet.
+- `prefers-reduced-motion` ndal çdo lëvizje: kamera nuk zhvendoset,
+  vijat vizatohen menjëherë dhe kabinat nuk udhëtojnë. Sistemi i degës
+  së zgjedhur shfaqet i plotë, thjesht pa animacion.
+- Renderi ka `aria-label` që përshkruan objektin dhe sjelljen e bllokut;
+  mbivendosjet dekorative janë `aria-hidden`.
 
 ---
 
 ## Performanca
 
-- Tre skedarë teksti, zero varësi, zero korniza.
-- Vizatimi është SVG i shkruar me dorë — pa WebGL, pa Canvas, pa modele 3D.
-- Animacioni i vizatimit nis vetëm kur hyn në pamje.
+- Pesë skedarë teksti dhe një fotografi. Zero varësi, zero korniza.
+- Vizualizimi është SVG dhe HTML mbi një render të vetëm — pa WebGL,
+  pa Canvas, pa modele 3D.
+- Renderi është skedar i veçantë (`tower.jpg`, ~390 KB), jo `data:` i
+  ngjitur brenda HTML-së, prandaj shfletuesi e ruan në cache dhe
+  `index.html` mbetet nën 25 KB.
 - Fontet ngarkohen me `preconnect` dhe `display=swap`.
 - Rrjetë sigurie: pas 3.5 sekondash çdo element i mbetur i fshehur
   shfaqet, që faqja të mos mbetet bosh nëse `IntersectionObserver`
@@ -232,8 +239,10 @@ Në këtë bllok publikohen vetëm shifrat e konfirmuara.
 
 ## Vendosja online
 
-1. Ngarkoni `index.html`, `style.css`, `data.js`, `app.js` dhe `CNAME`
-   në depon publike të GitHub.
+1. Ngarkoni `index.html`, `style.css`, `data.js`, `app.js`, `tower.css`,
+   `tower.js`, `tower.jpg` dhe `CNAME` në depon publike të GitHub.
+   **`tower.jpg` është i domosdoshëm** — pa të, blloku i kullës mbetet
+   bosh.
 2. **Settings → Pages**, burimi `Deploy from a branch`, dega `main`,
    dosja `/ (root)`.
 3. Drejtoni `zonegroup-ks.com` te GitHub sipas
@@ -252,25 +261,35 @@ cikli llogariten nga `data.js`. Nëse dikush i shkruan me dorë në HTML,
 ata do të bëhen të pasaktë me redaktimin e parë dhe askush nuk do ta
 vërejë.
 
-**Vizatimi gjenerohet nga `make_bldg.py`.** Elementet përsëritëse —
-dritaret, shkallët, figurat, detektorët, kuotat — shkruhen nga skripti,
-që koordinatat të mbeten të sakta. Nëse ndryshoni gjeometrinë, redaktoni
-skriptin dhe rigjeneroni; mos e redaktoni SVG-në me dorë brenda
-`index.html`. Kuotat kryesore janë në krye të skriptit: `XL/XR` faqet e
-jashtme, `SLABS` pllakat, `FLOORS` katet, `EL_L/ST_L/SH_L` bërthama.
+**Vizualizimi i kullës është i izoluar me qëllim.** Çdo klasë e tij
+fillon me `zone-` ose `zg-`, çdo `@keyframes` me `zg-`, dhe tokenët e
+tij të ngjyrave rrinë te `#zone-animation-block`, jo te `:root`. Në JS,
+çdo kërkim në DOM niset nga ai element. Prandaj `tower.css` dhe
+`tower.js` nuk mund ta prekin pjesën tjetër të faqes — dhe anasjelltas.
+Nëse shtoni diçka atje, ruajeni të njëjtën rregull.
 
-**Vizatimi e ndryshon kuadrin në celular.** Nën 640px `app.js` ia ngushton
-`viewBox`-in në `44 80 512 416` dhe CSS-ja fsheh tekstin e kuotave, që
-objekti të mos zvogëlohet. Elementet jashtë asaj zone priten në celular.
+**Gjeometria është në hapësirën `1024 × 576` të renderit.** Të gjitha
+koordinatat te `G` në krye të `tower.js` janë matur drejtpërdrejt mbi
+`tower.jpg`. Nëse renderi zëvendësohet me një tjetër, ato duhen matur
+sërish; asgjë nuk llogaritet vetvetiu. Pozicionimi bëhet në përqindje,
+prandaj asnjë nga këto nuk varet nga gjerësia e ekranit.
 
-**Sekuenca e ndërtimit është `data-b` te grupet `.bld`.** Numri është
-radha, jo rendi i vizatimit. Rendi në dokument përcakton se çfarë mbulon
-çfarë; `data-b` përcakton se çfarë shfaqet e para. Të dyja janë të ndara
-me qëllim.
+**Renderi mbahet i pinguar derisa lista e degëve kalon poshtë tij.**
+Kjo është `position:sticky` te `.zone-scene`. Që të funksionojë, asnjë
+prind nuk guxon të ketë `overflow:hidden` — prandaj `body` dhe `.hero`
+te `style.css` përdorin `overflow:clip`, me `hidden` si rezervë. Nën
+800px lartësi ekrani pingimi lirohet, sepse renderi nuk do të nxinte nën
+kokën e faqes.
 
-**Gjatësia e vijave llogaritet me `getTotalLength()`.** Prandaj çdo vijë e
-re brenda një grupi `.sys--draw` vizatohet vetvetiu, pa numra të shkruar
-me dorë në CSS.
+**Sekuenca e secilës degë është një funksion te `PLAYS` në `tower.js`,**
+me të njëjtin rend si kartelat te `index.html` dhe si `KEYS`. Të tria
+duhet të mbeten të njëjtin rend. Ngjyra merret nga `--acc` që shkruhet
+inline te secila kartelë, jo nga `data.js`.
+
+**Kartelat e degëve janë tekst i shkruar në `index.html`,** jo i
+gjeneruar nga `data.js`. Ky është përjashtim i dytë nga rregulli i
+përgjithshëm, bashkë me fundfaqen. Nëse ndryshoni një emër kompanie te
+`data.js`, përditësojeni edhe këtu.
 
 **Kartela mbyllëse e regjistrit** nuk ka `data-cat`, prandaj filtrat e
 lënë gjithnjë të dukshme. Kjo e mban rrjetën pa vrimë kur kompanitë janë

@@ -10,8 +10,7 @@
   var UI = {
     all:        "Të gjitha",
     open:       "Hap faqen",
-    todo:       "Për plotësim",
-    structure:  "Strukturë"
+    todo:       "Për plotësim"
   };
 
   var $  = function (s, r) { return (r || document).querySelector(s); };
@@ -122,157 +121,6 @@
   });
 
 
-  /* ================= 4. VIZATIMI I OBJEKTIT ======================== */
-  var tpl = $("#tplBldg");
-
-  function mountBldg(host, opts) {
-    opts = opts || {};
-    var svg = tpl.content.firstElementChild.cloneNode(true);
-    host.appendChild(svg);
-
-    /* gjatësia e secilës vijë, që vizatimi të ndodhë realisht */
-    $$(".sys--draw path, .sys--draw line, .sys--draw polyline", svg).forEach(function (p) {
-      var len;
-      try { len = p.getTotalLength(); } catch (e) { len = 300; }
-      if (!len || !isFinite(len)) len = 300;
-      p.style.setProperty("--len", Math.ceil(len));
-    });
-
-    /* gjatësia e rrjedhës: pika udhëton tërë gjatësinë e tubit */
-    $$(".pulse", svg).forEach(function (p) {
-      var len;
-      try { len = p.getTotalLength(); } catch (e) { len = 400; }
-      if (!len || !isFinite(len)) len = 400;
-      p.style.setProperty("--fl", Math.ceil(len) + 16);
-    });
-
-    /* ndërtesa mund të jetë e ngritur që në fillim (seksioni 04) */
-    svg.__built = false;
-    if (opts.prebuilt || reduce) { buildNow(svg); }
-    mounted.push(svg);
-    frame();
-    return svg;
-  }
-
-  /* në celular vizatimi kadrohet më ngushtë, që të mos humbë hapësirë */
-  var mounted = [];
-  var narrow  = window.matchMedia("(max-width: 640px)");
-
-  function frame() {
-    var box = narrow.matches ? "44 80 512 416" : "0 0 600 520";
-    mounted.forEach(function (svg) { svg.setAttribute("viewBox", box); });
-  }
-  if (narrow.addEventListener) narrow.addEventListener("change", frame);
-  else if (narrow.addListener) narrow.addListener(frame);
-
-  /* ndërtimi: dheu, themeli, pllakat nga poshtë lart, muret, lëkura, njerëzit */
-  function buildNow(svg) {
-    if (svg.__built) return;
-    svg.__built = true;
-    $$(".bld", svg).forEach(function (g) { g.classList.add("on"); });
-  }
-
-  function buildSeq(svg, step, done) {
-    if (svg.__built) { if (done) done(); return; }
-    svg.__built = true;
-    var groups = $$(".bld", svg);
-    groups.forEach(function (g, i) {
-      setTimeout(function () { g.classList.add("on"); }, i * step);
-    });
-    if (done) setTimeout(done, groups.length * step + 260);
-  }
-
-  function setLayers(svg, keys) {
-    $$(".sys", svg).forEach(function (g) {
-      g.classList.toggle("on", keys.indexOf(g.getAttribute("data-sys")) !== -1);
-    });
-  }
-
-  /* ---- hero ---- */
-  var heroSvg  = mountBldg($("#heroSvg"));
-  var heroLive = $("#heroLive");
-  var heroTxt  = $("#heroLiveTxt");
-  var legend   = $("#heroLegend");
-
-  var active = [];
-  var manual = false;
-  var timer  = null;
-
-  var legendBtns = {};
-  LAYERS.forEach(function (L) {
-    var co = byId[L.company];
-    var b = el("button", "legend__i");
-    b.type = "button";
-    b.setAttribute("aria-pressed", "false");
-    b.style.setProperty("--acc", co.color);
-    b.innerHTML = '<i aria-hidden="true"></i><span>' + esc(L.label) + '</span>';
-    b.addEventListener("click", function () {
-      manual = true;
-      if (timer) { clearTimeout(timer); timer = null; }
-      buildNow(heroSvg);
-      var i = active.indexOf(L.key);
-      if (i === -1) { active.push(L.key); } else { active.splice(i, 1); }
-      paint();
-    });
-    legendBtns[L.key] = b;
-    legend.appendChild(b);
-  });
-
-  function paint() {
-    setLayers(heroSvg, active);
-    LAYERS.forEach(function (L) {
-      var on = active.indexOf(L.key) !== -1;
-      legendBtns[L.key].classList.toggle("on", on);
-      legendBtns[L.key].setAttribute("aria-pressed", String(on));
-    });
-    var last = active.length ? active[active.length - 1] : null;
-    if (last) {
-      var L = LAYERS.filter(function (x) { return x.key === last; })[0];
-      var c = byId[L.company];
-      heroTxt.textContent = L.label;
-      heroLive.style.setProperty("--acc", c.color);
-    } else {
-      heroTxt.textContent = UI.structure;
-      heroLive.style.setProperty("--acc", "#C4BEB2");
-    }
-  }
-
-  function cycle(i) {
-    if (manual) return;
-    if (i >= LAYERS.length) {
-      timer = setTimeout(function () {
-        if (manual) return;
-        active = [];
-        paint();
-        timer = setTimeout(function () { cycle(0); }, 700);
-      }, 3600);
-      return;
-    }
-    active.push(LAYERS[i].key);
-    paint();
-    timer = setTimeout(function () { cycle(i + 1); }, 680);
-  }
-
-  if (reduce) {
-    buildNow(heroSvg);
-    active = LAYERS.map(function (L) { return L.key; });
-    paint();
-  } else {
-    /* nis vetëm kur vizatimi është në pamje */
-    var started = false;
-    var startObs = new IntersectionObserver(function (ents) {
-      ents.forEach(function (e) {
-        if (e.isIntersecting && !started) {
-          started = true;
-          buildSeq(heroSvg, 165, function () { if (!manual) cycle(0); });
-          startObs.disconnect();
-        }
-      });
-    }, { threshold: .3 });
-    startObs.observe(heroSvg);
-  }
-
-
   /* ================= 5. KATEGORITË ================================= */
   var cats = $("#cats");
   CATEGORIES.forEach(function (cat, i) {
@@ -343,71 +191,7 @@
     '<span class="btn__a" aria-hidden="true">→</span></a>';
   grid.appendChild(end);
 
-
-  /* ================= 7. MIKSI I PROJEKTIT ========================== */
-  var mixSvg   = mountBldg($("#mixSvg"), { prebuilt: true });
-  var types    = $("#types");
-  var mixChips = $("#mixChips");
-  var mixNote  = $("#mixNote");
-  var mixTitle = $("#mixTitle");
-  var tSys = $("#tSys"), tCo = $("#tCo");
-
-  function layersFor(ids) {
-    return LAYERS.filter(function (L) { return ids.indexOf(L.company) !== -1; })
-                 .map(function (L) { return L.key; });
-  }
-
-  function showType(t, btn) {
-    $$(".type", types).forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
-    if (btn) btn.setAttribute("aria-pressed", "true");
-
-    var keys = layersFor(t.companies);
-    setLayers(mixSvg, keys);
-
-    tSys.textContent = keys.length;
-    tCo.textContent  = t.companies.length;
-    mixTitle.textContent = t.name + " · prerje tipike";
-    mixNote.innerHTML = "<strong>" + esc(t.line) + "</strong> " + esc(t.note);
-
-    mixChips.innerHTML = "";
-    COMPANIES.forEach(function (c) {
-      var on = t.companies.indexOf(c.id) !== -1;
-      var a = el("a", "chip" + (on ? "" : " chip--off"));
-      a.href = c.url; a.target = "_blank"; a.rel = "noopener";
-      a.style.setProperty("--acc", on ? c.color : "#5E686E");
-      a.innerHTML = '<i aria-hidden="true"></i>' + esc(c.shortName);
-      mixChips.appendChild(a);
-    });
-  }
-
-  PROJECT_TYPES.forEach(function (t, i) {
-    var b = el("button", "type");
-    b.type = "button";
-    b.setAttribute("aria-pressed", "false");
-    b.innerHTML =
-      '<span class="type__n">0' + (i + 1) + '</span>' +
-      '<span class="type__t">' + esc(t.name) + '</span>' +
-      '<span class="type__c">' + layersFor(t.companies).length + ' sisteme</span>';
-    b.addEventListener("click", function () { showType(t, b); });
-    types.appendChild(b);
-  });
-  showType(PROJECT_TYPES[0], types.firstElementChild);
-
-
-
-  /* ================= 8. SHIFRAT ==================================== */
-  var figs = $("#figs");
-  STATS.forEach(function (s) {
-    var box = el("div", "fig" + (s.verified ? "" : " fig--todo"));
-    box.innerHTML =
-      '<p class="fig__v">' + esc(s.value) + '</p>' +
-      '<p class="fig__l">' + esc(s.label) + '</p>' +
-      (s.verified ? "" : '<span class="fig__todo">' + UI.todo + '</span>');
-    figs.appendChild(box);
-  });
-
-
-  /* ================= 9. CIKLI ====================================== */
+  /* ================= 7. CIKLI ====================================== */
   var rail = $("#rail"), pDesc = $("#phaseDesc"), pChips = $("#phaseChips");
 
   function showPhase(ph, btn) {
@@ -439,7 +223,7 @@
   showPhase(PHASES[0], rail.firstElementChild);
 
 
-  /* ================= 10. PSE ======================================= */
+  /* ================= 8. PSE ======================================= */
   var why = $("#why");
   REASONS.forEach(function (r, i) {
     var box = el("div", "why__i");
@@ -451,7 +235,7 @@
   });
 
 
-  /* ================= 11. SHFAQJA NË SKROLL ========================= */
+  /* ================= 10. SHFAQJA NË SKROLL ========================= */
   var ups = $$(".up");
   if (reduce || !("IntersectionObserver" in window)) {
     ups.forEach(function (n) { n.classList.add("in"); });

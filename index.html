@@ -21,6 +21,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Outfit:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Outfit:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="tower.css">
 
 <script>document.documentElement.className+=" js";</script>
 
@@ -73,7 +74,6 @@
         Kompanitë
         <svg class="nav__chev" viewBox="0 0 8 8" aria-hidden="true"><path d="M1 2.5 4 5.5 7 2.5" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>
       </button>
-      <a class="nav__i" href="#integrimi">Zgjidhjet</a>
       <a class="nav__i" href="#cikli">Cikli</a>
     </nav>
 
@@ -102,9 +102,8 @@
 <nav class="drawer" id="drawer" aria-label="Menyja në celular" hidden>
   <a class="drawer__l" href="#grupi">Grupi <span>01</span></a>
   <a class="drawer__l" href="#kompanite">Kompanitë <span>03</span></a>
-  <a class="drawer__l" href="#integrimi">Zgjidhjet <span>04</span></a>
-  <a class="drawer__l" href="#cikli">Cikli i projektit <span>06</span></a>
-  <a class="drawer__l" href="#kontakt">Kontakt <span>08</span></a>
+  <a class="drawer__l" href="#cikli">Cikli i projektit <span>04</span></a>
+  <a class="drawer__l" href="#kontakt">Kontakt <span>06</span></a>
 
   <p class="drawer__sub">Kompanitë e grupit</p>
   <div id="drawerCos"></div>
@@ -144,16 +143,135 @@
       </div>
 
       <div class="hero__fig up">
-        <div class="bldg">
-          <div class="bldg__frame">
-            <div class="bldg__hd">
-              <span>Prerje tipike · sistemet e objektit</span>
-              <span class="bldg__live" id="heroLive"><i aria-hidden="true"></i> <b id="heroLiveTxt">Strukturë</b></span>
+      <section class="zone-wrap" id="zone-animation-block">
+        <div class="zone-scene" aria-label="Kulla ZONE GROUP me dy kate parkingu nëntokësor, dy boshte të vazhdueshme ashensorësh dhe sisteme teknike që aktivizohen sipas degës së zgjedhur">
+          <div class="zone-stage">
+          <img class="zone-scene__image" src="tower.jpg"
+               alt="Prerje e kullës ZONE GROUP me lobi, gjashtë kate zyra dhe dy nivele parkingu nëntokësor"
+               width="1024" height="576" decoding="async" fetchpriority="high">
+
+          <div class="zone-animation-layer" aria-hidden="true">
+            <svg class="zone-animation-svg" viewBox="0 0 1024 576"
+                 preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+
+          <div class="zone-core" aria-hidden="true">
+            <span class="zone-lift zone-lift--a"></span>
+            <span class="zone-lift zone-lift--b"></span>
+          </div>
+
+          </div><!-- /.zone-stage -->
+
+          <div class="zone-status"><i></i><span>Bërthama e ashensorëve aktive</span></div>
+        </div>
+
+        <div class="zone-branches">
+          <div class="zone-branches__head">
+            <strong>ZONE GROUP · KOMPANITË &amp; KAPACITETET</strong>
+            <span>14 degë · zgjidhni një degë</span>
+          </div>
+          <div class="zone-branches__grid" role="group" aria-label="Zgjidhni një degë për ta parë sistemin e saj në ndërtesë">
+      <article class="zone-branch" style="--acc:#C78157">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Engineering &amp; Construction — Inxhinieri dhe Ndërtim</h3>
+              <p>Projektim, koordinim teknik, ndërtim, konstrukcione metalike, montim dhe përfundim të objekteve.</p>
             </div>
-            <div id="heroSvg"></div>
-            <div class="legend" id="heroLegend"></div>
+          </article>
+      <article class="zone-branch" style="--acc:#F2C14E">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Electrical &amp; Energy — Elektrike dhe Energji</h3>
+              <p>Instalime elektrike, tabela, UPS, bateri, sisteme solare dhe karikues për automjete elektrike.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#4CB5A7">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Building Systems — Sisteme të Ndërtesave</h3>
+              <p>Dyer automatike, kontroll qasjeje, sisteme parkingu, barriera, porta, turnstile dhe interfon.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#27BFC4">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Sanitary Systems — Sisteme Sanitare</h3>
+              <p>Ujësjellës, kanalizim, instalime hidraulike, tubacione, bojlerë dhe mirëmbajtje sanitare.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#6F9FBC">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Elevators — Ashensorë</h3>
+              <p>Instalim, mirëmbajtje, modernizim dhe servisim profesional të ashensorëve.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#4F78E8">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group IT &amp; Telecom — IT dhe Telekomunikim</h3>
+              <p>Rrjete kompjuterike, Wi-Fi profesional, fibër optike, kabllim strukturor, serverë dhe dhoma teknike.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#876CFF">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Smart &amp; Automation — Automatizim dhe BMS</h3>
+              <p>BMS, IoT dhe automatizim inteligjent për ndriçim, klimë, perde, energji dhe sisteme të ndërtesës.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#B7F34A">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Software &amp; Development — Software dhe Integrime</h3>
+              <p>Aplikacione web e mobile, sisteme të personalizuara, API, databaza, cloud dhe DevOps.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#2FB0D4">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Security — Siguri Teknike</h3>
+              <p>CCTV, video-mbikëqyrje, alarm, interfon dhe kontroll të avancuar të qasjes.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#E55353">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Fire &amp; Safety — Mbrojtje nga Zjarri</h3>
+              <p>Detektim zjarri dhe tymi, alarm, ndriçim emergjent, sinjalistikë, inspektim dhe testim.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#7FA46D">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Facility Management — Mirëmbajtje dhe Operim</h3>
+              <p>Mirëmbajtje teknike e preventive, ndërhyrje, pastrim, inspektime dhe menaxhim të objektit.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#43856E">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Investments &amp; Consulting — Investime dhe Këshillim</h3>
+              <p>Analizë, strukturim investimesh, këshillim teknik e biznesor dhe menaxhim projektesh.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#5E80BC">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Trading &amp; Distribution — Tregti dhe Furnizim</h3>
+              <p>Furnizim me elektronikë, telekomunikacion, kompjuterë, networking dhe pajisje teknike e industriale.</p>
+            </div>
+          </article>
+      <article class="zone-branch" style="--acc:#F6C56B">
+            <span class="zone-branch__bar" aria-hidden="true"></span>
+            <div>
+              <h3>Zone Group Real Estate — Patundshmëri</h3>
+              <p>Shtëpi dhe banesa për shitje ose me qira në Kosovë, me portofol të përditësuar.</p>
+            </div>
+          </article>
           </div>
         </div>
+      </section>
       </div>
 
       <dl class="hero__meta up">
@@ -173,7 +291,6 @@
     <div class="shead up">
       <p class="shead__ref">01 — Çfarë është ZONE GROUP</p>
       <h2 class="shead__t">Një objekt modern ka dhjetëra sisteme.</h2>
-      <p class="shead__n">Ato nuk duhet të vijnë nga dhjetëra kontraktorë të palidhur mes vete.</p>
     </div>
 
     <div class="about">
@@ -186,7 +303,7 @@
       <div class="split up">
         <div class="split__i">
           <p class="split__q">Pse ekziston ZONE GROUP</p>
-          <p class="split__a">Sepse sistemet e një objekti nuk funksionojnë si sisteme të veçanta.</p>
+          <p class="split__a">Sepse sistemet e një objekti nuk funksionojnë si sisteme të ndara.</p>
           <p class="split__t">Alarmi duhet të komunikojë me ashensorin. Kontrolli i qasjes duhet të njohë vizitorin. Furnizimi rezervë duhet të dijë cilat sisteme duhet të mbajë aktive. Këto lidhje përcaktohen që në fazën e projektimit, në mënyrë që të gjitha sistemet të funksionojnë të koordinuara si një tërësi.</p>
         </div>
         <div class="split__i">
@@ -220,7 +337,7 @@
   <div class="shell">
     <div class="shead up">
       <p class="shead__ref">03 — Eksploro kompanitë</p>
-      <h2 class="shead__t">Secila kompani, fusha e vet.</h2>
+      <h2 class="shead__t">Eksploro kompanitë</h2>
       <p class="shead__n">Filtroni sipas fushës, ose hapni faqen e kompanisë për shërbimet e plota.</p>
     </div>
 
@@ -237,67 +354,11 @@
 </section>
 
 
-<!-- ═══════════════ 04 · INTEGRIMI ═══════════════ -->
-<section class="band band--alt" id="integrimi">
-  <div class="shell">
-    <div class="shead up">
-      <p class="shead__ref">04 — Një projekt, shumë kompani ZONE</p>
-      <h2 class="shead__t">Zgjidhni llojin e objektit.</h2>
-      <p class="shead__n">Vizatimi ndez sistemet që ai objekt kërkon realisht, dhe tregon cilat kompani të grupit i mbulojnë.</p>
-    </div>
-
-    <div class="mix">
-      <div class="mix__side up">
-        <div class="types" id="types" role="group" aria-label="Lloji i objektit"></div>
-        <div class="mix__note">
-          <p id="mixNote"></p>
-        </div>
-      </div>
-
-      <div class="mix__main up">
-        <div class="bldg">
-          <div class="bldg__frame">
-            <div class="bldg__hd">
-              <span id="mixTitle">Prerje tipike</span>
-              <span class="bldg__live"><i aria-hidden="true"></i> <b>Sistemet aktive</b></span>
-            </div>
-            <div id="mixSvg"></div>
-          </div>
-          <div class="tally">
-            <div class="tally__i"><p class="tally__v" id="tSys">—</p><p class="tally__l">sisteme në objekt</p></div>
-            <div class="tally__i"><p class="tally__v" id="tCo">—</p><p class="tally__l">kompani ZONE</p></div>
-            <div class="tally__i tally__i--hero"><p class="tally__v">1</p><p class="tally__l">pikë përgjegjësie</p></div>
-          </div>
-        </div>
-
-        <p class="shead__ref" style="margin-top:26px">Kompanitë e përfshira</p>
-        <div class="chips" id="mixChips"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-<!-- ═══════════════ 05 · SHIFRAT ═══════════════ -->
-<section class="band band--alt" id="shifra">
-  <div class="shell">
-    <div class="shead up">
-      <p class="shead__ref">05 — ZONE GROUP në shifra</p>
-      <h2 class="shead__t">Struktura, e numëruar.</h2>
-      <p class="shead__n">Shfaqen vetëm vlerat e verifikuara. Fushat e shënuara si të paplotësuara presin të dhënat tuaja.</p>
-    </div>
-    <div class="figs up" id="figs"></div>
-  </div>
-</section>
-
-
-<!-- ═══════════════ 06 · CIKLI ═══════════════ -->
+<!-- ═══════════════ 04 · CIKLI ═══════════════ -->
 <section class="band" id="cikli">
   <div class="shell">
     <div class="shead up">
-      <p class="shead__ref">06 — Cikli i projektit</p>
+      <p class="shead__ref">04 — Cikli i projektit</p>
       <h2 class="shead__t">Nga projektimi te operimi.</h2>
       <p class="shead__n">Zgjidhni një fazë për të parë cilat kompani të grupit marrin pjesë në të.</p>
     </div>
@@ -314,11 +375,11 @@
 </section>
 
 
-<!-- ═══════════════ 07 · PSE ═══════════════ -->
+<!-- ═══════════════ 05 · PSE ═══════════════ -->
 <section class="band band--alt" id="pse">
   <div class="shell">
     <div class="shead up">
-      <p class="shead__ref">07 — Pse ZONE GROUP</p>
+      <p class="shead__ref">05 — Pse ZONE GROUP</p>
       <h2 class="shead__t">Çfarë ndryshon konkretisht.</h2>
     </div>
     <div class="why up" id="why"></div>
@@ -326,11 +387,11 @@
 </section>
 
 
-<!-- ═══════════════ 08 · KONTAKT ═══════════════ -->
+<!-- ═══════════════ 06 · KONTAKT ═══════════════ -->
 <section class="band close" id="kontakt">
   <div class="close__bg" aria-hidden="true"></div>
   <div class="shell close__in">
-    <p class="shead__ref up">08 — Kontakt</p>
+    <p class="shead__ref up">06 — Kontakt</p>
 
     <h2 class="close__h up">Po planifikoni një objekt të ri? <em>Le ta trajtojmë si një sistem të vetëm.</em></h2>
 
@@ -419,7 +480,6 @@
           <ul>
             <li class="foot__li"><a href="#grupi">Grupi</a></li>
             <li class="foot__li"><a href="#kompanite">Kompanitë</a></li>
-            <li class="foot__li"><a href="#integrimi">Zgjidhjet</a></li>
             <li class="foot__li"><a href="#cikli">Cikli i projektit</a></li>
             <li class="foot__li"><a href="#kontakt">Kontakt</a></li>
           </ul>
@@ -427,332 +487,13 @@
       </div>
     </div>
 
-    <div class="block">
-      <div class="block__c"><p class="block__k">Grupi</p><p class="block__v">ZONE GROUP</p></div>
-      <div class="block__c"><p class="block__k">Kompani</p><p class="block__v">14</p></div>
-      <div class="block__c"><p class="block__k">Baza</p><p class="block__v">Prishtinë &amp; Mitrovicë</p></div>
-      <div class="block__c"><p class="block__k">Mbulimi</p><p class="block__v">Kosovë dhe rajon</p></div>
-    </div>
-
-    <div class="foot__bar">
-      <span>© <span id="vit">2026</span> ZONE GROUP. Të gjitha të drejtat e rezervuara.</span>
-      <span>zonegroup-ks.com</span>
-    </div>
   </div>
 </footer>
 
 
-<!-- ═══════════════ VIZATIMI I OBJEKTIT ═══════════════
-     Një prerje e vetme, e përdorur dy herë: në hero dhe te seksioni 04.
-     Çdo <g class="sys"> është një sistem dhe i përgjigjet një kompanie.
-     ════════════════════════════════════════════════════ -->
-<template id="tplBldg">
-<svg class="bldg__svg" viewBox="0 0 600 520" role="img"
-     aria-label="Prerje e një objekti pesëkatësh me bodrum, bërthamë vertikale dhe dhjetë sisteme teknike: strukturë, instalime elektrike, sisteme sanitare, ashensorë, hyrje dhe qasje, mbrojtje nga zjarri, videosurvejim, rrjet dhe telekom, automatizim dhe mirëmbajtje.">
-
-  <g class="arch">
-  <g class="bld" data-b="0">
-    <rect class="earth" x="0" y="402" width="600" height="118"/>
-    <line class="grade" x1="0" y1="402" x2="600" y2="402"/>
-    <path class="hatch" d="M6 402 l-7 10 M28 402 l-7 10 M50 402 l-7 10 M72 402 l-7 10 M94 402 l-7 10 M116 402 l-7 10 M138 402 l-7 10 M160 402 l-7 10 M182 402 l-7 10 M204 402 l-7 10 M226 402 l-7 10 M248 402 l-7 10 M270 402 l-7 10 M292 402 l-7 10 M314 402 l-7 10 M336 402 l-7 10 M358 402 l-7 10 M380 402 l-7 10 M402 402 l-7 10 M424 402 l-7 10 M446 402 l-7 10 M468 402 l-7 10 M490 402 l-7 10 M512 402 l-7 10 M534 402 l-7 10 M556 402 l-7 10 M578 402 l-7 10"/>
-  </g>
-  <g class="bld" data-b="1">
-    <rect class="poche" x="84" y="470" width="454" height="16"/>
-    <rect class="void" x="108" y="412" width="406" height="58"/>
-  </g>
-  <g class="bld" data-b="2">
-    <rect class="void" x="108" y="122" width="406" height="280"/>
-  </g>
-  <g class="bld" data-b="3">
-    <rect class="poche" x="96" y="402" width="430" height="10"/>
-  </g>
-  <g class="bld" data-b="4">
-    <rect class="poche" x="96" y="344" width="430" height="9"/>
-  </g>
-  <g class="bld" data-b="5">
-    <rect class="poche" x="96" y="286" width="430" height="9"/>
-  </g>
-  <g class="bld" data-b="6">
-    <rect class="poche" x="96" y="228" width="430" height="9"/>
-  </g>
-  <g class="bld" data-b="7">
-    <rect class="poche" x="96" y="170" width="430" height="9"/>
-  </g>
-  <g class="bld" data-b="8">
-    <rect class="poche" x="96" y="112" width="430" height="10"/>
-  </g>
-  <g class="bld" data-b="9">
-    <rect class="poche" x="96" y="92" width="12" height="378"/>
-    <rect class="poche" x="514" y="92" width="12" height="378"/>
-  </g>
-  <g class="bld" data-b="10">
-    <rect class="glass" x="126" y="133" width="40" height="24"/>
-    <rect class="glass" x="180" y="133" width="40" height="24"/>
-    <rect class="glass" x="234" y="133" width="40" height="24"/>
-    <rect class="glass" x="406" y="133" width="40" height="24"/>
-    <rect class="glass" x="460" y="133" width="40" height="24"/>
-    <rect class="glass" x="126" y="190" width="40" height="24"/>
-    <rect class="glass" x="180" y="190" width="40" height="24"/>
-    <rect class="glass" x="234" y="190" width="40" height="24"/>
-    <rect class="glass" x="406" y="190" width="40" height="24"/>
-    <rect class="glass" x="460" y="190" width="40" height="24"/>
-    <rect class="glass" x="126" y="248" width="40" height="24"/>
-    <rect class="glass" x="180" y="248" width="40" height="24"/>
-    <rect class="glass" x="234" y="248" width="40" height="24"/>
-    <rect class="glass" x="406" y="248" width="40" height="24"/>
-    <rect class="glass" x="460" y="248" width="40" height="24"/>
-    <rect class="glass" x="126" y="306" width="40" height="24"/>
-    <rect class="glass" x="180" y="306" width="40" height="24"/>
-    <rect class="glass" x="234" y="306" width="40" height="24"/>
-    <rect class="glass" x="406" y="306" width="40" height="24"/>
-    <rect class="glass" x="460" y="306" width="40" height="24"/>
-    <rect class="glass" x="180" y="364" width="40" height="24"/>
-    <rect class="glass" x="234" y="364" width="40" height="24"/>
-    <rect class="glass" x="406" y="364" width="40" height="24"/>
-    <rect class="glass" x="460" y="364" width="40" height="24"/>
-  </g>
-  <g class="bld" data-b="11">
-    <rect class="core" x="288" y="112" width="36" height="358"/>
-    <rect class="core" x="368" y="112" width="24" height="358"/>
-    <line class="tick" x1="328" y1="112" x2="328" y2="402"/>
-    <line class="tick" x1="364" y1="112" x2="364" y2="402"/>
-    <path class="stair" d="M328 170 L328 162 L334 162 L334 154 L340 154 L340 146 L346 146 L346 138 L352 138 L352 130 L358 130 L358 122 L364 122"/>
-    <path class="stair" d="M328 228 L328 220 L334 220 L334 212 L340 212 L340 204 L346 204 L346 196 L352 196 L352 188 L358 188 L358 180 L364 180"/>
-    <path class="stair" d="M328 286 L328 278 L334 278 L334 270 L340 270 L340 262 L346 262 L346 254 L352 254 L352 246 L358 246 L358 238 L364 238"/>
-    <path class="stair" d="M328 344 L328 336 L334 336 L334 328 L340 328 L340 320 L346 320 L346 312 L352 312 L352 304 L358 304 L358 296 L364 296"/>
-    <path class="stair" d="M328 402 L328 394 L334 394 L334 386 L340 386 L340 378 L346 378 L346 370 L352 370 L352 362 L358 362 L358 354 L364 354"/>
-  </g>
-  <g class="bld" data-b="12">
-    <rect class="furn" x="140" y="161" width="26" height="9"/>
-    <rect class="furn" x="250" y="161" width="30" height="9"/>
-    <rect class="furn" x="430" y="161" width="26" height="9"/>
-    <use class="body" href="#fig" x="214" y="143"/>
-    <use class="body" href="#fig" x="486" y="143"/>
-    <rect class="furn" x="198" y="219" width="30" height="9"/>
-    <rect class="furn" x="452" y="219" width="26" height="9"/>
-    <use class="body" href="#fig" x="152" y="201"/>
-    <use class="body" href="#fig" x="268" y="201"/>
-    <rect class="furn" x="134" y="277" width="26" height="9"/>
-    <rect class="furn" x="246" y="277" width="26" height="9"/>
-    <rect class="furn" x="438" y="277" width="30" height="9"/>
-    <use class="body" href="#fig" x="196" y="259"/>
-    <use class="body" href="#fig" x="466" y="259"/>
-    <rect class="furn" x="190" y="335" width="30" height="9"/>
-    <rect class="furn" x="420" y="335" width="26" height="9"/>
-    <rect class="furn" x="470" y="335" width="22" height="9"/>
-    <use class="body" href="#fig" x="258" y="317"/>
-    <use class="body" href="#fig" x="496" y="317"/>
-    <rect class="furn" x="240" y="393" width="34" height="9"/>
-    <rect class="furn" x="444" y="393" width="30" height="9"/>
-    <use class="body" href="#fig" x="166" y="375"/>
-    <use class="body" href="#fig" x="214" y="375"/>
-    <use class="body" href="#fig" x="424" y="375"/>
-  </g>
-  <g class="bld" data-b="12">
-    <line class="tick" x1="530" y1="112" x2="546" y2="112"/>
-    <text x="551" y="115">ÇATI</text>
-    <line class="tick" x1="530" y1="170" x2="546" y2="170"/>
-    <text x="551" y="173">K4</text>
-    <line class="tick" x1="530" y1="228" x2="546" y2="228"/>
-    <text x="551" y="231">K3</text>
-    <line class="tick" x1="530" y1="286" x2="546" y2="286"/>
-    <text x="551" y="289">K2</text>
-    <line class="tick" x1="530" y1="344" x2="546" y2="344"/>
-    <text x="551" y="347">K1</text>
-    <line class="tick" x1="530" y1="402" x2="546" y2="402"/>
-    <text x="551" y="405">P</text>
-    <line class="tick" x1="530" y1="470" x2="546" y2="470"/>
-    <text x="551" y="473">B</text>
-    <line class="tick" x1="96" y1="490" x2="96" y2="502"/>
-    <text x="93" y="514">A</text>
-    <line class="tick" x1="288" y1="490" x2="288" y2="502"/>
-    <text x="285" y="514">B</text>
-    <line class="tick" x1="392" y1="490" x2="392" y2="502"/>
-    <text x="389" y="514">C</text>
-    <line class="tick" x1="526" y1="490" x2="526" y2="502"/>
-    <text x="523" y="514">D</text>
-  </g>
-  </g>
-
-  <g class="sys sys--draw" data-sys="struktura" style="--acc:#C78157" stroke="#C78157" fill="none" stroke-width="1.7">
-    <line x1="96" y1="117" x2="526" y2="117"/>
-    <line x1="96" y1="174" x2="526" y2="174"/>
-    <line x1="96" y1="232" x2="526" y2="232"/>
-    <line x1="96" y1="290" x2="526" y2="290"/>
-    <line x1="96" y1="348" x2="526" y2="348"/>
-    <line x1="96" y1="407" x2="526" y2="407"/>
-    <line x1="102" y1="92" x2="102" y2="470" stroke-width="1.4"/>
-    <line x1="520" y1="92" x2="520" y2="470" stroke-width="1.4"/>
-    <line x1="84" y1="478" x2="538" y2="478" stroke-width="2.2"/>
-  </g>
-
-  <g class="sys sys--draw" data-sys="elektrike" style="--acc:#F2C14E" stroke="#F2C14E" fill="none" stroke-width="1.4">
-    <rect x="370" y="424" width="24" height="34" stroke-width="1.6"/>
-    <line x1="372" y1="424" x2="372" y2="122"/>
-    <path d="M372 366 L500 366"/>
-    <path d="M372 308 L500 308"/>
-    <path d="M372 250 L500 250"/>
-    <path d="M372 192 L500 192"/>
-    <path d="M372 135 L500 135"/>
-    <path d="M180 108 L214 96 L286 96 L252 108 Z" stroke-width="1.3"/>
-    <line x1="198" y1="108" x2="232" y2="96"/>
-    <line x1="216" y1="108" x2="250" y2="96"/>
-    <line x1="234" y1="108" x2="268" y2="96"/>
-  </g>
-  <g class="sys" data-sys="elektrike" style="--acc:#F2C14E">
-    <path class="pulse" d="M372 424 L372 122" stroke="#F2C14E" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-    <line x1="252" y1="102" x2="372" y2="102" stroke="#F2C14E" stroke-width="1.2"/>
-  </g>
-
-  <g class="sys sys--draw" data-sys="sanitare" style="--acc:#27BFC4" stroke="#27BFC4" fill="none" stroke-width="1.4">
-    <line x1="140" y1="122" x2="140" y2="452"/>
-    <path d="M140 452 L104 452"/>
-    <rect x="152" y="424" width="26" height="30" stroke-width="1.5"/>
-    <path d="M140 397 L196 397"/>
-    <path d="M140 339 L196 339"/>
-    <path d="M140 281 L196 281"/>
-    <path d="M140 223 L196 223"/>
-    <path d="M140 165 L196 165"/>
-  </g>
-  <g class="sys" data-sys="sanitare" style="--acc:#27BFC4">
-    <path class="pulse pulse--rev" d="M140 122 L140 452" stroke="#27BFC4" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-    <rect x="188" y="393" width="9" height="7" fill="#27BFC4"/>
-    <rect x="188" y="335" width="9" height="7" fill="#27BFC4"/>
-    <rect x="188" y="277" width="9" height="7" fill="#27BFC4"/>
-    <rect x="188" y="219" width="9" height="7" fill="#27BFC4"/>
-    <rect x="188" y="161" width="9" height="7" fill="#27BFC4"/>
-  </g>
-
-  <g class="sys sys--draw" data-sys="ashensori" style="--acc:#6F9FBC" stroke="#6F9FBC" fill="none" stroke-width="1.4">
-    <line x1="292" y1="104" x2="292" y2="466"/>
-    <line x1="320" y1="104" x2="320" y2="466"/>
-    <line x1="306" y1="252" x2="306" y2="104"/>
-  </g>
-  <g class="sys" data-sys="ashensori" style="--acc:#6F9FBC">
-    <rect x="284" y="96" width="44" height="16" fill="none" stroke="#6F9FBC" stroke-width="1.5"/>
-    <rect class="car" x="293" y="252" width="26" height="34" fill="rgba(111,159,188,.18)" stroke="#6F9FBC" stroke-width="1.6"/>
-    <g stroke="#6F9FBC" stroke-width="2.4"><line x1="292" y1="170" x2="302" y2="170"/><line x1="310" y1="170" x2="320" y2="170"/></g>
-    <g stroke="#6F9FBC" stroke-width="2.4"><line x1="292" y1="228" x2="302" y2="228"/><line x1="310" y1="228" x2="320" y2="228"/></g>
-    <g stroke="#6F9FBC" stroke-width="2.4"><line x1="292" y1="286" x2="302" y2="286"/><line x1="310" y1="286" x2="320" y2="286"/></g>
-    <g stroke="#6F9FBC" stroke-width="2.4"><line x1="292" y1="344" x2="302" y2="344"/><line x1="310" y1="344" x2="320" y2="344"/></g>
-    <g stroke="#6F9FBC" stroke-width="2.4"><line x1="292" y1="402" x2="302" y2="402"/><line x1="310" y1="402" x2="320" y2="402"/></g>
-  </g>
-
-  <g class="sys sys--draw" data-sys="hyrjet" style="--acc:#4CB5A7" stroke="#4CB5A7" fill="none" stroke-width="1.4">
-    <line x1="98" y1="358" x2="98" y2="398"/>
-    <path d="M110 362 L146 362 M110 396 L146 396"/>
-    <path d="M56 402 L56 372 M56 374 L96 374"/>
-    <path d="M204 378 L204 402 M192 382 L216 382"/>
-    <path d="M14 396 L40 396"/>
-  </g>
-  <g class="sys" data-sys="hyrjet" style="--acc:#4CB5A7">
-    <path d="M118 379 L138 379 M132 374 L138 379 L132 384" stroke="#4CB5A7" stroke-width="1.4" fill="none"/>
-    <circle cx="56" cy="372" r="3" fill="#4CB5A7"/>
-  </g>
-
-  <g class="sys sys--draw" data-sys="zjarri" style="--acc:#E55353" stroke="#E55353" fill="none" stroke-width="1.1">
-    <line x1="506" y1="386" x2="506" y2="122"/>
-    <path d="M506 359 L150 359"/>
-    <path d="M506 301 L150 301"/>
-    <path d="M506 243 L150 243"/>
-    <path d="M506 185 L150 185"/>
-    <path d="M506 128 L150 128"/>
-    <rect x="486" y="360" width="24" height="26" stroke-width="1.6"/>
-  </g>
-  <g class="sys" data-sys="zjarri" style="--acc:#E55353">
-    <circle cx="188" cy="359" r="3.2" fill="#E55353"/>
-    <circle cx="252" cy="359" r="3.2" fill="#E55353"/>
-    <circle cx="430" cy="359" r="3.2" fill="#E55353"/>
-    <circle cx="470" cy="359" r="3.2" fill="#E55353"/>
-    <circle cx="188" cy="301" r="3.2" fill="#E55353"/>
-    <circle cx="252" cy="301" r="3.2" fill="#E55353"/>
-    <circle cx="430" cy="301" r="3.2" fill="#E55353"/>
-    <circle cx="470" cy="301" r="3.2" fill="#E55353"/>
-    <circle cx="188" cy="243" r="3.2" fill="#E55353"/>
-    <circle cx="252" cy="243" r="3.2" fill="#E55353"/>
-    <circle cx="430" cy="243" r="3.2" fill="#E55353"/>
-    <circle cx="470" cy="243" r="3.2" fill="#E55353"/>
-    <circle cx="188" cy="185" r="3.2" fill="#E55353"/>
-    <circle cx="252" cy="185" r="3.2" fill="#E55353"/>
-    <circle cx="430" cy="185" r="3.2" fill="#E55353"/>
-    <circle cx="470" cy="185" r="3.2" fill="#E55353"/>
-    <circle cx="188" cy="128" r="3.2" fill="#E55353"/>
-    <circle cx="252" cy="128" r="3.2" fill="#E55353"/>
-    <circle cx="430" cy="128" r="3.2" fill="#E55353"/>
-    <circle cx="470" cy="128" r="3.2" fill="#E55353"/>
-    <circle class="blink" cx="252" cy="243" r="5.4" fill="none" stroke="#E55353" stroke-width="1.2"/>
-  </g>
-
-  <g class="sys" data-sys="siguria" style="--acc:#2FB0D4">
-    <g fill="#2FB0D4">
-      <rect x="79" y="130" width="11" height="6"/>
-      <rect x="532" y="130" width="11" height="6"/>
-      <rect x="150" y="360" width="11" height="6"/>
-      <rect x="441" y="189" width="11" height="6"/>
-    </g>
-    <g fill="rgba(47,176,212,.12)" stroke="#2FB0D4" stroke-width="1">
-      <path d="M90 136 L44 176 L86 176 Z"/>
-      <path d="M532 136 L578 176 L536 176 Z"/>
-      <path d="M150 366 L196 406 L154 406 Z"/>
-      <path d="M452 195 L406 235 L448 235 Z"/>
-    </g>
-  </g>
-
-  <g class="sys sys--draw" data-sys="rrjeti" style="--acc:#4F78E8" stroke="#4F78E8" fill="none" stroke-width="1.4">
-    <line x1="382" y1="424" x2="382" y2="122"/>
-    <path d="M382 366 L156 366"/>
-    <path d="M382 308 L156 308"/>
-    <path d="M382 250 L156 250"/>
-    <path d="M382 192 L156 192"/>
-    <path d="M382 135 L156 135"/>
-    <rect x="404" y="418" width="44" height="40" stroke-width="1.6"/>
-    <line x1="404" y1="427" x2="448" y2="427"/>
-    <line x1="404" y1="436" x2="448" y2="436"/>
-    <line x1="404" y1="445" x2="448" y2="445"/>
-  </g>
-  <g class="sys" data-sys="rrjeti" style="--acc:#4F78E8">
-    <path class="pulse" d="M382 424 L382 122" stroke="#4F78E8" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-    <g stroke="#4F78E8" fill="none" stroke-width="1.2"><path class="blink" d="M254 320 a10 10 0 0 1 14 0 M249 325 a17 17 0 0 1 24 0"/></g>
-    <g stroke="#4F78E8" fill="none" stroke-width="1.2"><path class="blink" d="M254 204 a10 10 0 0 1 14 0 M249 209 a17 17 0 0 1 24 0"/></g>
-  </g>
-
-  <g class="sys sys--draw" data-sys="automatizimi" style="--acc:#876CFF" stroke="#876CFF" fill="none" stroke-width="1.4">
-    <rect x="452" y="424" width="40" height="34" stroke-width="1.6"/>
-    <path d="M472 424 L472 116 L332 116" />
-    <path d="M472 373 L500 373"/>
-    <path d="M472 315 L500 315"/>
-    <path d="M472 257 L500 257"/>
-    <path d="M472 199 L500 199"/>
-    <path d="M472 142 L500 142"/>
-  </g>
-  <g class="sys" data-sys="automatizimi" style="--acc:#876CFF">
-    <path class="pulse" d="M472 424 L472 116" stroke="#876CFF" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-    <rect x="497" y="370" width="7" height="7" fill="#876CFF"/>
-    <rect x="497" y="312" width="7" height="7" fill="#876CFF"/>
-    <rect x="497" y="254" width="7" height="7" fill="#876CFF"/>
-    <rect x="497" y="196" width="7" height="7" fill="#876CFF"/>
-    <rect x="497" y="139" width="7" height="7" fill="#876CFF"/>
-  </g>
-
-  <g class="sys" data-sys="operimi" style="--acc:#7FA46D">
-    <rect x="82" y="82" width="458" height="334" fill="none" stroke="#7FA46D" stroke-width="1.3" stroke-dasharray="7 6"/>
-    <g stroke="#7FA46D" fill="none" stroke-width="1.4">
-      <rect x="398" y="94" width="86" height="18"/>
-      <circle cx="418" cy="103" r="5"/><circle cx="464" cy="103" r="5"/>
-    </g>
-    <path class="pulse" d="M556 394 L160 394" stroke="#7FA46D" stroke-width="3" fill="none" stroke-linecap="round" style="--fd:5.2s"/>
-    <path d="M556 394 L160 394" stroke="#7FA46D" stroke-width="1.2" stroke-dasharray="5 5" fill="none"/>
-  </g>
-
-  <defs><g id="fig">
-    <circle cx="0" cy="4" r="3.6"/>
-    <path d="M0 8.4 C-4.2 9.4 -5.4 12.4 -5.4 16.2 L-5.4 20.4 L-2.3 20.4 L-2.3 27 L2.3 27 L2.3 20.4 L5.4 20.4 L5.4 16.2 C5.4 12.4 4.2 9.4 0 8.4 Z"/>
-  </g></defs>
-
-</svg>
-</template>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+<script src="tower.js" defer></script>
 </body>
 </html>

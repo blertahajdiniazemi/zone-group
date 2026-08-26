@@ -1,0 +1,373 @@
+/* =====================================================================
+   ZONE GROUP — VIZUALIZIMI I KULLËS (blloku i animacionit)
+   ---------------------------------------------------------------------
+   Portuar nga ZONE_GROUP_tower.html. I gjithë kodi është i izoluar:
+
+     · çdo klasë fillon me `zone-` ose `zg-`
+     · çdo @keyframes fillon me `zg-`
+     · tokenët e ngjyrave janë te #zone-animation-block, jo te :root
+
+   Prandaj asgjë këtu nuk prek dizajnin ekzistues te style.css.
+   Skedari shoqërues: tower.js. Renderi: tower.jpg (1024 × 576).
+   ===================================================================== */
+
+/* The page scrolls normally again. That is what lets browser zoom
+   actually enlarge the render: the scene is sized in px and %, not in
+   viewport height, so zooming in makes it physically bigger and the
+   page simply grows taller. `clip` rather than `hidden` on the
+   horizontal axis — `hidden` would turn body into a scroll container
+   and break the sticky scene below. */
+
+/* ── SHELL ────────────────────────────────────────────────────────
+   Normal document flow. The building is held at the top by sticky
+   positioning rather than by a fixed-height flex column, so it stays
+   visible while the list scrolls past it AND still responds to zoom. */
+#zone-animation-block.zone-wrap{
+  /* Local tokens. Scoped to the block, never to :root, so the site's
+     own --line / --paper / --muted are left completely untouched. */
+  --zg-line:        rgba(174,198,212,.16);
+  --zg-line-strong: rgba(174,198,212,.28);
+  --zg-muted:       #81909a;
+
+  /* The source page set this on <body>. Kept here so the render's own
+     labels and card text look exactly as they did standalone, without
+     touching the website's Archivo / Outfit / DM Mono typography. */
+  font-family:Inter,-apple-system,"Segoe UI",Arial,Helvetica,sans-serif;
+  color:#e6ecef;
+
+  /* No padding: the block now sits inside the site's .shell, which
+     already supplies the page gutters. */
+  padding:0;
+
+  /* ── THE ONE SHARED WIDTH ───────────────────────────────────────
+     Both the render and the branch list are sized from this single
+     token, so they cannot drift apart. Two limits: the width the
+     shell has, and a cap on very wide monitors. Both are zoom-aware —
+     at higher zoom the same 1440px covers more physical space, which
+     is exactly the behaviour that was lost. */
+  --zg-col-w: min(100%, 1440px);
+}
+/* Sticky, not fixed: it scrolls into place, then holds at the top of
+   the viewport while the cards travel underneath it. */
+.zone-scene{
+  position:sticky; top:var(--zg-stick, calc(clamp(64px,7vw,86px) + 14px));
+  z-index:20;
+  width:var(--zg-col-w); margin-inline:auto;
+  aspect-ratio:1024/576; overflow:hidden; background:#02070b;
+  border:1px solid rgba(156,183,198,.24);
+  box-shadow:0 24px 70px rgba(0,0,0,.46), inset 0 0 0 1px rgba(255,255,255,.015);
+  isolation:isolate;
+}
+.zone-scene__image{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;user-select:none;pointer-events:none}
+.zone-scene::after{
+  content:"";position:absolute;inset:0;z-index:9;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,8,14,.14),transparent 18%,transparent 74%,rgba(0,0,0,.16));
+}
+
+/* the lift bank: the render already shows doors at every level, so the
+   travelling car is drawn as a brighter cab riding the same column */
+.zone-core{position:absolute;z-index:7;pointer-events:none;overflow:visible}
+.zone-lift{position:absolute}
+
+.zone-status{
+  position:absolute;z-index:10;right:14px;bottom:14px;
+  display:flex;align-items:center;gap:8px;padding:8px 11px;
+  border:1px solid rgba(177,205,219,.2);background:rgba(3,10,15,.68);
+  backdrop-filter:blur(8px);
+  font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#a6b6bf;
+}
+.zone-status i{width:6px;height:6px;border-radius:50%;background:#e8c89a;
+  box-shadow:0 0 9px rgba(232,200,154,.85);animation:zg-statusPulse 2s ease-in-out infinite}
+@keyframes zg-statusPulse{50%{opacity:.3}}
+
+/* ── THE ONLY SCROLLING REGION ────────────────────────────────── */
+/* Scrolls with the page now, so it is never taller than its content
+   and never clips a card. Same width token as the scene. */
+.zone-branches{
+  width:var(--zg-col-w); margin:12px auto 0;
+  border:1px solid var(--zg-line-strong);background:var(--zg-line);
+}
+
+
+.zone-branches__head{display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:13px 16px;background:linear-gradient(180deg,#071117,#050d12);
+  border-bottom:1px solid var(--zg-line-strong)}
+.zone-branches__head strong{font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.zone-branches__head span{color:var(--zg-muted);font-size:10px;letter-spacing:.11em;text-transform:uppercase}
+.zone-branches__grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--zg-line)}
+.zone-branch{position:relative;display:flex;gap:12px;min-width:0;min-height:72px;
+  padding:14px 16px;background:linear-gradient(180deg,#0a151b,#081219);
+  transition:background .2s ease}
+.zone-branch:hover{background:#0d1d25}
+/* Solid swatch, muted until the card is engaged. Fixed dimensions —
+   it only ever changes colour, never size, so the text baseline
+   beside it never shifts. */
+.zone-branch__bar{
+  width:16px; height:15px; flex:0 0 16px; margin-top:3px;
+  background:rgba(174,198,212,.22);
+  border:0; border-radius:0; box-shadow:none;
+  transition:background-color .22s ease;
+}
+/* The site sets `h1,h2,h3,h4{font-family:var(--disp);font-weight:600;
+   letter-spacing:-.022em}` globally. An element selector always beats
+   inherited type, so without restating these three the card titles
+   would land in Archivo and match neither the source nor anything
+   else. Restated so the block renders exactly as it did standalone. */
+.zone-branch h3{
+  margin:0 0 4px;
+  font-family:inherit; font-weight:700; letter-spacing:normal;
+  font-size:12px; line-height:1.28; color:#d0d8dc;
+}
+.zone-branch p{margin:0;font-size:9.5px;line-height:1.4;color:#71828c;
+  transition:color .22s ease}
+.zone-branch:hover .zone-branch__bar,
+.zone-branch[aria-pressed="true"] .zone-branch__bar{background:var(--acc)}
+.zone-branch:hover p,
+.zone-branch[aria-pressed="true"] p{color:var(--acc)}
+
+@media (max-width:760px){
+  #zone-animation-block.zone-wrap{padding:0}
+  .zone-scene{--zg-stick:calc(clamp(64px,7vw,86px) + 8px)}
+  .zone-status{right:8px;bottom:8px;padding:6px 8px;font-size:8px}
+  .zone-branches__head{align-items:flex-start;flex-direction:column;gap:4px}
+  .zone-branches__grid{grid-template-columns:1fr}
+}
+/* If the render is taller than the window — a short window, or a high
+   zoom level — pinning it would hide its own base. Release it and let
+   it scroll with the page instead. */
+/* The render is 16:9 of the column, so on a 1320px sheet it is ~670px
+   tall. Below roughly 800px of viewport it would not fit under the
+   site header, and pinning it would hide its own basement. Release it
+   and let it scroll with the page instead — same escape hatch the
+   source used, just raised to account for the header. */
+@media (max-height:800px){
+  .zone-scene{position:relative; top:auto}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATION LAYER — added enhancement
+   One scalable overlay locked to the 1024×576 scene geometry.
+   Everything drawn here is in building coordinates, so it stays
+   registered to the photograph at every viewport size.
+   ═══════════════════════════════════════════════════════════ */
+.zone-animation-layer,
+.zone-animation-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;
+}
+.zone-animation-layer{z-index:6}
+.zone-animation-svg{overflow:visible;display:block}
+
+/* elevator cars sit above the overlay: they are physical objects,
+   the shaft graphics belong behind them */
+.zone-core{z-index:7}
+
+/* the two original glow spots become static ceiling light pools;
+   real vehicles now provide the parking movement */
+.zg-parking-glow{animation:none!important;opacity:.16;filter:blur(5px)}
+
+/* ═══════════════════════════════════════════════════════════
+   ROOM LIGHT HARMONISATION
+   A handful of window bays in the render are lit from a cooler,
+   flatter source than the rest of the room they belong to, so one
+   continuous interior reads as two — a cool grey half beside a warm
+   amber half, split on nothing but a mullion.
+
+   These overlays put those bays back onto the lighting of their own
+   room: the multiply pass carries the colour temperature (it pulls
+   the blue channel down and holds the red), the screen pass restores
+   the exposure the multiply costs. Applied together they land the
+   corrected bays on the same RGB as the warm side of the same room,
+   so the whole interior reads as one lighting environment.
+
+   They are plain blocks positioned as percentages of the 1024×576
+   scene and they live inside .zone-stage, next to the photograph, so
+   they scale, reflow and travel with the camera exactly like it does.
+   They must NOT be wrapped in anything with a z-index: a stacking
+   context would isolate them and the blend would have nothing to act
+   on. z-index:auto keeps them above the image and below the overlay. */
+.zone-relight{
+  position:absolute; display:block; pointer-events:none;
+}
+.zone-relight--warm{ mix-blend-mode:multiply; background:rgb(255,176,116) }
+.zone-relight--lift{ mix-blend-mode:screen;   background:rgb(29,19,11) }
+@supports not (mix-blend-mode: multiply){ .zone-relight{display:none} }
+
+/* ── travelling pulse along any path ── */
+.zg-zap{fill:none;stroke-linecap:round}
+@keyframes zg-zapFlow{from{stroke-dashoffset:var(--L2)}to{stroke-dashoffset:0}}
+
+/* ── soft node ── */
+@keyframes zg-nodePop{0%{transform:scale(0);opacity:0}55%{transform:scale(1.35);opacity:1}100%{transform:scale(1);opacity:.9}}
+.zg-node{transform-box:fill-box;transform-origin:center;animation:zg-nodePop .5s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes zg-nodeBreathe{50%{opacity:.32}}
+.zg-node--live{animation:zg-nodePop .5s cubic-bezier(.3,1.5,.5,1) both,zg-nodeBreathe 2.6s ease-in-out 1s infinite}
+
+/* ── window illumination ── */
+@keyframes zg-winOn{from{opacity:0}to{opacity:var(--o,.72)}}
+.zg-win{animation:zg-winOn .55s ease both}
+
+/* ── shaft & floor indicators ── */
+.zg-fi-dot{transition:opacity .28s ease,r .28s ease}
+.zg-fi-lab{font:600 5px Inter,Arial,sans-serif;letter-spacing:.06em;transition:opacity .3s ease}
+
+/* ── camera sweep ── */
+@keyframes zg-camSweep{0%,100%{transform:rotate(-19deg)}50%{transform:rotate(19deg)}}
+.zg-cam-cone{transform-box:view-box;animation:zg-camSweep 5.4s ease-in-out infinite}
+
+/* ── scan bar ── */
+@keyframes zg-scanFade{0%{opacity:0}12%{opacity:1}88%{opacity:1}100%{opacity:0}}
+
+/* ── smoke ── */
+@keyframes zg-smokeRise{0%{opacity:0;transform:translateY(4px) scale(.6)}30%{opacity:.5}100%{opacity:0;transform:translateY(-16px) scale(1.5)}}
+.zg-smoke{transform-box:fill-box;transform-origin:center;animation:zg-smokeRise 3.4s ease-out infinite}
+
+/* ── alarm blink ── */
+@keyframes zg-alarmBlink{0%,100%{opacity:1}50%{opacity:.15}}
+.zg-alarm{animation:zg-alarmBlink .82s steps(2,end) infinite}
+
+/* ── branch selection ── */
+.zone-branch{
+  cursor:pointer;
+  outline:none;
+  border-left:2px solid transparent;
+  transition:background .22s ease,border-color .22s ease;
+}
+.zone-branch:focus-visible{
+  outline:2px solid var(--acc);
+  outline-offset:-2px;
+}
+.zone-branch[aria-pressed="true"]{
+  background:linear-gradient(180deg,#0e1f28,#0a161d);
+  border-left-color:var(--acc);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 16%,transparent),
+             inset 0 22px 40px -26px color-mix(in srgb,var(--acc) 40%,transparent);
+}
+.zone-branch[aria-pressed="true"] h3{color:#eef4f7}
+
+.zone-status{transition:border-color .4s ease}
+.zone-status span{transition:color .3s ease}
+
+@media (prefers-reduced-motion:reduce){
+  .zg-zap,.zg-node,.zg-node--live,.zg-win,.zg-cam-cone,.zg-smoke,.zg-alarm{animation:none!important}
+  .zg-zap{stroke-dashoffset:0!important;stroke-dasharray:none!important}
+  .zg-node,.zg-win{opacity:1!important;transform:none!important}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ELEVATOR CABS
+   The cars must read as the warm, lit cabs visible in the
+   basement shafts — an occupied box of light behind a door
+   split — not a wireframe outline.
+   ═══════════════════════════════════════════════════════════ */
+.zone-lift{
+  border:1px solid rgba(248,216,162,.78);
+  background:
+    linear-gradient(180deg,
+      rgba(255,238,200,.70) 0%,
+      rgba(255,220,164,.44) 22%,
+      rgba(226,178,116,.24) 58%,
+      rgba(48,34,20,.46) 100%);
+  box-shadow:
+    0 0 9px rgba(255,206,138,.60),
+    0 0 26px rgba(255,184,102,.26),
+    inset 0 0 9px rgba(255,242,212,.34);
+  backdrop-filter:blur(.5px);
+}
+/* ceiling luminaire inside the cab */
+.zone-lift::before{
+  left:22%;right:22%;top:11%;height:2px;
+  background:rgba(255,246,224,.98);
+  box-shadow:0 0 7px rgba(255,232,180,.95),0 3px 9px rgba(255,214,150,.55);
+}
+/* centre door split */
+.zone-lift::after{
+  left:50%;top:6%;bottom:6%;width:1px;
+  background:rgba(74,50,28,.62);
+}
+
+/* ── travelling cab ──────────────────────────────────────────
+   The render already lights a cab at every landing, so the moving
+   car reads as the one that is currently live: brighter interior,
+   warmer light, a defined ceiling luminaire and door split. */
+.zone-lift{
+  border:1px solid rgba(252,224,176,.62);
+  background:
+    radial-gradient(120% 70% at 50% 6%, rgba(255,244,214,.50), rgba(255,224,172,.16) 46%, rgba(255,206,140,.05) 70%),
+    linear-gradient(180deg, rgba(255,236,196,.24), rgba(196,148,92,.10) 60%, rgba(30,20,12,.26));
+  box-shadow:
+    0 0 16px rgba(255,204,138,.42),
+    0 0 40px rgba(255,182,98,.20),
+    inset 0 0 16px rgba(255,242,212,.24);
+}
+.zone-lift::before{
+  content:"";position:absolute;left:16%;right:16%;top:7%;height:2px;
+  background:rgba(255,248,228,.98);
+  box-shadow:0 0 9px rgba(255,234,186,.98),0 4px 14px rgba(255,214,150,.6);
+}
+.zone-lift::after{
+  content:"";position:absolute;left:50%;top:10%;bottom:8%;width:1px;
+  background:rgba(86,58,32,.5);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CAMERA STAGE
+   Holds the photograph, the SVG overlay and the lift cars, so any
+   camera move applies to all three at once and registration can
+   never drift. The status panel stays outside, fixed to the frame.
+   ═══════════════════════════════════════════════════════════ */
+.zone-stage{
+  position:absolute;inset:0;
+  transform:translate3d(0,0,0) scale(1);
+  transition:transform 1100ms cubic-bezier(.22,.61,.36,1);
+  will-change:transform;
+  backface-visibility:hidden;
+}
+
+/* airflow: long soft dashes drifting, no defined head */
+@keyframes zg-airDrift{to{stroke-dashoffset:-160}}
+/* pump impeller spins up then holds a steady rate */
+@keyframes zg-spinUp{0%{transform:rotate(0)}30%{transform:rotate(420deg)}100%{transform:rotate(1180deg)}}
+/* server rack LEDs, each on its own rhythm */
+@keyframes zg-led{50%{opacity:.18}}
+
+/* cab brightens while stopped at a landing */
+.zone-lift{transition:box-shadow .35s ease,filter .35s ease}
+.zone-lift--stop{
+  filter:brightness(1.22);
+  box-shadow:
+    0 0 22px rgba(255,206,140,.62),
+    0 0 54px rgba(255,182,98,.30),
+    inset 0 0 20px rgba(255,244,216,.34);
+}
+
+/* ── branch card feedback ── */
+.zone-branch{position:relative;transition:background .22s ease,box-shadow .28s ease}
+.zone-branch::after{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:var(--acc);transform:scaleY(0);transform-origin:center;
+  transition:transform .3s cubic-bezier(.2,.9,.3,1);
+}
+.zone-branch[aria-pressed="true"]::after{transform:scaleY(1)}
+.zone-branch[aria-pressed="true"]{
+  background:linear-gradient(180deg,#0e1d25,#0a151c);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 18%,transparent),
+             inset 0 26px 44px -30px color-mix(in srgb,var(--acc) 46%,transparent);
+}
+.zone-branch[aria-pressed="true"] h3{color:#eef4f7}
+.zone-branch:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+
+/* tiny live indicator on the status panel */
+.zone-status i{position:relative}
+.zone-status i::after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid currentColor;opacity:0;
+}
+.zone-status--busy i::after{animation:zg-statusRing 1.5s ease-out infinite}
+@keyframes zg-statusRing{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  .zone-stage{transition:none!important;transform:none!important}
+  .zone-status--busy i::after{animation:none}
+}
